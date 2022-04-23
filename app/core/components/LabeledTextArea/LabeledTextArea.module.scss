@@ -1,0 +1,26 @@
+@import "app/core/styles/scss/1-global/global";
+
+.Textarea {
+  display: flex;
+  width: 400px;
+  height: 240px;
+  font-size: $sub-text;
+  font-family: $inter;
+  background: var(--bg-900);
+  color: var(--bg-400);
+  border: 1px solid var(--bg-700);
+  border-radius: $radius-lg;
+  padding: 8px 0 0 8px;
+  box-sizing: border-box;
+  &:hover,
+  &:focus {
+    border: $blue-border;
+  }
+  &:focus {
+    box-shadow: $focus;
+  }
+  &:disabled {
+    background: var(--bg-600);
+    border: 1px solid var(--bg-500);
+  }
+}

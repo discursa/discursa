@@ -1,0 +1,142 @@
+@import "../1-global/global";
+
+.primary-icon-btn-sm,
+.primary-icon-btn-md,
+.primary-icon-btn-lg,
+.secondary-icon-btn-sm,
+.secondary-icon-btn-md,
+.secondary-icon-btn-lg,
+.tertiary-icon-btn-xs,
+.tertiary-icon-btn-sm,
+.tertiary-icon-btn-md,
+.tertiary-icon-btn-lg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tertiary-icon-btn-xs {
+  width: 30px;
+  height: 30px;
+  border-radius: $radius-sm;
+  .icon-xs {
+    color: var(--bg-400);
+  }
+}
+
+.primary-icon-btn-sm,
+.secondary-icon-btn-sm,
+.tertiary-icon-btn-sm {
+  width: 30px;
+  height: 30px;
+  border-radius: $radius-md;
+}
+
+.primary-icon-btn-md,
+.secondary-icon-btn-md,
+.tertiary-icon-btn-md {
+  width: 35px;
+  height: 35px;
+  border-radius: $radius-md;
+}
+
+.primary-icon-btn-lg,
+.secondary-icon-btn-lg,
+.tertiary-icon-btn-lg {
+  width: 40px;
+  height: 40px;
+  border-radius: $radius-lg;
+}
+
+.primary-icon-btn-sm,
+.primary-icon-btn-md,
+.primary-icon-btn-lg,
+.secondary-icon-btn-sm,
+.secondary-icon-btn-md,
+.secondary-icon-btn-lg {
+  &:hover {
+    box-shadow: $hover;
+  }
+  &:focus {
+    box-shadow: $focus;
+  }
+  &:active {
+    background: $blue-500;
+  }
+}
+
+.primary-icon-btn-sm,
+.primary-icon-btn-md,
+.primary-icon-btn-lg {
+  background: $blue-500;
+
+  .icon-sm,
+  .icon-md {
+    color: $white;
+  }
+}
+
+.secondary-icon-btn-sm,
+.secondary-icon-btn-md,
+.secondary-icon-btn-lg {
+  border: 1px solid var(--bg-700);
+  box-sizing: border-box;
+  color: var(--bg-400);
+  background: var(--bg-900);
+
+  &:hover {
+    border: 1px solid var(--bg-600);
+    .icon-sm,
+    .icon-md {
+      color: $blue-500;
+    }
+  }
+}
+
+.tertiary-icon-btn-xs,
+.tertiary-icon-btn-sm,
+.tertiary-icon-btn-md,
+.tertiary-icon-btn-lg {
+  background: rgba(255, 255, 255, 0);
+
+  .icon-sm,
+  .icon-md,
+  .icon-lg {
+    color: var(--bg-400);
+  }
+  &:hover,
+  &:focus {
+    background: var(--bg-700);
+    .icon-sm,
+    .icon-md,
+    .icon-lg {
+      color: var(--text-color);
+    }
+  }
+  &:focus {
+    box-shadow: $focus;
+  }
+}
+
+.reset-btn {
+  display: flex;
+  position: absolute;
+}
+
+.large-group {
+  .reset-btn {
+    margin: 0 0 0 89%;
+  }
+}
+
+.middle-group {
+  .reset-btn {
+    margin: 0 0 0 1090px;
+  }
+}
+
+.small-group {
+  .reset-btn {
+    margin: 0 0 0 680px;
+  }
+}

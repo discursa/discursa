@@ -1,0 +1,38 @@
+@import "../styles/scss/1-global/global";
+
+.LayoutBase,
+.LayoutSub,
+.LayoutForm {
+  display: grid;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 600px;
+  height: auto;
+  background: var(--bg-900);
+  padding: 20px 40px;
+  box-sizing: border-box;
+  column-gap: 20px;
+}
+
+.LayoutBase {
+  grid-template-columns: 15% 70% 15%;
+}
+
+.LayoutSub {
+  grid-template-columns: 18% 82%;
+}
+
+.LayoutForm {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  width: 100%;
+  min-height: 600px;
+  height: auto;
+  background: var(--bg-900);
+  padding: 1.25rem 25%;
+  box-sizing: border-box;
+  gap: 1rem;
+}

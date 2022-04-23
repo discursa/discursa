@@ -1,0 +1,20 @@
+@import "app/core/styles/scss/1-global/global";
+
+.ButtonGroup {
+  display: flex;
+  flex-direction: row;
+  .ButtonInGroup,
+  .ActiveButtonInGroup {
+    border-radius: 0;
+    &:first-child {
+      border-radius: $radius-lg 0 0 $radius-lg;
+    }
+    &:last-child {
+      border-radius: 0 $radius-lg $radius-lg 0;
+    }
+  }
+  .ActiveButtonInGroup {
+    background: var(--bg-800);
+    color: $white;
+  }
+}

@@ -1,0 +1,21 @@
+@import "../1-global/global";
+
+.red {
+  color: $red-500;
+}
+
+.white {
+  color: $white;
+}
+
+.bg-800 {
+  background: var(--bg-800);
+}
+
+.bg-400 {
+  background: var(--bg-400);
+}
+
+.red-border {
+  border: 1px solid $red-500 !important;
+}

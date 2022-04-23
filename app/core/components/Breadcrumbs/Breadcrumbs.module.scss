@@ -1,0 +1,18 @@
+@import "app/core/styles/scss/1-global/global";
+
+.Breadcrumbs {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  gap: 0.5rem;
+  .BreadcrumbsActiveItem {
+    color: $blue-500;
+  }
+  .Separator {
+    color: var(--bg-400);
+    &:last-child {
+      display: none;
+    }
+  }
+}

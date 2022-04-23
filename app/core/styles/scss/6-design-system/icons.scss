@@ -1,0 +1,27 @@
+@import "../1-global/global";
+
+.icon-xs {
+  width: $icon-xs;
+  height: $icon-xs;
+}
+
+.icon-sm {
+  width: $icon-sm;
+  height: $icon-sm;
+  fill: var(--sub-icon-color);
+}
+
+.icon-md {
+  width: $icon-md;
+  height: $icon-md;
+}
+
+.icon-lg {
+  width: $icon-lg;
+  height: $icon-lg;
+}
+
+.icon-xl {
+  width: $icon-xl;
+  height: $icon-xl;
+}

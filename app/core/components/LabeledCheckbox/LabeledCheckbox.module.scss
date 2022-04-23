@@ -1,0 +1,38 @@
+@import "app/core/styles/scss/1-global/global";
+
+.Checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: var(--bg-900);
+  border: 1px solid var(--border-700);
+  border-radius: $radius-md;
+  box-sizing: border-box;
+  .IconSm {
+    color: var(--bg-900);
+  }
+}
+
+.ErrorCheckbox {
+  border: $red-border;
+}
+
+.CheckInput {
+  appearance: none;
+  &:hover + .Checkbox {
+    border: $blue-border;
+  }
+  &:focus {
+    border: $blue-border;
+    box-shadow: $focus;
+  }
+  &:checked + .Checkbox {
+    background: $blue-500;
+    border: $blue-border;
+    .IconSm {
+      color: $white;
+    }
+  }
+}

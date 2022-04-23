@@ -1,0 +1,39 @@
+@import "../1-global/global";
+
+.input-sm,
+.input-md,
+.input-lg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $sub-text;
+  font-family: "Inter", sans-serif;
+  color: var(--bg-400);
+  border: 1px solid var(--bg-700);
+  background: var(--bg-900);
+  border-radius: $radius-lg;
+  box-sizing: border-box;
+  padding: 0 0 0 8px;
+  &:hover,
+  &:focus {
+    border: $blue-border;
+  }
+  &:focus {
+    box-shadow: $focus;
+  }
+}
+
+.input-lg {
+  width: 240px;
+  height: 40px;
+}
+
+.input-md {
+  width: 240px;
+  height: 35px;
+}
+
+.input-sm {
+  width: 240px;
+  height: 30px;
+}

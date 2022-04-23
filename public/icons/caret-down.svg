@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <symbol id="caret-down" viewBox="0 0 16 16" fill="currentColor">
+    <path id="caret-down" d="M13.865 3C14.7128 3 15.176 3.98886 14.6332 4.64018L8.76822 11.6781C8.36843 12.1579 7.63157 12.1579 7.23178 11.6781L1.36682 4.64018C0.824048 3.98886 1.2872 3 2.13504 3H13.865Z"/>
+  </symbol>
+</svg>
