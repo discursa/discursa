@@ -1,3 +1,12 @@
-// TODO: Write styles for CommentList component
 .CommentList {
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+	flex-direction: column;
+	width: 100%;
+	height: auto;
+	min-height: 100px;
+	background: var(--bg-900);
+	box-sizing: border-box;
+	gap: 1rem;
 }

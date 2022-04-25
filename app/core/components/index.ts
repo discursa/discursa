@@ -4,7 +4,10 @@ import { Breadcrumbs } from "./Breadcrumbs/Breadcrumbs"
 import { Button } from "./Button/Button"
 import { ButtonGroup } from "./ButtonGroup/ButtonGroup"
 import { ButtonNavigation } from "./ButtonNavigation/ButtonNavigation"
+import { CommentList } from "./CommentList/CommentList"
 import { DiscussionList } from "./DiscussionList/DiscussionList"
+import { CommentForm } from "./Form/children/CommentForm"
+import { DiscussionForm } from "./Form/children/DiscussionForm"
 import { Header } from "./Header/Header"
 import { Icon } from "./Icon/Icon"
 import { IconButton } from "./IconButton/IconButton"
@@ -15,25 +18,26 @@ import { LabeledRadioButton } from "./LabeledRadioButton/LabeledRadioButton"
 import { LabeledTextArea } from "./LabeledTextArea/LabeledTextArea"
 import { Navbar } from "./Navbar/Navbar"
 import { Spinner } from "./Spinner/Spinner"
-import { DiscussionForm } from "./Form/children/DiscussionForm"
 
 export {
-  Alert,
-  Avatar,
-  Breadcrumbs,
-  Button,
-  ButtonGroup,
-  ButtonNavigation,
-  DiscussionForm,
-  DiscussionList,
-  Header,
-  Icon,
-  IconButton,
-  IconButtonDropdown,
-  LabeledCheckbox,
-  LabeledInput,
-  LabeledRadioButton,
-  LabeledTextArea,
-  Navbar,
-  Spinner,
+	Alert,
+	Avatar,
+	Breadcrumbs,
+	Button,
+	ButtonGroup,
+	ButtonNavigation,
+	CommentForm,
+	CommentList,
+	DiscussionForm,
+	DiscussionList,
+	Header,
+	Icon,
+	IconButton,
+	IconButtonDropdown,
+	LabeledCheckbox,
+	LabeledInput,
+	LabeledRadioButton,
+	LabeledTextArea,
+	Navbar,
+	Spinner,
 }

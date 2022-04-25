@@ -18,7 +18,7 @@
     "semi": false,
     "printWidth": 80,
     "useTabs": true,
-    "tabWidth": ,
+    "tabWidth": 2
   },
   "lint-staged": {
     "*.{js,ts,tsx}": [

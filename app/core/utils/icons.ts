@@ -23,4 +23,5 @@ export const icons = {
   kebabHorizontal: "icons/kebab-horizontal.svg#kebab-horizontal",
   gear: "icons/gear.svg#gear",
   arrowUp: "icons/arrow-up.svg#arrow-up",
+  reply: "icons/reply.svg#reply"
 }

@@ -8,90 +8,109 @@
 .secondary-btn-lg,
 .tertiary-btn-sm,
 .tertiary-btn-md,
-.tertiary-btn-lg {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Inter", sans-serif;
-  gap: 0.5rem;
-  padding: 0 0.5rem;
-  box-sizing: border-box;
+.tertiary-btn-lg,
+.danger-btn-sm,
+.danger-btn-md,
+.danger-btn-lg {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: "Inter", sans-serif;
+	gap: 0.5rem;
+	padding: 0 0.5rem;
+	box-sizing: border-box;
 }
 
 .primary-btn-sm,
 .primary-btn-md,
 .primary-btn-lg {
-  background: $blue-500;
-  border-radius: $radius-md;
-  color: $white;
-  &:hover {
-    box-shadow: $hover;
-  }
-  &:focus {
-    box-shadow: $focus;
-  }
-  &:disabled {
-    background: $blue-400;
-    pointer-events: none;
-  }
+	background: $blue-500;
+	border-radius: $radius-md;
+	color: $white;
+	&:hover {
+		box-shadow: $hover;
+	}
+	&:focus {
+		box-shadow: $focus;
+	}
+	&:disabled {
+		background: $blue-400;
+		pointer-events: none;
+	}
 }
 
 .primary-btn-sm,
 .secondary-btn-sm,
-.tertiary-btn-sm {
-  width: 110px;
-  height: 30px;
-  font-size: 12px;
+.tertiary-btn-sm,
+.danger-btn-sm {
+	width: 110px;
+	height: 30px;
+	font-size: 12px;
 }
 
 .primary-btn-md,
 .secondary-btn-md,
-.tertiary-btn-md {
-  width: 130px;
-  height: 35px;
-  font-size: 14px;
+.tertiary-btn-md,
+.danger-btn-md {
+	width: 130px;
+	height: 35px;
+	font-size: 14px;
 }
 
 .primary-btn-lg,
 .secondary-btn-lg,
-.tertiary-btn-lg {
-  width: 170px;
-  height: 40px;
-  font-size: 14px;
+.tertiary-btn-lg,
+.danger-btn-lg {
+	width: 170px;
+	height: 40px;
+	font-size: 14px;
 }
 
 .secondary-btn-sm,
 .secondary-btn-md,
 .secondary-btn-lg {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--bg-900);
-  border-radius: $radius-md;
-  border: 1px solid var(--bg-700);
-  color: var(--bg-400);
-  &:hover {
-    background: var(--bg-800);
-    border: 1px solid var(--bg-600);
-    color: var(--text-color);
-  }
-  &:focus {
-    box-shadow: $focus;
-  }
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--bg-900);
+	border-radius: $radius-md;
+	border: 1px solid var(--bg-700);
+	color: var(--bg-400);
+	&:hover {
+		background: var(--bg-800);
+		border: 1px solid var(--bg-600);
+		color: var(--text-color);
+	}
+	&:focus {
+		box-shadow: $focus;
+	}
 }
 
 .tertiary-btn-sm,
 .tertiary-btn-md,
 .tertiary-btn-lg {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--bg-400);
-  font-size: 0.9rem;
-  background: var(--bg-900);
-  border-radius: $radius-md;
-  &:hover {
-    background: var(--bg-800);
-    color: var(--text-color);
-  }
+	color: var(--bg-400);
+	background: var(--bg-900);
+	border-radius: $radius-md;
+	&:hover {
+		background: var(--bg-800);
+		color: var(--text-color);
+	}
+}
+
+.danger-btn-sm,
+.danger-btn-md,
+.danger-btn-lg {
+	color: $red-500;
+	background: var(--bg-900);
+	border: 1px solid var(--bg-700);
+	border-radius: $radius-md;
+	&:hover {
+		background: $red-500;
+		color: $white;
+	}
+	&:focus {
+		background: var(--bg-800);
+		border: $red-border;
+	}
 }

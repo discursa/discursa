@@ -56,10 +56,21 @@ model Discussion {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   id_         Int      @unique
-  name        String
+  name        String   @unique
   message     String
   upvotes     Int      @default(0)
   authorId    String
   vouters     String[]
   subscribers String[]
+}
+
+model Comment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  message   String   @unique
+  id_       Int      @unique
+  replierId String
+  parent    Int
+  authorId  String
 }
