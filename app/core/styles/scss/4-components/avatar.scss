@@ -1,12 +1,16 @@
 @import "../1-global/global.scss";
 
-.avatar-lg,
-.avatar-md,
-.avatar-sm {
+.text-avatar-lg,
+.text-avatar-md,
+.text-avatar-sm {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: var(--bg-800);
   border-radius: 50%;
+  color: var(--bg-400);
+  box-sizing: border-box;
+  cursor: pointer;
   &:hover,
   &:focus {
     border: 1px solid $blue-500;
@@ -19,17 +23,17 @@
   }
 }
 
-.avatar-lg {
+.text-avatar-lg {
   width: 40px;
   height: 40px;
 }
 
-.avatar-md {
+.text-avatar-md {
   width: 35px;
   height: 35px;
 }
 
-.avatar-sm {
+.text-avatar-sm {
   width: 30px;
   height: 30px;
 }

@@ -20,4 +20,7 @@ export const icons = {
   success: "icons/success.svg#success",
   warning: "icons/warning.svg#warning",
   info: "icons/info.svg#info",
+  kebabHorizontal: "icons/kebab-horizontal.svg#kebab-horizontal",
+  gear: "icons/gear.svg#gear",
+  arrowUp: "icons/arrow-up.svg#arrow-up",
 }

@@ -1,3 +1,6 @@
-// TODO: Write types PreviewableMessage component props
+import { User } from "@prisma/client"
 
-export interface PreviewableMessageProps {}
+export interface PreviewableMessageProps {
+  message: string
+  user: User
+}

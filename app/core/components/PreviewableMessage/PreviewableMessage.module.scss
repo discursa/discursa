@@ -1,4 +1,15 @@
-// TODO: Write PreviewableMessage component styles
+@import "app/core/styles/scss/1-global/global";
 
 .PreviewableMessage {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  background: var(--bg-900);
+  border: 1px solid var(--bg-700);
+  border-radius: $radius-xl;
+  padding: 1rem;
+  box-sizing: border-box;
 }

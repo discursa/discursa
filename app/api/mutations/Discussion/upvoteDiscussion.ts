@@ -4,8 +4,8 @@ import { z } from "zod"
 
 const UpdateDiscussion = z.object({
   id_: z.number(),
-  name: z.string(),
-  message: z.string(),
+  upvotes: z.number(),
+  vouters: z.string().array(),
 })
 
 export default resolver.pipe(

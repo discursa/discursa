@@ -4,6 +4,8 @@ export interface DiscussionType {
   message: string
   authorId: string
   upvotes: number
+  vouters: string[]
+  subscribers: string[]
   createdAt: Date
   updatedAt: Date
 }

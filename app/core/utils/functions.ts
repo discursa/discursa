@@ -1,5 +1,6 @@
-import { User } from "app/core/types/User.types"
+import { User } from "app/core/types"
 import { RouteUrlObject } from "blitz"
+import { DiscussionType } from "../types"
 
 export const addObjectIntoStore = (setStore: Function, object: object) => {
   setStore((oldStore: Array<object>) => [...oldStore, object])
@@ -73,14 +74,29 @@ export const addObjectToDb = async (
 
 export const updateDbObject = async (
   updateItemMutation: Function,
-  item: any,
+  id_: number,
   values: any,
   setQueryData: Function
 ) => {
   const updated = await updateItemMutation({
-    id_: item.id_,
+    id_: id_,
     ...values,
   })
+  await setQueryData(updated)
+}
+
+export const upvoteDiscussionFunc = async (
+  upvoteDiscussionMutation: Function,
+  discussion: DiscussionType,
+  userId: string,
+  setQueryData: Function
+) => {
+  const upvotes = discussion.upvotes + 1
+  const updated = await upvoteDiscussionMutation(
+    discussion.id_,
+    upvotes,
+    userId
+  )
   await setQueryData(updated)
 }
 
@@ -111,4 +127,8 @@ export const getSearchItems = (items: any[], query: string) => {
       return item
     }
   })
+}
+
+export const removeElementFromArray = (array: any[], value: any) => {
+  return array.filter((element) => element !== value)
 }

@@ -16,7 +16,9 @@
   },
   "prettier": {
     "semi": false,
-    "printWidth": 80
+    "printWidth": 80,
+    "useTabs": true,
+    "tabWidth": ,
   },
   "lint-staged": {
     "*.{js,ts,tsx}": [
