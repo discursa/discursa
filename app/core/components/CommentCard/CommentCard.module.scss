@@ -1,4 +1,26 @@
-// TODO: Write styles for CommentCard component
+@import "app/core/styles/scss/1-global/global";
 
 .CommentCard {
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+	flex-direction: column;
+	width: 100%;
+	height: auto;
+	background: var(--bg-900);
+	border: 1px solid var(--bg-700);
+	border-radius: $radius-xl;
+	box-sizing: border-box;
+	padding: 1rem;
+	gap: 1rem;
+	.ReplyBlock {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		flex-direction: row;
+		width: 100%;
+		height: auto;
+		box-sizing: border-box;
+		padding: 0.5rem 1rem;
+	}
 }

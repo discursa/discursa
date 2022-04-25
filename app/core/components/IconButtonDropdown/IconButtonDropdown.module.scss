@@ -1,30 +1,36 @@
 @import "app/core/styles/scss/1-global/global";
 
-.IconButtonDropdownItem {
-  justify-content: flex-start;
-  background: var(--bg-800);
-  border-radius: 0;
-  padding: 0 8px;
-  box-sizing: border-box;
-  &:hover,
-  &:focus {
-    background: $blue-500;
-    color: $white;
-  }
-  &:hover {
-    border: 0;
-  }
-  &:focus {
-    box-shadow: $focus;
-  }
-  &:active {
-    background: $blue-700;
-    color: $white;
-  }
-  &:first-child {
-    border-radius: $radius-lg 0;
-  }
-  &:first-child {
-    border-radius: 0 $radius-lg;
-  }
+.ButtonDropDown {
+	display: flex;
+	position: absolute;
+	flex-direction: column;
+	margin: 40px 0 0 0;
+	.IconButtonDropdownItem {
+		justify-content: flex-start;
+		background: var(--bg-800);
+		border-radius: 0;
+		padding: 0 8px;
+		box-sizing: border-box;
+		&:hover,
+		&:focus {
+			background: $blue-500;
+			color: $white;
+		}
+		&:hover {
+			border: 0;
+		}
+		&:focus {
+			box-shadow: $focus;
+		}
+		&:active {
+			background: $blue-700;
+			color: $white;
+		}
+		&:last-child {
+			border-radius: 0 0 $radius-lg $radius-lg;
+		}
+		&:first-child {
+			border-radius: $radius-lg $radius-lg 0 0;
+		}
+	}
 }

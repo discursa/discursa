@@ -10,4 +10,10 @@ export const check = {
       (subscriber) => subscriber === session.userId
     )
   },
+  author(session: ClientSession, authorId: string){
+    return Boolean(session.userId === authorId)
+  },
+  admin(session: ClientSession){
+    return Boolean(session.role === "ADMIN")
+  }
 }
