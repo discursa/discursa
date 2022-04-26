@@ -101,7 +101,7 @@ export const DiscussionPage = () => {
 	}
 
 	const evaluateDiscussion = async () => {
-		if (check.upvote(discussion, session)) {
+		if (!check.upvote(discussion, session)) {
 			await discussionService.upvote(discussion, session.userId, setQueryData)
 		} else {
 			await discussionService.unvote(discussion, session.userId, setQueryData)

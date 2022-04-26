@@ -74,3 +74,14 @@ model Comment {
   parent    Int
   authorId  String
 }
+
+model Notification {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id_         Int      @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String   @unique
+  type        String
+  description String
+  recipient   String
+}
