@@ -58,11 +58,11 @@ const DiscussionsPage: FC = () => {
 		setCurrentDiscussions(discussions)
 	}
 
-	const changeCategory = (category: CategoryType) => {
+	const changeCategory = (name: string, id: number) => {
 		const categoryDiscussions = discussions.filter((discussion) => {
-			discussion.category.toLowerCase() === category.name.toLowerCase()
+			return discussion.category === name
 		})
-		setActiveCategory(category.id_)
+		setActiveCategory(id)
 		setCurrentDiscussions(categoryDiscussions)
 		console.log(categoryDiscussions)
 	}
@@ -103,7 +103,7 @@ const DiscussionsPage: FC = () => {
 							variant={activeCategory === category.id_ ? "primary" : "tertiary"}
 							size="lg"
 							styles="w100 jcfs"
-							onClick={() => changeCategory(category)}
+							onClick={() => changeCategory(category.name, category.id_)}
 						>
 							{category.name}
 						</Button>
