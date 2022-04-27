@@ -2,7 +2,7 @@ import { User } from "app/core/types"
 import { BlitzRouter, RouteUrlObject } from "blitz"
 import { DiscussionType } from "../types"
 
-export const addObjectIntoStore = (setStore: Function, object: object) => {
+export const addObjectToStore = (setStore: Function, object: object) => {
 	setStore((oldStore: Array<object>) => [...oldStore, object])
 }
 
@@ -18,7 +18,7 @@ export const removeObjectFromStore = (
 	}
 }
 
-export const removeObjectFromDb = async (
+export const deleteObjectFromDb = async (
 	deleteMutation: Function,
 	item: any,
 	router: BlitzRouter,

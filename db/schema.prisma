@@ -59,6 +59,7 @@ model Discussion {
   name        String   @unique
   message     String
   upvotes     Int      @default(0)
+  category    String
   authorId    String
   vouters     String[]
   subscribers String[]
@@ -73,4 +74,24 @@ model Comment {
   replierId String
   parent    Int
   authorId  String
+}
+
+model Notification {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id_         Int      @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String   @unique
+  type        String
+  description String
+  recipient   String
+}
+
+model Category {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id_         Int      @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String   @unique
+  description String
 }

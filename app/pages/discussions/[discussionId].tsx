@@ -101,7 +101,7 @@ export const DiscussionPage = () => {
 	}
 
 	const evaluateDiscussion = async () => {
-		if (check.upvote(discussion, session)) {
+		if (!check.upvote(discussion, session)) {
 			await discussionService.upvote(discussion, session.userId, setQueryData)
 		} else {
 			await discussionService.unvote(discussion, session.userId, setQueryData)
@@ -163,8 +163,9 @@ export const DiscussionPage = () => {
 						)}
 					</div>
 				</div>
-				<p className="sub-text bottom-space-sm">
-					{user.name} started this discussion
+				<p className="sub-text bottom-space-sm g1">
+					<Link href={`/${user.name}`}>{user.name}</Link> started this
+					discussion in {discussion.category}
 				</p>
 				<PreviewableMessage message={discussion.message} user={user} />
 				<div className="col top-space-sm g2">

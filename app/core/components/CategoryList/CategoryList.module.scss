@@ -1,0 +1,27 @@
+@import "app/core/styles/scss/1-global/global";
+
+.CategoryListHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	height: 50px;
+	background: var(--bg-800);
+	border: 1px solid var(--bg-700);
+	border-radius: $radius-xl $radius-xl 0 0;
+	box-sizing: border-box;
+	padding: 1rem;
+}
+
+.CategoryList {
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+	flex-direction: column;
+	width: 100%;
+	height: auto;
+	min-height: 75px;
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}

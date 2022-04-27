@@ -1,0 +1,45 @@
+.alert-info,
+.alert-success,
+.alert-warning,
+.alert-error {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-direction: row;
+	width: 600px;
+	height: 40px;
+	background: var(--bg-900);
+	border-radius: $radius-xl;
+}
+
+.alert-info {
+	border: $blue-border;
+	.simple-text,
+	.icon-lg {
+		color: $blue-500;
+	}
+}
+
+.alert-success {
+	border: $green-border;
+	.simple-text,
+	.icon-lg {
+		color: $green-500;
+	}
+}
+
+.alert-error {
+	border: $admber-border;
+	.simple-text,
+	.icon-lg {
+		color: $admber-500;
+	}
+}
+
+.alert-warning {
+	border: $red-border;
+	.simple-text,
+	.icon-lg {
+		color: $red-500;
+	}
+}

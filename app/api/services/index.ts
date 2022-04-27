@@ -1,4 +1,5 @@
-import { DiscussionService } from "./Discussion/Discussion"
+import { CategoryService } from "./Category/Category"
 import { CommentService } from "./Comment/Comment"
+import { DiscussionService } from "./Discussion/Discussion"
 
-export { CommentService, DiscussionService }
+export { CategoryService, CommentService, DiscussionService }

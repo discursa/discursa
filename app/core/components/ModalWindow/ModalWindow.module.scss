@@ -1,0 +1,52 @@
+@import "app/core/styles/scss/1-global/global";
+
+.Modal {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	overflow: hidden;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+	z-index: 3;
+	background: rgba(0, 0, 0, 0.25);
+	.ModalWindow {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		width: 430px;
+		height: auto;
+		background: var(--bg-900);
+		border: 1px solid var(--bg-700);
+		border-radius: $radius-xl;
+		box-sizing: border-box;
+		.ModalHeader {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			width: 100%;
+			height: 50px;
+			background: var(--bg-800);
+			border-bottom: 1px solid var(--bg-700);
+			border-radius: $radius-xl $radius-xl 0 0;
+			padding: 0 1rem;
+			top: 0;
+			box-sizing: border-box;
+		}
+		.ModalBody {
+			display: flex;
+			align-items: flex-start;
+			justify-content: flex-start;
+			flex-direction: column;
+			width: 100%;
+			height: auto;
+			padding: 1rem;
+			box-sizing: border-box;
+		}
+	}
+}

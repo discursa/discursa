@@ -1,92 +1,127 @@
-import { Suspense } from "react"
-import {
-  Head,
-  Link,
-  useRouter,
-  useQuery,
-  useMutation,
-  useParam,
-  BlitzPage,
-  Routes,
-} from "blitz"
-import Layout from "app/core/layouts/Layout"
 import getDiscussion from "app/api/queries/Discussion/getDiscussion"
-import updateDiscussion from "app/discussions/mutations/updateDiscussion"
+import { DiscussionService } from "app/api/services"
 import {
-  DiscussionForm,
-  FORM_ERROR,
-} from "app/discussions/components/DiscussionForm"
+	Alert,
+	Breadcrumbs,
+	DiscussionForm,
+	Header,
+	Spinner,
+} from "app/core/components"
+import Layout from "app/core/layouts/Layout"
+import styles from "app/core/layouts/Layout.module.scss"
+import {
+	getNothingChangedAlert,
+	getSuccessfullyUpdatedAlert,
+} from "app/core/templates/alert"
+import { AlertType } from "app/core/types"
+import {
+	addObjectToStore,
+	removeObjectFromStore,
+} from "app/core/utils/functions"
+import { DiscussionSchema } from "app/core/validation"
+import { BlitzPage, Routes, useParam, useQuery, useRouter } from "blitz"
+import { Fragment, Suspense, useState } from "react"
+
+const NESTING_LEVEL = "../../"
+const discussionService = new DiscussionService()
 
 export const EditDiscussion = () => {
-  const router = useRouter()
-  const discussionId = useParam("discussionId", "number")
-  const [discussion, { setQueryData }] = useQuery(
-    getDiscussion,
-    { id: discussionId },
-    {
-      // This ensures the query never refreshes and overwrites the form data while the user is editing.
-      staleTime: Infinity,
-    }
-  )
-  const [updateDiscussionMutation] = useMutation(updateDiscussion)
+	const router = useRouter()
+	const discussionId = useParam("discussionId", "number")
+	const [alerts, setAlerts] = useState<AlertType[]>([])
+	const [discussion, { setQueryData }] = useQuery(
+		getDiscussion,
+		{
+			id_: discussionId,
+		},
+		{
+			staleTime: Infinity,
+		}
+	)
 
-  return (
-    <>
-      <Head>
-        <title>Edit Discussion {discussion.id}</title>
-      </Head>
+	const breadcrumbsItems = [
+		{
+			id: 0,
+			name: "General",
+			route: Routes.ShowHome(),
+		},
+		{
+			id: 1,
+			name: "Discussions",
+			route: Routes.ShowDiscussionsPage(),
+		},
+		{
+			id: 2,
+			name: discussion.name,
+			route: Routes.ShowDiscussionPage({ discussionId: discussion.id_ }),
+		},
+		{
+			id: 2,
+			name: "Edit discussion",
+			route: Routes.EditDiscussionPage({ discussionId: discussion.id_ }),
+		},
+	]
 
-      <div>
-        <h1>Edit Discussion {discussion.id}</h1>
-        <pre>{JSON.stringify(discussion, null, 2)}</pre>
+	const nothingChangedAlert = getNothingChangedAlert(alerts, "discussion")
+	const successfullyUpdatedAlert = getSuccessfullyUpdatedAlert(
+		alerts,
+		"discussion"
+	)
 
-        <DiscussionForm
-          submitText="Update Discussion"
-          // TODO use a zod schema for form validation
-          //  - Tip: extract mutation's schema into a shared `validations.ts` file and
-          //         then import and use it here
-          // schema={UpdateDiscussion}
-          initialValues={discussion}
-          onSubmit={async (values) => {
-            try {
-              const updated = await updateDiscussionMutation({
-                id: discussion.id,
-                ...values,
-              })
-              await setQueryData(updated)
-              router.push(
-                Routes.ShowDiscussionPage({ discussionId: updated.id })
-              )
-            } catch (error: any) {
-              console.error(error)
-              return {
-                [FORM_ERROR]: error.toString(),
-              }
-            }
-          }}
-        />
-      </div>
-    </>
-  )
+	return (
+		<Layout
+			activePage="Discussions"
+			pageTitle={discussion.name}
+			pageClass={styles.LayoutForm}
+			nestingLevel={NESTING_LEVEL}
+		>
+			<Breadcrumbs items={breadcrumbsItems} />
+			<DiscussionForm
+				className="w75 col g1"
+				submitText="Update"
+				resetText="Delete"
+				initialValues={discussion}
+				schema={DiscussionSchema}
+				onSubmit={async (values) =>
+					discussionService.update(
+						values,
+						discussion,
+						setQueryData,
+						addObjectToStore(setAlerts, nothingChangedAlert),
+						addObjectToStore(setAlerts, successfullyUpdatedAlert)
+					)
+				}
+				onReset={async () => {
+					discussionService.delete(discussion, router)
+				}}
+			/>
+			{alerts.map((alert) => (
+				<Alert
+					key={alert.id}
+					variant={alert.variant}
+					message={alert.message}
+					toast={false}
+					iconHref={alert.iconHref}
+					nestingLevel={NESTING_LEVEL}
+					styles="bottom-20"
+					remove={() => removeObjectFromStore(alerts, setAlerts)}
+				/>
+			))}
+		</Layout>
+	)
 }
 
 const EditDiscussionPage: BlitzPage = () => {
-  return (
-    <div>
-      <Suspense fallback={<div>Loading...</div>}>
-        <EditDiscussion />
-      </Suspense>
-
-      <p>
-        <Link href={Routes.DiscussionsPage()}>
-          <a>Discussions</a>
-        </Link>
-      </p>
-    </div>
-  )
+	return (
+		<Fragment>
+			<Header title="Loading..." />
+			<Suspense fallback={<Spinner />}>
+				<EditDiscussion />
+			</Suspense>
+		</Fragment>
+	)
 }
 
 EditDiscussionPage.authenticate = false
-EditDiscussionPage.getLayout = (page) => <Layout>{page}</Layout>
 
 export default EditDiscussionPage
