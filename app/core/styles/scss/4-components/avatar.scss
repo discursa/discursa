@@ -3,37 +3,38 @@
 .text-avatar-lg,
 .text-avatar-md,
 .text-avatar-sm {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--bg-800);
-  border-radius: 50%;
-  color: var(--bg-400);
-  box-sizing: border-box;
-  cursor: pointer;
-  &:hover,
-  &:focus {
-    border: 1px solid $blue-500;
-  }
-  &:hover {
-    box-shadow: $hover;
-  }
-  &:focus {
-    box-shadow: $focus;
-  }
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--bg-800);
+	border-radius: 50%;
+	color: var(--bg-400);
+	box-sizing: border-box;
+	border: 1px solid var(--bg-700);
+	cursor: pointer;
+	&:hover,
+	&:focus {
+		border: 1px solid $blue-500;
+	}
+	&:hover {
+		box-shadow: $hover;
+	}
+	&:focus {
+		box-shadow: $focus;
+	}
 }
 
 .text-avatar-lg {
-  width: 40px;
-  height: 40px;
+	width: 40px;
+	height: 40px;
 }
 
 .text-avatar-md {
-  width: 35px;
-  height: 35px;
+	width: 35px;
+	height: 35px;
 }
 
 .text-avatar-sm {
-  width: 30px;
-  height: 30px;
+	width: 30px;
+	height: 30px;
 }

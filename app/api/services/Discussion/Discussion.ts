@@ -32,6 +32,7 @@ export class DiscussionService implements DiscussionServiceType {
 			name: values.name,
 			message: values.message,
 			upvotes: 0,
+			category: values.category,
 			authorId: session.userId,
 		}
 

@@ -1,18 +1,19 @@
 import { DefaultServiceType } from "../types"
 
 export interface DiscussionServiceType extends DefaultServiceType {
-  upvote: Function
-  unvote: Function
-  subscribe: Function
-  unsubscribe: Function
+	upvote: Function
+	unvote: Function
+	subscribe: Function
+	unsubscribe: Function
 }
 
 export interface ValuesType {
-  name: string
-  message: string
+	name: string
+	message: string
+	category: string
 }
 
 export interface UpvotedValuesType {
-  upvotes: number
-  vouters: string[]
+	upvotes: number
+	vouters: string[]
 }
