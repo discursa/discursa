@@ -6,13 +6,14 @@ import {
 	DiscussionList,
 	Header,
 	IconButton,
+	LoadingOverlay,
 	Spinner,
 } from "app/core/components"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
 import { check } from "app/core/modules/Check"
-import { CategoryType, DiscussionType } from "app/core/types"
-import { changeValue, resetValue } from "app/core/utils/functions"
+import { DiscussionType } from "app/core/types"
+import { changeValue } from "app/core/utils/functions"
 import { icons } from "app/core/utils/icons"
 import { pages } from "app/core/utils/pages"
 import { BlitzPage, Link, Routes, useQuery, useRouter, useSession } from "blitz"
@@ -64,7 +65,6 @@ const DiscussionsPage: FC = () => {
 		})
 		setActiveCategory(id)
 		setCurrentDiscussions(categoryDiscussions)
-		console.log(categoryDiscussions)
 	}
 
 	return (
@@ -88,7 +88,7 @@ const DiscussionsPage: FC = () => {
 						</Link>
 					)}
 				</div>
-				<div className="w100 col g2">
+				<div className="w100 col g1">
 					<Button
 						variant={activeCategory === null ? "primary" : "tertiary"}
 						size="lg"
@@ -151,13 +151,7 @@ const ShowDiscussionsPage: BlitzPage = () => {
 	return (
 		<Fragment>
 			<Header title="Loading" />
-			<Suspense
-				fallback={
-					<div className="w100 h100 aic jcc col">
-						<Spinner />
-					</div>
-				}
-			>
+			<Suspense fallback={<LoadingOverlay />}>
 				<DiscussionsPage />
 			</Suspense>
 		</Fragment>

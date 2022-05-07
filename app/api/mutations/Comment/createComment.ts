@@ -8,6 +8,7 @@ const CreateComment = z.object({
 	parent: z.number(),
 	replierId: z.string(),
 	authorId: z.string(),
+	type: z.string(),
 })
 
 export default resolver.pipe(

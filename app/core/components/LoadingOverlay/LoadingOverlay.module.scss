@@ -1,1 +1,9 @@
-.LoadingOverlay {}
+@import "app/core/styles/scss/1-global/global";
+
+.LoadingOverlay {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100vh;
+}

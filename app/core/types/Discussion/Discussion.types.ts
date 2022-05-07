@@ -1,4 +1,5 @@
 export interface DiscussionType {
+	id: string
 	id_: number
 	name: string
 	message: string

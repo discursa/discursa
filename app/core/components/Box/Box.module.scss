@@ -1,0 +1,17 @@
+@import "app/core/styles/scss/1-global/global";
+
+.Box {
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+	flex-direction: column;
+	width: 100%;
+	height: auto;
+	min-height: 200px;
+	background: var(--bg-800);
+	border: 1px solid var(--bg-700);
+	box-sizing: border-box;
+	border-radius: $radius-lg;
+	padding: 1rem;
+	gap: 1rem;
+}

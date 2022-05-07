@@ -1,12 +1,8 @@
 import createComment from "app/api/mutations/Comment/createComment"
 import deleteComment from "app/api/mutations/Comment/deleteComment"
 import { CommentType } from "app/core/types"
-import {
-	addObjectToDb,
-	getId,
-	removeObjectFromDb,
-} from "app/core/utils/functions"
-import { BlitzRouter, ClientSession } from "blitz"
+import { addObjectToDb, deleteObjectFromDb } from "app/core/utils/functions"
+import { BlitzRouter, RouteUrlObject } from "blitz"
 import { DefaultServiceType } from "../types"
 
 interface CommentValuesType {
@@ -15,24 +11,12 @@ interface CommentValuesType {
 
 export class CommentService implements DefaultServiceType {
 	async create(
-		comments: CommentType[],
-		values: CommentValuesType,
-		parentId: number,
-		session: ClientSession,
 		router: BlitzRouter,
-		reply: boolean,
-		replierId?: string
+		route: RouteUrlObject | string,
+		object: any
 	) {
-		const comment = {
-			id_: getId(comments),
-			message: values.message,
-			parent: parentId,
-			replierId: reply ? replierId : "",
-			authorId: session.userId,
-		}
-
 		try {
-			await addObjectToDb(createComment, comment, router, "")
+			await addObjectToDb(createComment, object, router, route)
 		} catch (error: any) {
 			console.log(error)
 			throw new Error(error)
@@ -43,7 +27,7 @@ export class CommentService implements DefaultServiceType {
 		const message = "This comment will be deleted"
 
 		try {
-			await removeObjectFromDb(deleteComment, comment, router, "", message)
+			await deleteObjectFromDb(deleteComment, comment, router, "", message)
 		} catch (error: any) {}
 	}
 }

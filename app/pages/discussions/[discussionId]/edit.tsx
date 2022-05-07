@@ -5,6 +5,7 @@ import {
 	Breadcrumbs,
 	DiscussionForm,
 	Header,
+	LoadingOverlay,
 	Spinner,
 } from "app/core/components"
 import Layout from "app/core/layouts/Layout"
@@ -115,7 +116,7 @@ const EditDiscussionPage: BlitzPage = () => {
 	return (
 		<Fragment>
 			<Header title="Loading..." />
-			<Suspense fallback={<Spinner />}>
+			<Suspense fallback={<LoadingOverlay />}>
 				<EditDiscussion />
 			</Suspense>
 		</Fragment>

@@ -26,4 +26,6 @@ export const icons = {
 	reply: "icons/reply.svg#reply",
 	pencil: "icons/pencil.svg#pencil",
 	trashcan: "icons/trashcan.svg#trashcan",
+	hash: "icons/hash.svg#hash",
+	lock: "icons/lock.svg#lock",
 }

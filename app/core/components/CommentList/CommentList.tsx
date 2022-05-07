@@ -1,7 +1,7 @@
 import { icons } from "app/core/utils/icons"
 import React, { FC } from "react"
 import { CommentCard } from "../CommentCard/CommentCard"
-import InfoBlock from "../InfoBlock/InfoBlock"
+import { InfoBlock } from "../InfoBlock/InfoBlock"
 import styles from "./CommentList.module.scss"
 import { CommentListProps } from "./CommentList.types"
 

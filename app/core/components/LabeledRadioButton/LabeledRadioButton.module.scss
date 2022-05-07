@@ -1,41 +1,43 @@
 @import "app/core/styles/scss/1-global/global";
 
 .RadioBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  background: var(--bg-900);
-  border: 1px solid var(--bg-700);
-  border-radius: 50%;
-  box-sizing: border-box;
-  .RadioCircle {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--bg-900);
-  }
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	background: var(--bg-900);
+	border: 1px solid var(--bg-700);
+	border-radius: 50%;
+	box-sizing: border-box;
+	padding: 0;
+	.RadioCircle {
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		background: var(--bg-900);
+	}
 }
 
 .RadioInput {
-  appearance: none;
-  &:hover + .RadioBtn {
-    border: $blue-border;
-  }
-  &:focus + .RadioBtn {
-    border: $blue-border;
-    box-shadow: $focus;
-  }
-  &:checked {
-    background: var(--bg-900);
-    border: $blue-border;
-    .RadioCircle {
-      background: $blue-500;
-    }
-  }
+	appearance: none;
+	display: none;
+	&:hover + .RadioBtn {
+		border: $blue-border;
+	}
+	&:focus + .RadioBtn {
+		border: $blue-border;
+		box-shadow: $focus;
+	}
+	&:checked + .RadioBtn {
+		background: var(--bg-900);
+		border: $blue-border;
+		.RadioCircle {
+			background: $blue-500;
+		}
+	}
 }
 
 .ErrorRadioBtn {
-  border: $red-border;
+	border: $red-border;
 }

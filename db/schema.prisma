@@ -74,6 +74,7 @@ model Comment {
   replierId String
   parent    Int
   authorId  String
+  type      String
 }
 
 model Notification {
@@ -94,4 +95,15 @@ model Category {
   updatedAt   DateTime @updatedAt
   name        String   @unique
   description String
+}
+
+model Thread {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  id_        Int      @unique
+  name       String   @unique
+  visibility String
+  members    String[]
+  parent     Int
 }
