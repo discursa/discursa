@@ -174,6 +174,16 @@ export const DiscussionPage = () => {
 						onClick={() => addObjectToStore(setModals, createThreadModal)}
 					/>
 				</div>
+				<Link href={`/discussions/${discussion.id_}`}>
+					<Button
+						variant="tertiary"
+						size="md"
+						styles="w100 jcfs"
+						leadingIcon={hashIcon}
+					>
+						General
+					</Button>
+				</Link>
 				{[...userPrivateThreads, ...discussionThreads].map((thread) => (
 					<Link
 						key={thread.id_}
