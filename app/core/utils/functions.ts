@@ -62,7 +62,7 @@ export const addObjectToDb = async (
 	createMutation: Function,
 	object: any,
 	router: any,
-	route: RouteUrlObject | ""
+	route: RouteUrlObject | string
 ) => {
 	await createMutation(object)
 	if (route !== "") {
@@ -105,10 +105,9 @@ export const getId = (items: Array<object>) => {
 }
 
 export const getShortenUsername = (user: User) => {
-	const firstName = user.firstName.slice(0, 1)
-	const lastName = user.lastName.slice(0, 1)
+	const userName = user.name.slice(0, 1)
 
-	return `${firstName}${lastName}`
+	return userName
 }
 
 export const getItemDescription = (description?: string, item?: any) => {

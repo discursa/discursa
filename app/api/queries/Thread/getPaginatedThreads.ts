@@ -1,30 +1,30 @@
 import { paginate, resolver } from "blitz"
 import db, { Prisma } from "db"
 
-interface GetNotificationsInput
+interface GetThreadsInput
 	extends Pick<
-		Prisma.NotificationFindManyArgs,
+		Prisma.ThreadFindManyArgs,
 		"where" | "orderBy" | "skip" | "take"
 	> {}
 
 export default resolver.pipe(
 	resolver.authorize(),
-	async ({ where, orderBy, skip = 0, take = 100 }: GetNotificationsInput) => {
+	async ({ where, orderBy, skip = 0, take = 100 }: GetThreadsInput) => {
 		const {
-			items: notifications,
+			items: paginatedThreads,
 			hasMore,
 			nextPage,
 			count,
 		} = await paginate({
 			skip,
 			take,
-			count: () => db.notification.count({ where }),
+			count: () => db.thread.count({ where }),
 			query: (paginateArgs) =>
-				db.notification.findMany({ ...paginateArgs, where, orderBy }),
+				db.thread.findMany({ ...paginateArgs, where, orderBy }),
 		})
 
 		return {
-			notifications,
+			paginatedThreads,
 			nextPage,
 			hasMore,
 			count,

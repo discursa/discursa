@@ -1,5 +1,5 @@
 import getUser from "app/api/queries/User/getUser"
-import { Header, Spinner } from "app/core/components"
+import { Header, LoadingOverlay, Spinner } from "app/core/components"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
 import { useParam, useQuery } from "blitz"
@@ -32,7 +32,7 @@ const ShowUserProfilePage = () => {
 	return (
 		<Fragment>
 			<Header title="Loading..." />
-			<Suspense fallback={<Spinner />}>
+			<Suspense fallback={<LoadingOverlay />}>
 				<UserProfilePage />
 			</Suspense>
 		</Fragment>

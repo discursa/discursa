@@ -6,6 +6,7 @@ import {
 	CreateCategoryModal,
 	Header,
 	InfoBlock,
+	LoadingOverlay,
 	ModalWindow,
 	Spinner,
 } from "app/core/components"
@@ -105,7 +106,7 @@ const ShowDiscussionCategoriesPage: BlitzPage = () => {
 	return (
 		<Fragment>
 			<Header title="Loading..." />
-			<Suspense fallback={<Spinner />}>
+			<Suspense fallback={<LoadingOverlay />}>
 				<DiscussionCategoriesPage />
 			</Suspense>
 		</Fragment>

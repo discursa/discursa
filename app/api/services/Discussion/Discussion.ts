@@ -5,7 +5,7 @@ import updateDiscussion from "app/api/mutations/Discussion/updateDiscussion"
 import upvoteDiscussion from "app/api/mutations/Discussion/upvoteDiscussion"
 import { FORM_ERROR } from "app/core/components/Form/children/DiscussionForm"
 import { check } from "app/core/modules/Check"
-import { DiscussionType } from "app/core/types"
+import { CommentType, DiscussionType } from "app/core/types"
 import {
 	addObjectToDb,
 	deleteObjectFromDb,
@@ -14,12 +14,15 @@ import {
 	updateDbObject,
 } from "app/core/utils/functions"
 import { BlitzRouter, ClientSession, Routes } from "blitz"
+import { CommentService } from "../Comment/Comment"
 import {
+	CommentValuesType,
 	DiscussionServiceType,
 	UpvotedValuesType,
 	ValuesType,
 } from "./Discussion.types"
 
+const commentService = new CommentService()
 export class DiscussionService implements DiscussionServiceType {
 	async create(
 		values: ValuesType,
@@ -47,6 +50,32 @@ export class DiscussionService implements DiscussionServiceType {
 			return {
 				[FORM_ERROR]: error.toString(),
 			}
+		}
+	}
+
+	async comment(
+		comments: CommentType[],
+		router: BlitzRouter,
+		values: CommentValuesType,
+		parentId: number,
+		reply: boolean,
+		replierId: string,
+		session: ClientSession
+	) {
+		const comment = {
+			id_: getId(comments),
+			message: values.message,
+			parent: parentId,
+			replierId: reply ? replierId : "",
+			authorId: session.userId,
+			type: "discussion",
+		}
+
+		try {
+			await commentService.create(router, "", comment)
+		} catch (error: any) {
+			console.log(error)
+			throw new Error(error)
 		}
 	}
 

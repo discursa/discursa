@@ -24,4 +24,7 @@ export const check = {
 	changes(arrayForCheck: changesCheck[]) {
 		return arrayForCheck.some((item) => item.name === item.inintialName)
 	},
+	private(object: any) {
+		return Boolean(object.visibility === "pricate")
+	},
 }
