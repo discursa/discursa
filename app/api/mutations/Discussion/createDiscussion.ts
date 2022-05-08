@@ -8,6 +8,9 @@ const CreateDiscussion = z.object({
 	message: z.string(),
 	category: z.string(),
 	upvotes: z.number(),
+	voting: z.boolean(),
+	members: z.string().array(),
+	visibility: z.string(),
 	authorId: z.string(),
 })
 

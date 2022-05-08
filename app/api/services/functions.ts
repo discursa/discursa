@@ -6,6 +6,11 @@ import {
 	getThreadComments,
 } from "./Comment/functions"
 import {
+	getPrivateDiscussions,
+	getPublicDiscussions,
+	getUserPrivateDiscussions,
+} from "./Discussion/functions"
+import {
 	getPrivateDisccussionThreads,
 	getDiscussionThreads,
 	getUserPrivateThreads,
@@ -20,4 +25,7 @@ export {
 	getDiscussionComments,
 	getAllThreadsComments,
 	getThreadComments,
+	getPublicDiscussions,
+	getPrivateDiscussions,
+	getUserPrivateDiscussions,
 }

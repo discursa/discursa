@@ -1,6 +1,10 @@
 import getCategories from "app/api/queries/Category/getCategories"
 import getDiscussions from "app/api/queries/Discussion/getDiscussions"
 import {
+	getPublicDiscussions,
+	getUserPrivateDiscussions,
+} from "app/api/services/functions"
+import {
 	Button,
 	ButtonGroup,
 	DiscussionList,
@@ -25,12 +29,15 @@ const DiscussionsPage: FC = () => {
 	const session = useSession()
 	const router = useRouter()
 	const [discussions] = useQuery(getDiscussions, {})
+	const publicDiscussions = getPublicDiscussions(discussions)
+	const userPrivateDiscussions = getUserPrivateDiscussions(discussions, session)
+	const allDiscussions = [...userPrivateDiscussions, ...publicDiscussions]
 	const [categories] = useQuery(getCategories, {})
 	const [query, setQuery] = useState<string>("")
 	const [top, setTop] = useState<boolean>(false)
 	const [activeCategory, setActiveCategory] = useState<number | null>(null)
 	const [currentDiscussions, setCurrentDiscussions] =
-		useState<DiscussionType[]>(discussions)
+		useState<DiscussionType[]>(allDiscussions)
 	const groupedButtons = [
 		{
 			id: 0,
@@ -56,7 +63,7 @@ const DiscussionsPage: FC = () => {
 
 	const resetCategories = () => {
 		setActiveCategory(null)
-		setCurrentDiscussions(discussions)
+		setCurrentDiscussions(allDiscussions)
 	}
 
 	const changeCategory = (name: string, id: number) => {

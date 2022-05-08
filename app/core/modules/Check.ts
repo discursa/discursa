@@ -25,6 +25,9 @@ export const check = {
 		return arrayForCheck.some((item) => item.name === item.inintialName)
 	},
 	private(object: any) {
-		return Boolean(object.visibility === "pricate")
+		return Boolean(object.visibility === "Private")
+	},
+	public(object: any) {
+		return Boolean(object.visibility === "Public")
 	},
 }

@@ -58,9 +58,12 @@ model Discussion {
   id_         Int      @unique
   name        String   @unique
   message     String
+  visibility  String
+  voting      Boolean
   upvotes     Int      @default(0)
   category    String
   authorId    String
+  members     String[]
   vouters     String[]
   subscribers String[]
 }

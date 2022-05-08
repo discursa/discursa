@@ -5,4 +5,6 @@ export const DiscussionSchema = z.object({
 	name,
 	category: z.string(),
 	message,
+	visibility: z.string(),
+	voting: z.boolean(),
 })

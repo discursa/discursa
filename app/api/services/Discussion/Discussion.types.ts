@@ -12,6 +12,8 @@ export interface ValuesType {
 	name: string
 	message: string
 	category: string
+	type: string
+	voting: boolean
 }
 
 export interface CommentValuesType {

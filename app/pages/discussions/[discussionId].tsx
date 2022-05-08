@@ -216,18 +216,20 @@ export const DiscussionPage = () => {
 								>
 									{subscribeButtonText}
 								</Button>
-								<Button
-									key="1"
-									variant="secondary"
-									size="md"
-									leadingIcon={arrowUpIcon}
-									styles={`w30 ${
-										check.upvote(discussion, session) && "active blue-border"
-									}`}
-									onClick={async () => await evaluateDiscussion()}
-								>
-									{discussion.upvotes}
-								</Button>
+								{discussion.voting && (
+									<Button
+										key="1"
+										variant="secondary"
+										size="md"
+										leadingIcon={arrowUpIcon}
+										styles={`w30 ${
+											check.upvote(discussion, session) && "active blue-border"
+										}`}
+										onClick={async () => await evaluateDiscussion()}
+									>
+										{discussion.upvotes}
+									</Button>
+								)}
 							</Fragment>
 						)}
 						{session.userId === discussion.authorId && (

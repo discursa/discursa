@@ -1,4 +1,5 @@
 import getUser from "app/api/queries/User/getUser"
+import { check } from "app/core/modules/Check"
 import { icons } from "app/core/utils/icons"
 import { Link, Routes, useQuery } from "blitz"
 import React, { FC } from "react"
@@ -8,7 +9,7 @@ import { DiscussionCardProps } from "./DiscussionCard.types"
 
 const DiscussionCard: FC<DiscussionCardProps> = (props) => {
 	const { discussion, nestingLevel } = props
-	const { name, category, createdAt, authorId } = discussion
+	const { name, category, createdAt, authorId, type } = discussion
 	const [user] = useQuery(getUser, {
 		id: authorId,
 	})
@@ -20,7 +21,9 @@ const DiscussionCard: FC<DiscussionCardProps> = (props) => {
 				<div className={styles.IconContainer}>
 					<Icon
 						size="xl"
-						href={icons.commentDiscussion}
+						href={
+							check.private(discussion) ? icons.lock : icons.commentDiscussion
+						}
 						nestingLevel={nestingLevel}
 						styles="white"
 					/>
