@@ -3,5 +3,5 @@ export interface NotificationTemplateType {
 	name: string
 	description: string
 	type: string
-	recipients: string[]
+	recipient?: string
 }

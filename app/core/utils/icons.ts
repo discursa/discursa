@@ -28,4 +28,5 @@ export const icons = {
 	trashcan: "icons/trashcan.svg#trashcan",
 	hash: "icons/hash.svg#hash",
 	lock: "icons/lock.svg#lock",
+	personAdd: "icons/person-add.svg#person-add",
 }

@@ -8,6 +8,7 @@ import { ButtonNavigation } from "./ButtonNavigation/ButtonNavigation"
 import { CategoryList } from "./CategoryList/CategoryList"
 import { CommentList } from "./CommentList/CommentList"
 import { DiscussionList } from "./DiscussionList/DiscussionList"
+import { AddUserForm } from "./Form/children/AddUserForm"
 import { CommentForm } from "./Form/children/CommentForm"
 import { DiscussionForm } from "./Form/children/DiscussionForm"
 import { ThreadForm } from "./Form/children/ThreadForm"
@@ -30,6 +31,7 @@ import { Navbar } from "./Navbar/Navbar"
 import { Spinner } from "./Spinner/Spinner"
 
 export {
+	AddUserForm,
 	Alert,
 	Avatar,
 	Box,

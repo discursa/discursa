@@ -30,4 +30,22 @@ export const check = {
 	public(object: any) {
 		return Boolean(object.visibility === "Public")
 	},
+	invitePermitions(object: any, session: ClientSession) {
+		if (
+			check.private(object) &&
+			check.author(session, session.userId) &&
+			check.admin(session)
+		) {
+			return true
+		} else {
+			return false
+		}
+	},
+	editPermitions(session: ClientSession) {
+		if (check.admin(session) && check.author(session, session.userId)) {
+			return true
+		} else {
+			return false
+		}
+	},
 }
