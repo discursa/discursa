@@ -31,8 +31,17 @@ const getUserPrivateDiscussions = (
 	return userPrivateDiscussions
 }
 
+const getDiscussionById = (discussions: DiscussionType[], id: string) => {
+	const discussion = discussions.find((discussion) => {
+		return discussion.id === id
+	})
+
+	return discussion
+}
+
 export {
 	getPrivateDiscussions,
 	getPublicDiscussions,
 	getUserPrivateDiscussions,
+	getDiscussionById,
 }

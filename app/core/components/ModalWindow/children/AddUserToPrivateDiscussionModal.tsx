@@ -1,17 +1,17 @@
 import getUsers from "app/api/queries/User/getUsers"
 import { NotificationService } from "app/api/services/Notification/Notification"
+import { check } from "app/core/modules/Check"
 import { DiscussionType, NotificationType } from "app/core/types"
 import { getId } from "app/core/utils/functions"
-import { icons } from "app/core/utils/icons"
-import { BlitzRouter, useQuery } from "blitz"
+import { BlitzRouter, ClientSession, useQuery } from "blitz"
 import { FC, Fragment, useState } from "react"
-import { Alert } from "../../Alert/Alert"
 import { AddUserForm } from "../../Form/children/AddUserForm"
 
 interface AddUserToPrivateDiscussionModalProps {
 	notifications: NotificationType[]
 	discussion: DiscussionType
 	router: BlitzRouter
+	session: ClientSession
 	nestingLevel: string
 }
 
@@ -20,7 +20,7 @@ const notificationService = new NotificationService()
 export const AddUserToPrivateDiscussionModal: FC<
 	AddUserToPrivateDiscussionModalProps
 > = (props) => {
-	const { notifications, discussion, router, nestingLevel } = props
+	const { notifications, discussion, router, session, nestingLevel } = props
 	const [users] = useQuery(getUsers, {})
 	const [error, setError] = useState<boolean>(false)
 
@@ -31,12 +31,14 @@ export const AddUserToPrivateDiscussionModal: FC<
 				submitText="Invite"
 				initialValues={{ name: "" }}
 				onSubmit={async (values) => {
-					const invitedUser = users.find((user) => user.name === values.name)
+					const invitedUser = users.find(
+						(user) => user.name === values.username
+					)
 					const notification = {
 						id_: getId(notifications),
 						name: `You are invited to ${discussion.name} discussion`,
 						type: "inbox",
-						description: "Greetings",
+						description: `Greetings, your code is: ${discussion.id}`,
 						recipient: invitedUser?.id,
 					}
 
@@ -48,14 +50,10 @@ export const AddUserToPrivateDiscussionModal: FC<
 					}
 				}}
 			/>
-			{!error && (
-				<Alert
-					variant="warning"
-					message="User not found"
-					toast={true}
-					nestingLevel={nestingLevel}
-					iconHref={icons.warning}
-				/>
+			{error && (
+				<p className="red top-space-sm">
+					User not found or user has already joined discussion
+				</p>
 			)}
 		</Fragment>
 	)

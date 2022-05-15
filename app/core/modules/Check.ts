@@ -1,5 +1,5 @@
 import { ClientSession } from "blitz"
-import { DiscussionType } from "../types"
+import { DiscussionType, ThreadType } from "../types"
 
 interface changesCheck {
 	name: string
@@ -47,5 +47,8 @@ export const check = {
 		} else {
 			return false
 		}
+	},
+	joined(object: DiscussionType | ThreadType, session: ClientSession) {
+		return Boolean(object.members?.includes(session.userId))
 	},
 }

@@ -12,7 +12,7 @@ model User {
   id             String   @id @default(auto()) @map("_id") @db.ObjectId
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
-  name           String?
+  name           String
   email          String   @unique
   hashedPassword String?
   role           String   @default("USER")
@@ -88,7 +88,7 @@ model Notification {
   name        String   @unique
   type        String
   description String
-  recipient   String?
+  recipient   String
 }
 
 model Category {

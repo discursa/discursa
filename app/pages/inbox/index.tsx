@@ -1,9 +1,9 @@
+import getNotifications from "app/api/queries/Notification/getNotifications"
 import {
 	ButtonNavigation,
 	Header,
 	Icon,
 	LoadingOverlay,
-	Spinner,
 } from "app/core/components"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
@@ -14,13 +14,14 @@ import {
 	ReadNotificationsWidget,
 	SavedNotificationsWidget,
 } from "app/core/widgets"
-import { BlitzPage } from "blitz"
+import { BlitzPage, useQuery } from "blitz"
 import { FC, Fragment, Suspense, useState } from "react"
 
 const NESTING_LEVEL: string = ""
 
 const InboxPage: FC = () => {
 	const [activeWidget, setActieWidget] = useState(0)
+	const [notifications] = useQuery(getNotifications, {})
 
 	const navigationButtons = [
 		{
@@ -69,9 +70,24 @@ const InboxPage: FC = () => {
 				<ButtonNavigation size="lg" buttons={navigationButtons} />
 			</div>
 			<div className="col aifs jcfs g2">
-				{activeWidget === 0 && <InboxWidget />}
-				{activeWidget === 1 && <SavedNotificationsWidget />}
-				{activeWidget === 2 && <ReadNotificationsWidget />}
+				{activeWidget === 0 && (
+					<InboxWidget
+						notifications={notifications}
+						nestingLevel={NESTING_LEVEL}
+					/>
+				)}
+				{activeWidget === 1 && (
+					<SavedNotificationsWidget
+						notifications={notifications}
+						nestingLevel={NESTING_LEVEL}
+					/>
+				)}
+				{activeWidget === 2 && (
+					<ReadNotificationsWidget
+						notifications={notifications}
+						nestingLevel={NESTING_LEVEL}
+					/>
+				)}
 			</div>
 		</Layout>
 	)

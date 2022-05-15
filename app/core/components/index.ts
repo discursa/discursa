@@ -24,6 +24,7 @@ import { LabeledTextArea } from "./LabeledTextArea/LabeledTextArea"
 import { LoadingOverlay } from "./LoadingOverlay/LoadingOverlay"
 import { CreateCategoryModal } from "./ModalWindow/children/CreateCategoryModal"
 import { CreateThreadModal } from "./ModalWindow/children/CreateThreadModal"
+import { JoinToPrivateDisussionModal } from "./ModalWindow/children/JoinToDiscussionModal"
 import { UpdateCategoryModal } from "./ModalWindow/children/UpdateCategoryModal"
 import { UpdateThreadModal } from "./ModalWindow/children/UpdateThreadModal"
 import { ModalWindow } from "./ModalWindow/ModalWindow"
@@ -62,4 +63,5 @@ export {
 	ThreadForm,
 	UpdateCategoryModal,
 	UpdateThreadModal,
+	JoinToPrivateDisussionModal,
 }

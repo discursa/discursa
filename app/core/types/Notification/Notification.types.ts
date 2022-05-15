@@ -4,7 +4,7 @@ export interface NotificationType {
 	name: string
 	type: string
 	description: string
-	recipient?: string
+	recipient: string
 	createdAt: Date
 	updatedAt: Date
 }

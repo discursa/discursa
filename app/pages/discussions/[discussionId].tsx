@@ -1,6 +1,5 @@
 import getComments from "app/api/queries/Comment/getComments"
 import getDiscussion from "app/api/queries/Discussion/getDiscussion"
-import getNotification from "app/api/queries/Notification/getNotification"
 import getNotifications from "app/api/queries/Notification/getNotifications"
 import getThreads from "app/api/queries/Thread/getThreads"
 import getUser from "app/api/queries/User/getUser"
@@ -20,7 +19,6 @@ import {
 	IconButton,
 	LoadingOverlay,
 	ModalWindow,
-	Spinner,
 } from "app/core/components"
 import { CommentForm } from "app/core/components/Form/children/CommentForm"
 import { AddUserToPrivateDiscussionModal } from "app/core/components/ModalWindow/children/AddUserToPrivateDiscussionModal"
@@ -116,6 +114,7 @@ export const DiscussionPage = () => {
 				notifications={notifications}
 				discussion={discussion}
 				router={router}
+				session={session}
 				nestingLevel={NESTING_LEVEL}
 			/>
 		),
@@ -277,6 +276,21 @@ export const DiscussionPage = () => {
 									nestinglevel={NESTING_LEVEL}
 								/>
 							</Link>
+						)}
+						{check.private(discussion) && (
+							<IconButton
+								variant="secondary"
+								size="md"
+								href={icons.signOut}
+								nestinglevel={NESTING_LEVEL}
+								onClick={async () => {
+									await discussionService.leave(
+										discussion,
+										session.userId,
+										setQueryData
+									)
+								}}
+							/>
 						)}
 					</div>
 				</div>

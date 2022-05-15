@@ -1,18 +1,25 @@
 import {
-	getNoRepliedComments,
 	getAllDiscussionsComments,
-	getDiscussionComments,
 	getAllThreadsComments,
+	getDiscussionComments,
+	getNoRepliedComments,
 	getThreadComments,
 } from "./Comment/functions"
 import {
+	getDiscussionById,
 	getPrivateDiscussions,
 	getPublicDiscussions,
 	getUserPrivateDiscussions,
 } from "./Discussion/functions"
 import {
-	getPrivateDisccussionThreads,
+	getUserInboxNotifications,
+	getUserNotifications,
+	getUserReadNotifications,
+	getUserSavedNotifications,
+} from "./Notification/functions"
+import {
 	getDiscussionThreads,
+	getPrivateDisccussionThreads,
 	getUserPrivateThreads,
 } from "./Thread/functions"
 
@@ -28,4 +35,9 @@ export {
 	getPublicDiscussions,
 	getPrivateDiscussions,
 	getUserPrivateDiscussions,
+	getUserNotifications,
+	getUserInboxNotifications,
+	getUserSavedNotifications,
+	getUserReadNotifications,
+	getDiscussionById,
 }

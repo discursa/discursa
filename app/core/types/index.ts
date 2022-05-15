@@ -6,6 +6,14 @@ import { NotificationType } from "./Notification/Notification.types"
 import { ModalWindowType } from "./ModalWindow/ModalWindow.types"
 import { ThreadType } from "./Thread/Thread.types"
 
+type ObjectType =
+	| DiscussionType
+	| ThreadType
+	| NotificationType
+	| CategoryType
+	| CommentType
+type StoreObjectType = AlertType | ModalWindowType
+
 export type {
 	AlertType,
 	CategoryType,
@@ -14,4 +22,6 @@ export type {
 	ModalWindowType,
 	NotificationType,
 	ThreadType,
+	ObjectType,
+	StoreObjectType,
 }

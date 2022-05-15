@@ -2,7 +2,7 @@ import { z } from "zod"
 import { LabeledInput } from "../../LabeledInput/LabeledInput"
 import Form, { FormProps } from "../Form"
 
-export function AddUserForm<S extends z.ZodType<any, any>>(
+export function JoinToPrivate<S extends z.ZodType<any, any>>(
 	props: FormProps<S>
 ) {
 	const labelProps = {
@@ -12,9 +12,9 @@ export function AddUserForm<S extends z.ZodType<any, any>>(
 	return (
 		<Form<S> {...props}>
 			<LabeledInput
-				name="username"
-				label="Username"
-				placeholder="Write username"
+				name="code"
+				label="Invitation Code"
+				placeholder="Write invitation code"
 				inputSize="md"
 				inputMode="text"
 				styles="w100"

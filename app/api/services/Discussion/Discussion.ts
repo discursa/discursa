@@ -1,5 +1,7 @@
 import createDiscussion from "app/api/mutations/Discussion/createDiscussion"
 import deleteDiscussion from "app/api/mutations/Discussion/deleteDiscussion"
+import joinDiscussion from "app/api/mutations/Discussion/joinDiscussion"
+import leaveDiscussion from "app/api/mutations/Discussion/leaveDiscussion"
 import subscribeDiscussion from "app/api/mutations/Discussion/subscribeDiscussion"
 import updateDiscussion from "app/api/mutations/Discussion/updateDiscussion"
 import upvoteDiscussion from "app/api/mutations/Discussion/upvoteDiscussion"
@@ -226,6 +228,54 @@ export class DiscussionService implements DiscussionServiceType {
 				subscribeDiscussion,
 				discussion.id_,
 				unsubscribedDiscussion,
+				setQueryData
+			)
+		} catch (error: any) {
+			console.log(error)
+			throw new Error(error)
+		}
+	}
+
+	async leave(
+		discussion: DiscussionType,
+		userId: string,
+		setQueryData: Function
+	) {
+		const members = removeElementFromArray(discussion.members, userId)
+
+		const leavedDiscussion = {
+			members: members,
+		}
+
+		try {
+			updateDbObject(
+				leaveDiscussion,
+				discussion.id_,
+				leavedDiscussion,
+				setQueryData
+			)
+		} catch (error: any) {
+			console.log(error)
+			throw new Error(error)
+		}
+	}
+
+	async join(
+		discussion: DiscussionType,
+		userId: string,
+		setQueryData: Function
+	) {
+		const members = [...discussion.members, userId]
+
+		const joinedDiscussion = {
+			members: members,
+		}
+
+		try {
+			updateDbObject(
+				joinDiscussion,
+				discussion.id_,
+				joinedDiscussion,
 				setQueryData
 			)
 		} catch (error: any) {

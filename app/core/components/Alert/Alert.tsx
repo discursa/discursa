@@ -18,7 +18,7 @@ export const Alert: FC<AlertProps> = (props) => {
 		iconHref,
 	} = props
 	const className =
-		styles !== undefined ? `alert-${variant} ${styles}` : `${variant}-alert`
+		styles !== undefined ? `alert-${variant} ${styles}` : `alert-${variant}`
 
 	return (
 		<dialog className={className} role="alert">
