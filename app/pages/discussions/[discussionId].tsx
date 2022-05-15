@@ -1,5 +1,6 @@
 import getComments from "app/api/queries/Comment/getComments"
 import getDiscussion from "app/api/queries/Discussion/getDiscussion"
+import getNotifications from "app/api/queries/Notification/getNotifications"
 import getThreads from "app/api/queries/Thread/getThreads"
 import getUser from "app/api/queries/User/getUser"
 import { CommentService, DiscussionService } from "app/api/services"
@@ -18,9 +19,9 @@ import {
 	IconButton,
 	LoadingOverlay,
 	ModalWindow,
-	Spinner,
 } from "app/core/components"
 import { CommentForm } from "app/core/components/Form/children/CommentForm"
+import { AddUserToPrivateDiscussionModal } from "app/core/components/ModalWindow/children/AddUserToPrivateDiscussionModal"
 import { PreviewableMessage } from "app/core/components/PreviewableMessage/PreviewableMessage"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
@@ -49,6 +50,7 @@ export const DiscussionPage = () => {
 	const router = useRouter()
 	const session = useSession()
 	const discussionId = useParam("discussionId", "number")
+	const [notifications] = useQuery(getNotifications, {})
 	const [discussion, { setQueryData }] = useQuery(
 		getDiscussion,
 		{ id_: discussionId },
@@ -104,6 +106,20 @@ export const DiscussionPage = () => {
 		),
 	}
 
+	const inviteUserToDiscussionModal = {
+		id: getId(modals),
+		title: "Invite user",
+		children: (
+			<AddUserToPrivateDiscussionModal
+				notifications={notifications}
+				discussion={discussion}
+				router={router}
+				session={session}
+				nestingLevel={NESTING_LEVEL}
+			/>
+		),
+	}
+
 	const bellIcon = (
 		<Icon size="sm" href={icons.bell} nestingLevel={NESTING_LEVEL} />
 	)
@@ -118,6 +134,9 @@ export const DiscussionPage = () => {
 	)
 	const hashIcon = (
 		<Icon size="sm" href={icons.hash} nestingLevel={NESTING_LEVEL} />
+	)
+	const personAddIcon = (
+		<Icon size="sm" href={icons.personAdd} nestingLevel={NESTING_LEVEL} />
 	)
 
 	const subscribeButtonText = check.subscribe(discussion, session)
@@ -216,19 +235,32 @@ export const DiscussionPage = () => {
 								>
 									{subscribeButtonText}
 								</Button>
-								<Button
-									key="1"
-									variant="secondary"
-									size="md"
-									leadingIcon={arrowUpIcon}
-									styles={`w30 ${
-										check.upvote(discussion, session) && "active blue-border"
-									}`}
-									onClick={async () => await evaluateDiscussion()}
-								>
-									{discussion.upvotes}
-								</Button>
+								{discussion.voting && (
+									<Button
+										key="1"
+										variant="secondary"
+										size="md"
+										leadingIcon={arrowUpIcon}
+										styles={`w30 ${
+											check.upvote(discussion, session) && "active blue-border"
+										}`}
+										onClick={async () => await evaluateDiscussion()}
+									>
+										{discussion.upvotes}
+									</Button>
+								)}
 							</Fragment>
+						)}
+						{check.invitePermitions(discussion, session) && (
+							<IconButton
+								variant="secondary"
+								size="md"
+								href={icons.personAdd}
+								nestinglevel={NESTING_LEVEL}
+								onClick={() =>
+									addObjectToStore(setModals, inviteUserToDiscussionModal)
+								}
+							/>
 						)}
 						{session.userId === discussion.authorId && (
 							<Link
@@ -244,6 +276,21 @@ export const DiscussionPage = () => {
 									nestinglevel={NESTING_LEVEL}
 								/>
 							</Link>
+						)}
+						{check.private(discussion) && (
+							<IconButton
+								variant="secondary"
+								size="md"
+								href={icons.signOut}
+								nestinglevel={NESTING_LEVEL}
+								onClick={async () => {
+									await discussionService.leave(
+										discussion,
+										session.userId,
+										setQueryData
+									)
+								}}
+							/>
 						)}
 					</div>
 				</div>

@@ -1,13 +1,16 @@
-import { User } from "app/core/types"
+import { User } from "@prisma/client"
 import { BlitzRouter, RouteUrlObject } from "blitz"
-import { DiscussionType } from "../types"
+import { DiscussionType, ObjectType, StoreObjectType } from "../types"
 
-export const addObjectToStore = (setStore: Function, object: object) => {
-	setStore((oldStore: Array<object>) => [...oldStore, object])
+export const addObjectToStore = (
+	setStore: Function,
+	object: StoreObjectType
+) => {
+	setStore((oldStore: StoreObjectType[]) => [...oldStore, object])
 }
 
 export const removeObjectFromStore = (
-	store: Array<object>,
+	store: StoreObjectType[],
 	setStore: Function
 ) => {
 	if (store.length > 0) {
@@ -20,7 +23,7 @@ export const removeObjectFromStore = (
 
 export const deleteObjectFromDb = async (
 	deleteMutation: Function,
-	item: any,
+	item: ObjectType,
 	router: BlitzRouter,
 	route: RouteUrlObject | "",
 	message: string
@@ -61,7 +64,7 @@ export const shortenText = (objectField: string, symbolsCount: number) => {
 export const addObjectToDb = async (
 	createMutation: Function,
 	object: any,
-	router: any,
+	router: BlitzRouter,
 	route: RouteUrlObject | string
 ) => {
 	await createMutation(object)
@@ -100,7 +103,7 @@ export const upvoteDiscussionFunc = async (
 	await setQueryData(updated)
 }
 
-export const getId = (items: Array<object>) => {
+export const getId = (items: Array<ObjectType | StoreObjectType>) => {
 	return items.length === 0 ? 0 : items.length + 1
 }
 
@@ -118,7 +121,7 @@ export const getItemDescription = (description?: string, item?: any) => {
 		: description
 }
 
-export const getSearchItems = (items: any[], query: string) => {
+export const getSearchItems = (items: ObjectType[], query: string) => {
 	return items.filter((item) => {
 		if (query === "") {
 			return item

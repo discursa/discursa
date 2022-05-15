@@ -12,7 +12,7 @@ model User {
   id             String   @id @default(auto()) @map("_id") @db.ObjectId
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
-  name           String?
+  name           String
   email          String   @unique
   hashedPassword String?
   role           String   @default("USER")
@@ -58,9 +58,12 @@ model Discussion {
   id_         Int      @unique
   name        String   @unique
   message     String
+  visibility  String
+  voting      Boolean
   upvotes     Int      @default(0)
   category    String
   authorId    String
+  members     String[]
   vouters     String[]
   subscribers String[]
 }

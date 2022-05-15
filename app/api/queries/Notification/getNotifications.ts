@@ -1,33 +1,10 @@
-import { paginate, resolver } from "blitz"
-import db, { Prisma } from "db"
+import { NotFoundError, resolver } from "blitz"
+import db from "db"
 
-interface GetNotificationsInput
-	extends Pick<
-		Prisma.NotificationFindManyArgs,
-		"where" | "orderBy" | "skip" | "take"
-	> {}
+export default resolver.pipe(resolver.authorize(), async () => {
+	const notifications = await db.notification.findMany()
 
-export default resolver.pipe(
-	resolver.authorize(),
-	async ({ where, orderBy, skip = 0, take = 100 }: GetNotificationsInput) => {
-		const {
-			items: notifications,
-			hasMore,
-			nextPage,
-			count,
-		} = await paginate({
-			skip,
-			take,
-			count: () => db.notification.count({ where }),
-			query: (paginateArgs) =>
-				db.notification.findMany({ ...paginateArgs, where, orderBy }),
-		})
+	if (!notifications) throw new NotFoundError("Notifications not found")
 
-		return {
-			notifications,
-			nextPage,
-			hasMore,
-			count,
-		}
-	}
-)
+	return notifications
+})

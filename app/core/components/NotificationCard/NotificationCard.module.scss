@@ -1,1 +1,34 @@
-.NotificationCard {}
+@import "app/core/styles/scss/1-global/global";
+
+.NotificationCard {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	height: 75px;
+	background: var(--bg-900);
+	border-bottom: 1px solid var(--bg-700);
+	box-sizing: border-box;
+	padding: 1rem;
+	gap: 1rem;
+	&:hover,
+	&:focus {
+		background: var(--bg-800);
+		border-bottom: 1px solid $blue-500;
+		.HiddenButton {
+			display: flex;
+		}
+	}
+	.IconContainer {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 43px;
+		height: 43px;
+		background: var(--bg-800);
+		border-radius: $radius-md;
+	}
+	.HiddenButton {
+		display: none;
+	}
+}

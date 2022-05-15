@@ -8,6 +8,7 @@ import { ButtonNavigation } from "./ButtonNavigation/ButtonNavigation"
 import { CategoryList } from "./CategoryList/CategoryList"
 import { CommentList } from "./CommentList/CommentList"
 import { DiscussionList } from "./DiscussionList/DiscussionList"
+import { AddUserForm } from "./Form/children/AddUserForm"
 import { CommentForm } from "./Form/children/CommentForm"
 import { DiscussionForm } from "./Form/children/DiscussionForm"
 import { ThreadForm } from "./Form/children/ThreadForm"
@@ -23,6 +24,7 @@ import { LabeledTextArea } from "./LabeledTextArea/LabeledTextArea"
 import { LoadingOverlay } from "./LoadingOverlay/LoadingOverlay"
 import { CreateCategoryModal } from "./ModalWindow/children/CreateCategoryModal"
 import { CreateThreadModal } from "./ModalWindow/children/CreateThreadModal"
+import { JoinToPrivateDisussionModal } from "./ModalWindow/children/JoinToDiscussionModal"
 import { UpdateCategoryModal } from "./ModalWindow/children/UpdateCategoryModal"
 import { UpdateThreadModal } from "./ModalWindow/children/UpdateThreadModal"
 import { ModalWindow } from "./ModalWindow/ModalWindow"
@@ -30,6 +32,7 @@ import { Navbar } from "./Navbar/Navbar"
 import { Spinner } from "./Spinner/Spinner"
 
 export {
+	AddUserForm,
 	Alert,
 	Avatar,
 	Box,
@@ -60,4 +63,5 @@ export {
 	ThreadForm,
 	UpdateCategoryModal,
 	UpdateThreadModal,
+	JoinToPrivateDisussionModal,
 }

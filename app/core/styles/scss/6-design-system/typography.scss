@@ -2,72 +2,72 @@
 
 .primary-heading,
 h1 {
-  display: flex;
-  font-size: $primary-heading;
-  color: var(--text-color);
-  font-weight: $black-weight;
-  letter-spacing: 0.01rem;
-  line-height: 1.2rem;
+	display: flex;
+	font-size: $primary-heading;
+	color: var(--text-color);
+	font-weight: $black-weight;
+	letter-spacing: 0.01rem;
+	line-height: 1.2rem;
 }
 
 .secondary-heading,
 h2 {
-  display: flex;
-  font-size: $secondary-heading;
-  color: var(--text-color);
-  font-weight: $bold-weight;
+	display: flex;
+	font-size: $secondary-heading;
+	color: var(--text-color);
+	font-weight: $bold-weight;
 }
 
 .tertiary-heading,
 h3 {
-  display: flex;
-  font-size: $tertiary-heading;
-  color: var(--text-color);
-  font-weight: $medium-weight;
+	display: flex;
+	font-size: $tertiary-heading;
+	color: var(--text-color);
+	font-weight: $medium-weight;
 }
 
 h6 {
-  display: flex;
-  font-size: 12px;
-  color: var(--text-color);
-  font-weight: $regular-weight;
+	display: flex;
+	font-size: 12px;
+	color: var(--text-color);
+	font-weight: $regular-weight;
 }
 
 .pre-text {
-  display: flex;
-  font-size: $pre-text;
-  color: var(--text-color);
-  font-weight: $bold-weight;
-  line-height: 1.8rem;
+	display: flex;
+	font-size: $pre-text;
+	color: var(--text-color);
+	font-weight: $medium-weight;
+	line-height: 1.8rem;
 }
 
 .simple-text,
 p {
-  display: flex;
-  font-size: $simple-text;
-  color: var(--text-color);
-  font-weight: $regular-weight;
-  line-height: 1.8rem;
+	display: flex;
+	font-size: $simple-text;
+	color: var(--text-color);
+	font-weight: $regular-weight;
+	line-height: 1.8rem;
 }
 
 .sub-text {
-  display: flex;
-  font-size: $simple-text;
-  color: var(--bg-400);
-  font-weight: $regular-weight;
-  line-height: 1.2rem;
+	display: flex;
+	font-size: $simple-text;
+	color: var(--bg-400);
+	font-weight: $regular-weight;
+	line-height: 1.2rem;
 }
 
 .code-text,
 code {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--primary-bg);
-  color: var(--sub-text-color);
-  font-family: $nunito;
-  border: 2px solid var(--border-color);
-  border-radius: $radius-sm;
-  padding: 0 0.3rem;
-  box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--primary-bg);
+	color: var(--sub-text-color);
+	font-family: $nunito;
+	border: 2px solid var(--border-color);
+	border-radius: $radius-sm;
+	padding: 0 0.3rem;
+	box-sizing: border-box;
 }

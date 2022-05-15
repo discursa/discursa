@@ -1,36 +1,48 @@
 import getCategories from "app/api/queries/Category/getCategories"
 import getDiscussions from "app/api/queries/Discussion/getDiscussions"
+import { DiscussionService } from "app/api/services"
+import {
+	getPublicDiscussions,
+	getUserPrivateDiscussions,
+} from "app/api/services/functions"
 import {
 	Button,
 	ButtonGroup,
 	DiscussionList,
 	Header,
 	IconButton,
+	JoinToPrivateDisussionModal,
 	LoadingOverlay,
+	ModalWindow,
 	Spinner,
 } from "app/core/components"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
 import { check } from "app/core/modules/Check"
-import { DiscussionType } from "app/core/types"
-import { changeValue } from "app/core/utils/functions"
+import { DiscussionType, ModalWindowType } from "app/core/types"
+import { addObjectToStore, changeValue, getId } from "app/core/utils/functions"
 import { icons } from "app/core/utils/icons"
 import { pages } from "app/core/utils/pages"
 import { BlitzPage, Link, Routes, useQuery, useRouter, useSession } from "blitz"
 import { FC, Fragment, Suspense, useState } from "react"
 
 const NESTING_LEVEL: string = ""
+const discussionService = new DiscussionService()
 
 const DiscussionsPage: FC = () => {
 	const session = useSession()
 	const router = useRouter()
+	const [modals, setModals] = useState<ModalWindowType[]>([])
 	const [discussions] = useQuery(getDiscussions, {})
+	const publicDiscussions = getPublicDiscussions(discussions)
+	const userPrivateDiscussions = getUserPrivateDiscussions(discussions, session)
+	const allDiscussions = [...userPrivateDiscussions, ...publicDiscussions]
 	const [categories] = useQuery(getCategories, {})
 	const [query, setQuery] = useState<string>("")
 	const [top, setTop] = useState<boolean>(false)
 	const [activeCategory, setActiveCategory] = useState<number | null>(null)
 	const [currentDiscussions, setCurrentDiscussions] =
-		useState<DiscussionType[]>(discussions)
+		useState<DiscussionType[]>(allDiscussions)
 	const groupedButtons = [
 		{
 			id: 0,
@@ -56,7 +68,7 @@ const DiscussionsPage: FC = () => {
 
 	const resetCategories = () => {
 		setActiveCategory(null)
-		setCurrentDiscussions(discussions)
+		setCurrentDiscussions(allDiscussions)
 	}
 
 	const changeCategory = (name: string, id: number) => {
@@ -65,6 +77,19 @@ const DiscussionsPage: FC = () => {
 		})
 		setActiveCategory(id)
 		setCurrentDiscussions(categoryDiscussions)
+	}
+
+	const joinToDiscussionModal = {
+		id: getId(modals),
+		title: "Invite user",
+		children: (
+			<JoinToPrivateDisussionModal
+				discussions={discussions}
+				discussionService={discussionService}
+				session={session}
+				router={router}
+			/>
+		),
 	}
 
 	return (
@@ -131,8 +156,16 @@ const DiscussionsPage: FC = () => {
 						disabled={!session}
 						onClick={createDiscussion}
 					>
-						Create
+						New
 					</Button>
+					<IconButton
+						variant="secondary"
+						size="md"
+						name="Join private discussion"
+						href={icons.signIn}
+						nestinglevel={NESTING_LEVEL}
+						onClick={() => addObjectToStore(setModals, joinToDiscussionModal)}
+					/>
 				</div>
 				<DiscussionList
 					discussions={currentDiscussions}
@@ -143,6 +176,17 @@ const DiscussionsPage: FC = () => {
 				/>
 			</div>
 			<div />
+			{modals.map((modal) => (
+				<ModalWindow
+					key={modal.id}
+					title={modal.title}
+					modals={modals}
+					setModals={setModals}
+					nestingLevel={NESTING_LEVEL}
+				>
+					{modal.children}
+				</ModalWindow>
+			))}
 		</Layout>
 	)
 }

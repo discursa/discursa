@@ -1,5 +1,5 @@
 import { ClientSession } from "blitz"
-import { DiscussionType } from "../types"
+import { DiscussionType, ThreadType } from "../types"
 
 interface changesCheck {
 	name: string
@@ -25,6 +25,30 @@ export const check = {
 		return arrayForCheck.some((item) => item.name === item.inintialName)
 	},
 	private(object: any) {
-		return Boolean(object.visibility === "pricate")
+		return Boolean(object.visibility === "Private")
+	},
+	public(object: any) {
+		return Boolean(object.visibility === "Public")
+	},
+	invitePermitions(object: any, session: ClientSession) {
+		if (
+			check.private(object) &&
+			check.author(session, session.userId) &&
+			check.admin(session)
+		) {
+			return true
+		} else {
+			return false
+		}
+	},
+	editPermitions(session: ClientSession) {
+		if (check.admin(session) && check.author(session, session.userId)) {
+			return true
+		} else {
+			return false
+		}
+	},
+	joined(object: DiscussionType | ThreadType, session: ClientSession) {
+		return Boolean(object.members?.includes(session.userId))
 	},
 }
