@@ -150,14 +150,6 @@ const DiscussionsPage: FC = () => {
 						value={query}
 						onChange={(e: any) => changeValue(e, setQuery)}
 					/>
-					<Button
-						variant="primary"
-						size="md"
-						disabled={!session}
-						onClick={createDiscussion}
-					>
-						New
-					</Button>
 					<IconButton
 						variant="secondary"
 						size="md"
@@ -166,6 +158,14 @@ const DiscussionsPage: FC = () => {
 						nestinglevel={NESTING_LEVEL}
 						onClick={() => addObjectToStore(setModals, joinToDiscussionModal)}
 					/>
+					<Button
+						variant="primary"
+						size="md"
+						disabled={!session}
+						onClick={createDiscussion}
+					>
+						New
+					</Button>
 				</div>
 				<DiscussionList
 					discussions={currentDiscussions}

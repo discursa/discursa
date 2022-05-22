@@ -8,6 +8,7 @@ const CreateThread = z.object({
 	visibility: z.string(),
 	members: z.string().array().optional(),
 	parent: z.number(),
+	authorId: z.string(),
 })
 
 export default resolver.pipe(

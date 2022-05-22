@@ -1,7 +1,7 @@
 import { ThreadService } from "app/api/services/Thread/Thread"
 import { DiscussionType, ThreadType } from "app/core/types"
 import { ThreadSchema } from "app/core/validation"
-import { BlitzRouter } from "blitz"
+import { BlitzRouter, ClientSession } from "blitz"
 import { FC } from "react"
 import { ThreadForm } from "../../Form/children/ThreadForm"
 
@@ -11,10 +11,11 @@ interface CreateThreadModalProps {
 	threads: ThreadType[]
 	discussion: DiscussionType
 	router: BlitzRouter
+	session: ClientSession
 }
 
 export const CreateThreadModal: FC<CreateThreadModalProps> = (props) => {
-	const { threads, discussion, router } = props
+	const { threads, discussion, router, session } = props
 
 	return (
 		<ThreadForm
@@ -26,7 +27,7 @@ export const CreateThreadModal: FC<CreateThreadModalProps> = (props) => {
 				visibility: "",
 			}}
 			onSubmit={async (values) => {
-				await threadService.create(threads, values, discussion, router)
+				await threadService.create(threads, values, discussion, router, session)
 			}}
 		/>
 	)
