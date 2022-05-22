@@ -42,3 +42,11 @@ export const getUserPrivateThreads = (
 
 	return userPrivateThreads
 }
+
+export const getThreadById = (threads: ThreadType[], id: string) => {
+	const thread = threads.find((thread) => {
+		return thread.id === id
+	})
+
+	return thread
+}

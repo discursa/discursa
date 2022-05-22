@@ -3,8 +3,9 @@ export interface ThreadType {
 	id_: number
 	name: string
 	visibility: string
-	members?: string[]
+	members: string[]
 	parent: number
+	authorId: string
 	createdAt: Date
 	updatedAt: Date
 }

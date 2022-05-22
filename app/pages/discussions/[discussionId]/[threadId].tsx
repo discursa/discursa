@@ -10,6 +10,7 @@ import {
 	getUserPrivateThreads,
 } from "app/api/services/functions"
 import {
+	Alert,
 	Avatar,
 	Breadcrumbs,
 	Button,
@@ -19,6 +20,7 @@ import {
 	Header,
 	Icon,
 	IconButton,
+	JoinToPrivateThreadModal,
 	LoadingOverlay,
 	ModalWindow,
 	UpdateThreadModal,
@@ -26,7 +28,12 @@ import {
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
 import { check } from "app/core/modules/Check"
-import { CommentType, ModalWindowType, ThreadType } from "app/core/types"
+import {
+	AlertType,
+	CommentType,
+	ModalWindowType,
+	ThreadType,
+} from "app/core/types"
 import {
 	addObjectToStore,
 	getId,
@@ -43,19 +50,21 @@ import {
 	useRouter,
 	useSession,
 } from "blitz"
-import { FC, Fragment, Suspense, useState } from "react"
+import { Fragment, Suspense, useState } from "react"
 
 const NESTING_LEVEL = "../../"
 const threadService = new ThreadService()
 const commentService = new CommentService()
 
-const ThreadPage: FC = () => {
+const ThreadPage = () => {
 	const threadId = useParam("threadId", "number")
 	const router = useRouter()
 	const session = useSession()
 	const [reply, setReply] = useState<boolean>(false)
+	const [alerts, setAlerts] = useState<AlertType[]>([])
 	const [modals, setModals] = useState<ModalWindowType[]>([])
 	const [user] = useQuery(getUserById, {
+		// @ts-ignore
 		id: session.userId,
 	})
 	const [thread, { setQueryData }] = useQuery(
@@ -93,6 +102,7 @@ const ThreadPage: FC = () => {
 				threads={threads}
 				discussion={discussion}
 				router={router}
+				session={session}
 			/>
 		),
 	}
@@ -100,7 +110,31 @@ const ThreadPage: FC = () => {
 	const updateThreadModal = {
 		id: getId(modals),
 		title: "Update thread",
-		children: <UpdateThreadModal thread={thread} setQueryData={setQueryData} />,
+		children: (
+			<UpdateThreadModal
+				thread={thread}
+				setQueryData={setQueryData}
+				router={router}
+			/>
+		),
+	}
+
+	const alreadyMemberAlert: AlertType = {
+		id: getId(alerts),
+		variant: "warning",
+		message: "You have already been member of this thread",
+		iconHref: icons.warning,
+	}
+
+	const joinToThreadModal = {
+		id: getId(modals),
+		title: "Join to private thread",
+		children: (
+			<JoinToPrivateThreadModal
+				threads={threads}
+				pushErrorAlert={() => addObjectToStore(setAlerts, alreadyMemberAlert)}
+			/>
+		),
 	}
 
 	const breadcrumbsItems = [
@@ -138,6 +172,9 @@ const ThreadPage: FC = () => {
 	const gearIcon = (
 		<Icon size="sm" href={icons.gear} nestingLevel={NESTING_LEVEL} />
 	)
+	const signOutIcon = (
+		<Icon size="sm" href={icons.signOut} nestingLevel={NESTING_LEVEL} />
+	)
 
 	return (
 		<Layout
@@ -149,13 +186,22 @@ const ThreadPage: FC = () => {
 			<aside className="w100 col g2">
 				<div className="w100 row aic jcsb">
 					<p className="simple-text">Threads</p>
-					<IconButton
-						variant="tertiary"
-						size="md"
-						href={icons.plus}
-						nestinglevel={NESTING_LEVEL}
-						onClick={() => addObjectToStore(setModals, createThreadModal)}
-					/>
+					<div className="row g1 aic jcfe">
+						<IconButton
+							variant="tertiary"
+							size="md"
+							href={icons.signIn}
+							nestinglevel={NESTING_LEVEL}
+							onClick={() => addObjectToStore(setModals, joinToThreadModal)}
+						/>
+						<IconButton
+							variant="tertiary"
+							size="md"
+							href={icons.plus}
+							nestinglevel={NESTING_LEVEL}
+							onClick={() => addObjectToStore(setModals, createThreadModal)}
+						/>
+					</div>
 				</div>
 				<Link href={`/discussions/${discussion.id_}`}>
 					<Button
@@ -231,6 +277,7 @@ const ThreadPage: FC = () => {
 					<p className="simple-text">Type:</p>
 					<p className="sub-text">{thread.visibility}</p>
 				</div>
+				{/* @ts-ignore */}
 				{check.admin(session) || check.author(session, session.userId) ? (
 					<Button
 						variant="secondary"
@@ -245,7 +292,29 @@ const ThreadPage: FC = () => {
 				) : (
 					""
 				)}
+				<Button
+					variant="danger"
+					size="md"
+					type="submit"
+					styles="w100"
+					leadingIcon={signOutIcon}
+					onClick={async () => {
+						await threadService.leave(thread, session, setQueryData)
+					}}
+				>
+					Leave
+				</Button>
 			</aside>
+			{alerts.map((alert) => (
+				<Alert
+					key={alert.id}
+					variant={alert.variant}
+					message={alert.message}
+					toast={false}
+					nestingLevel={NESTING_LEVEL}
+					iconHref={alert.iconHref}
+				/>
+			))}
 			{modals.map((modal) => (
 				<ModalWindow
 					key={modal.id}

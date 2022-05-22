@@ -21,6 +21,7 @@ import {
 	getDiscussionThreads,
 	getPrivateDisccussionThreads,
 	getUserPrivateThreads,
+	getThreadById,
 } from "./Thread/functions"
 
 export {
@@ -40,4 +41,5 @@ export {
 	getUserSavedNotifications,
 	getUserReadNotifications,
 	getDiscussionById,
+	getThreadById,
 }

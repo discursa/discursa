@@ -10,6 +10,7 @@ import {
 	getUserPrivateThreads,
 } from "app/api/services/functions"
 import {
+	Alert,
 	Breadcrumbs,
 	Button,
 	CommentList,
@@ -17,6 +18,7 @@ import {
 	Header,
 	Icon,
 	IconButton,
+	JoinToPrivateThreadModal,
 	LoadingOverlay,
 	ModalWindow,
 } from "app/core/components"
@@ -26,7 +28,7 @@ import { PreviewableMessage } from "app/core/components/PreviewableMessage/Previ
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
 import { check } from "app/core/modules/Check"
-import { CommentType, ModalWindowType } from "app/core/types"
+import { AlertType, CommentType, ModalWindowType } from "app/core/types"
 import { ThreadType } from "app/core/types/Thread/Thread.types"
 import { addObjectToStore, getId } from "app/core/utils/functions"
 import { icons } from "app/core/utils/icons"
@@ -62,6 +64,7 @@ export const DiscussionPage = () => {
 	const [user] = useQuery(getUser, { id: discussion.authorId })
 	const [comments] = useQuery(getComments, {})
 	const [modals, setModals] = useState<ModalWindowType[]>([])
+	const [alerts, setAlerts] = useState<AlertType[]>([])
 	const discussionComments: CommentType[] = getDiscussionComments(
 		comments,
 		discussion
@@ -102,6 +105,7 @@ export const DiscussionPage = () => {
 				threads={threads}
 				discussion={discussion}
 				router={router}
+				session={session}
 			/>
 		),
 	}
@@ -116,6 +120,24 @@ export const DiscussionPage = () => {
 				router={router}
 				session={session}
 				nestingLevel={NESTING_LEVEL}
+			/>
+		),
+	}
+
+	const alreadyMemberAlert: AlertType = {
+		id: getId(alerts),
+		variant: "warning",
+		message: "You have already been member of this thread",
+		iconHref: icons.warning,
+	}
+
+	const joinToThreadModal = {
+		id: getId(modals),
+		title: "Join to private thread",
+		children: (
+			<JoinToPrivateThreadModal
+				threads={threads}
+				pushErrorAlert={() => addObjectToStore(setAlerts, alreadyMemberAlert)}
 			/>
 		),
 	}
@@ -185,13 +207,22 @@ export const DiscussionPage = () => {
 			<aside className="w100 col g2">
 				<div className="w100 row aic jcsb">
 					<p className="simple-text">Threads</p>
-					<IconButton
-						variant="tertiary"
-						size="md"
-						href={icons.plus}
-						nestinglevel={NESTING_LEVEL}
-						onClick={() => addObjectToStore(setModals, createThreadModal)}
-					/>
+					<div className="row aic jcfe g1">
+						<IconButton
+							variant="tertiary"
+							size="md"
+							href={icons.signIn}
+							nestinglevel={NESTING_LEVEL}
+							onClick={() => addObjectToStore(setModals, joinToThreadModal)}
+						/>
+						<IconButton
+							variant="tertiary"
+							size="md"
+							href={icons.plus}
+							nestinglevel={NESTING_LEVEL}
+							onClick={() => addObjectToStore(setModals, createThreadModal)}
+						/>
+					</div>
 				</div>
 				<Link href={`/discussions/${discussion.id_}`}>
 					<Button
@@ -286,6 +317,7 @@ export const DiscussionPage = () => {
 								onClick={async () => {
 									await discussionService.leave(
 										discussion,
+										// @ts-ignore
 										session.userId,
 										setQueryData
 									)
@@ -330,6 +362,16 @@ export const DiscussionPage = () => {
 					</section>
 				</div>
 			</div>
+			{alerts.map((alert) => (
+				<Alert
+					key={alert.id}
+					variant={alert.variant}
+					message={alert.message}
+					toast={false}
+					nestingLevel={NESTING_LEVEL}
+					iconHref={alert.iconHref}
+				/>
+			))}
 			{modals.map((modal) => (
 				<ModalWindow
 					key={modal.id}
