@@ -31,9 +31,11 @@ import { UpdateThreadModal } from "./ModalWindow/children/UpdateThreadModal"
 import { ModalWindow } from "./ModalWindow/ModalWindow"
 import { Navbar } from "./Navbar/Navbar"
 import { Spinner } from "./Spinner/Spinner"
+import { AddUserToUSerThreadModal } from "./ModalWindow/children/AddUserToPrivateThreadModal"
 
 export {
 	AddUserForm,
+	AddUserToUSerThreadModal,
 	Alert,
 	Avatar,
 	Box,

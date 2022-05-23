@@ -1,5 +1,6 @@
 import getComments from "app/api/queries/Comment/getComments"
 import getDiscussion from "app/api/queries/Discussion/getDiscussion"
+import getNotifications from "app/api/queries/Notification/getNotifications"
 import getThread from "app/api/queries/Thread/getThread"
 import getThreads from "app/api/queries/Thread/getThreads"
 import getUserById from "app/api/queries/User/getUserById"
@@ -10,6 +11,7 @@ import {
 	getUserPrivateThreads,
 } from "app/api/services/functions"
 import {
+	AddUserToUSerThreadModal,
 	Alert,
 	Avatar,
 	Breadcrumbs,
@@ -63,6 +65,7 @@ const ThreadPage = () => {
 	const [reply, setReply] = useState<boolean>(false)
 	const [alerts, setAlerts] = useState<AlertType[]>([])
 	const [modals, setModals] = useState<ModalWindowType[]>([])
+	const [notifications] = useQuery(getNotifications, {})
 	const [user] = useQuery(getUserById, {
 		// @ts-ignore
 		id: session.userId,
@@ -137,6 +140,18 @@ const ThreadPage = () => {
 		),
 	}
 
+	const inviteUserToPrivateThreadModal = {
+		id: getId(modals),
+		title: "Invite user to private thread",
+		children: (
+			<AddUserToUSerThreadModal
+				notifications={notifications}
+				thread={thread}
+				router={router}
+			/>
+		),
+	}
+
 	const breadcrumbsItems = [
 		{
 			id: 0,
@@ -174,6 +189,9 @@ const ThreadPage = () => {
 	)
 	const signOutIcon = (
 		<Icon size="sm" href={icons.signOut} nestingLevel={NESTING_LEVEL} />
+	)
+	const userAddIcon = (
+		<Icon size="sm" href={icons.personAdd} nestingLevel={NESTING_LEVEL} />
 	)
 
 	return (
@@ -279,16 +297,30 @@ const ThreadPage = () => {
 				</div>
 				{/* @ts-ignore */}
 				{check.admin(session) || check.author(session, session.userId) ? (
-					<Button
-						variant="secondary"
-						size="md"
-						type="submit"
-						styles="w100"
-						leadingIcon={gearIcon}
-						onClick={() => addObjectToStore(setModals, updateThreadModal)}
-					>
-						Settings
-					</Button>
+					<Fragment>
+						<Button
+							variant="secondary"
+							size="md"
+							type="submit"
+							styles="w100"
+							leadingIcon={gearIcon}
+							onClick={() => addObjectToStore(setModals, updateThreadModal)}
+						>
+							Settings
+						</Button>
+						<Button
+							variant="secondary"
+							size="md"
+							type="submit"
+							styles="w100"
+							leadingIcon={userAddIcon}
+							onClick={() =>
+								addObjectToStore(setModals, inviteUserToPrivateThreadModal)
+							}
+						>
+							Invite
+						</Button>
+					</Fragment>
 				) : (
 					""
 				)}
