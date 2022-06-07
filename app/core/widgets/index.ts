@@ -1,5 +1,17 @@
+import { CategoriesSidebarWidget } from "./CategoriesSidebarWidget/CategoriesSidebarWidget"
+import { DiscussionAsideWidget } from "./DiscussionAsideWidget/DiscussionAsideWidget"
 import { InboxWidget } from "./Inbox/Inbox"
-import { SavedNotificationsWidget } from "./SavedNotifications/SavedNotifications"
 import { ReadNotificationsWidget } from "./ReadNotifications/ReadNotifications"
+import { SavedNotificationsWidget } from "./SavedNotifications/SavedNotifications"
+import { ThreadAsideWidget } from "./ThreadAsideWidget/ThreadAsideWidget"
+import { ThreadsSidebarWidget } from "./ThreadsSidebarWidget/ThreadsSidebarWidget"
 
-export { InboxWidget, SavedNotificationsWidget, ReadNotificationsWidget }
+export {
+	CategoriesSidebarWidget,
+	InboxWidget,
+	SavedNotificationsWidget,
+	ReadNotificationsWidget,
+	ThreadsSidebarWidget,
+	ThreadAsideWidget,
+	DiscussionAsideWidget,
+}

@@ -1,0 +1,11 @@
+@import "app/core/styles/scss/1-global/global";
+
+.UserList {
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+	width: 100%;
+	min-height: 300px;
+	height: auto;
+	box-sizing: border-box;
+}

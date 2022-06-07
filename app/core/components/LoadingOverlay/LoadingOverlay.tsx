@@ -4,6 +4,6 @@ import styles from "./LoadingOverlay.module.scss"
 
 export const LoadingOverlay: FC = () => (
 	<div className={styles.LoadingOverlay}>
-		<Spinner />
+		<Spinner size="page" />
 	</div>
 )

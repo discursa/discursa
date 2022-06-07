@@ -15,8 +15,8 @@ export const check = {
 			(subscriber) => subscriber === session.userId
 		)
 	},
-	author(session: ClientSession, authorId: string) {
-		return Boolean(session.userId === authorId)
+	author(userId: string, authorId: string) {
+		return Boolean(userId === authorId)
 	},
 	admin(session: ClientSession) {
 		return Boolean(session.role === "ADMIN")
@@ -33,7 +33,7 @@ export const check = {
 	invitePermitions(object: any, session: ClientSession) {
 		if (
 			check.private(object) &&
-			check.author(session, session.userId) &&
+			check.author(session, object.authorId) &&
 			check.admin(session)
 		) {
 			return true
@@ -41,8 +41,8 @@ export const check = {
 			return false
 		}
 	},
-	editPermitions(session: ClientSession) {
-		if (check.admin(session) && check.author(session, session.userId)) {
+	editPermitions(session: ClientSession, object: DiscussionType | ThreadType) {
+		if (check.admin(session) && check.author(session, object.authorId)) {
 			return true
 		} else {
 			return false
