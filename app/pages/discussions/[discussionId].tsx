@@ -6,19 +6,10 @@ import getUser from "app/api/queries/User/getUser"
 import { CommentService, DiscussionService } from "app/api/services"
 import { getDiscussionComments } from "app/api/services/Comment/functions"
 import {
-	getDiscussionThreads,
-	getUserPrivateThreads,
-} from "app/api/services/functions"
-import {
 	Alert,
 	Breadcrumbs,
-	Button,
 	CommentList,
-	CreateThreadModal,
 	Header,
-	Icon,
-	IconButton,
-	JoinToPrivateThreadModal,
 	LoadingOverlay,
 	ModalWindow,
 } from "app/core/components"
@@ -27,12 +18,10 @@ import { AddUserToPrivateDiscussionModal } from "app/core/components/ModalWindow
 import { PreviewableMessage } from "app/core/components/PreviewableMessage/PreviewableMessage"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
-import { check } from "app/core/modules/Check"
 import { AlertType, CommentType, ModalWindowType } from "app/core/types"
-import { ThreadType } from "app/core/types/Thread/Thread.types"
-import { addObjectToStore, getId } from "app/core/utils/functions"
-import { icons } from "app/core/utils/icons"
+import { getId } from "app/core/utils/functions"
 import { CommentSchema } from "app/core/validation"
+import { DiscussionAsideWidget, ThreadsSidebarWidget } from "app/core/widgets"
 import {
 	BlitzPage,
 	Link,
@@ -52,7 +41,6 @@ export const DiscussionPage = () => {
 	const router = useRouter()
 	const session = useSession()
 	const discussionId = useParam("discussionId", "number")
-	const [notifications] = useQuery(getNotifications, {})
 	const [discussion, { setQueryData }] = useQuery(
 		getDiscussion,
 		{ id_: discussionId },
@@ -68,15 +56,6 @@ export const DiscussionPage = () => {
 	const discussionComments: CommentType[] = getDiscussionComments(
 		comments,
 		discussion
-	)
-	const discussionThreads: ThreadType[] = getDiscussionThreads(
-		threads,
-		discussion
-	)
-	const userPrivateThreads: ThreadType[] = getUserPrivateThreads(
-		threads,
-		discussion,
-		session
 	)
 
 	const breadcrumbsItems = [
@@ -97,106 +76,6 @@ export const DiscussionPage = () => {
 		},
 	]
 
-	const createThreadModal = {
-		id: getId(modals),
-		title: "Create thread",
-		children: (
-			<CreateThreadModal
-				threads={threads}
-				discussion={discussion}
-				router={router}
-				session={session}
-			/>
-		),
-	}
-
-	const inviteUserToDiscussionModal = {
-		id: getId(modals),
-		title: "Invite user",
-		children: (
-			<AddUserToPrivateDiscussionModal
-				notifications={notifications}
-				discussion={discussion}
-				router={router}
-				session={session}
-				nestingLevel={NESTING_LEVEL}
-			/>
-		),
-	}
-
-	const alreadyMemberAlert: AlertType = {
-		id: getId(alerts),
-		variant: "warning",
-		message: "You have already been member of this thread",
-		iconHref: icons.warning,
-	}
-
-	const joinToThreadModal = {
-		id: getId(modals),
-		title: "Join to private thread",
-		children: (
-			<JoinToPrivateThreadModal
-				threads={threads}
-				pushErrorAlert={() => addObjectToStore(setAlerts, alreadyMemberAlert)}
-			/>
-		),
-	}
-
-	const bellIcon = (
-		<Icon size="sm" href={icons.bell} nestingLevel={NESTING_LEVEL} />
-	)
-	const slashBellIcon = (
-		<Icon size="sm" href={icons.bellSlash} nestingLevel={NESTING_LEVEL} />
-	)
-	const arrowUpIcon = (
-		<Icon size="md" href={icons.arrowUp} nestingLevel={NESTING_LEVEL} />
-	)
-	const lockIcon = (
-		<Icon size="sm" href={icons.lock} nestingLevel={NESTING_LEVEL} />
-	)
-	const hashIcon = (
-		<Icon size="sm" href={icons.hash} nestingLevel={NESTING_LEVEL} />
-	)
-	const personAddIcon = (
-		<Icon size="sm" href={icons.personAdd} nestingLevel={NESTING_LEVEL} />
-	)
-
-	const subscribeButtonText = check.subscribe(discussion, session)
-		? "Unsubscribe"
-		: "Subscribe"
-
-	const subscribeButtonIcon = check.subscribe(discussion, session)
-		? slashBellIcon
-		: bellIcon
-
-	const getDiscussionNotifications = async () => {
-		if (check.subscribe(discussion, session)) {
-			await discussionService.unsubscribe(
-				discussion,
-				// @ts-ignore
-				session.userId,
-				setQueryData
-			)
-		} else {
-			await discussionService.subscribe(
-				discussion,
-				// @ts-ignore
-				session.userId,
-				setQueryData
-			)
-		}
-	}
-
-	const evaluateDiscussion = async () => {
-		if (!check.upvote(discussion, session)) {
-			// @ts-ignore
-			await discussionService.upvote(discussion, session.userId, setQueryData)
-		} else {
-			// @ts-ignore
-			await discussionService.unvote(discussion, session.userId, setQueryData)
-		}
-	}
-
 	return (
 		<Layout
 			activePage=""
@@ -204,132 +83,19 @@ export const DiscussionPage = () => {
 			pageClass={styles.LayoutBase}
 			nestingLevel={NESTING_LEVEL}
 		>
-			<aside className="w100 col g2">
-				<div className="w100 row aic jcsb">
-					<p className="simple-text">Threads</p>
-					<div className="row aic jcfe g1">
-						<IconButton
-							variant="tertiary"
-							size="md"
-							href={icons.signIn}
-							nestinglevel={NESTING_LEVEL}
-							onClick={() => addObjectToStore(setModals, joinToThreadModal)}
-						/>
-						<IconButton
-							variant="tertiary"
-							size="md"
-							href={icons.plus}
-							nestinglevel={NESTING_LEVEL}
-							onClick={() => addObjectToStore(setModals, createThreadModal)}
-						/>
-					</div>
-				</div>
-				<Link href={`/discussions/${discussion.id_}`}>
-					<Button
-						variant="tertiary"
-						size="md"
-						styles="w100 jcfs"
-						leadingIcon={hashIcon}
-					>
-						General
-					</Button>
-				</Link>
-				{[...userPrivateThreads, ...discussionThreads].map((thread) => (
-					<Link
-						key={thread.id_}
-						href={`/discussions/${discussion.id_}/${thread.id_}`}
-					>
-						<Button
-							variant="tertiary"
-							size="md"
-							styles="w100 jcfs"
-							leadingIcon={check.private(thread) ? lockIcon : hashIcon}
-						>
-							{thread.name}
-						</Button>
-					</Link>
-				))}
-			</aside>
+			<ThreadsSidebarWidget
+				discussion={discussion}
+				nestingLevel={NESTING_LEVEL}
+				modals={modals}
+				alerts={alerts}
+				setAlerts={setAlerts}
+				setModals={setModals}
+				threads={threads}
+				session={session}
+			/>
 			<div className="col g1">
 				<Breadcrumbs items={breadcrumbsItems} />
-				<div className="row aic jcsb w100">
-					<h1>{discussion.name}</h1>
-					<div className="row jcfe aic g1">
-						{session && (
-							<Fragment>
-								<Button
-									key="0"
-									variant="secondary"
-									size="md"
-									leadingIcon={subscribeButtonIcon}
-									onClick={async () => await getDiscussionNotifications()}
-								>
-									{subscribeButtonText}
-								</Button>
-								{discussion.voting && (
-									<Button
-										key="1"
-										variant="secondary"
-										size="md"
-										leadingIcon={arrowUpIcon}
-										styles={`w30 ${
-											check.upvote(discussion, session) && "active blue-border"
-										}`}
-										onClick={async () => await evaluateDiscussion()}
-									>
-										{discussion.upvotes}
-									</Button>
-								)}
-							</Fragment>
-						)}
-						{check.invitePermitions(discussion, session) && (
-							<IconButton
-								variant="secondary"
-								size="md"
-								href={icons.personAdd}
-								nestinglevel={NESTING_LEVEL}
-								onClick={() =>
-									addObjectToStore(setModals, inviteUserToDiscussionModal)
-								}
-							/>
-						)}
-						{session.userId === discussion.authorId && (
-							<Link
-								key="1"
-								href={Routes.EditDiscussionPage({
-									discussionId: discussion.id_,
-								})}
-							>
-								<IconButton
-									variant="secondary"
-									size="md"
-									href={icons.gear}
-									nestinglevel={NESTING_LEVEL}
-								/>
-							</Link>
-						)}
-						{check.private(discussion) && (
-							<IconButton
-								variant="secondary"
-								size="md"
-								href={icons.signOut}
-								nestinglevel={NESTING_LEVEL}
-								onClick={async () => {
-									await discussionService.leave(
-										discussion,
-										// @ts-ignore
-										session.userId,
-										setQueryData
-									)
-								}}
-							/>
-						)}
-					</div>
-				</div>
-				<p className="sub-text bottom-space-sm g1">
-					<Link href={`/${user.name}`}>{user.name}</Link> started this
-					discussion in {discussion.category}
-				</p>
+				<h1 className="bottom-space-sm">{discussion.name}</h1>
 				<PreviewableMessage message={discussion.message} user={user} />
 				<div className="col top-space-sm g2">
 					<CommentList
@@ -362,6 +128,14 @@ export const DiscussionPage = () => {
 					</section>
 				</div>
 			</div>
+			<DiscussionAsideWidget
+				discussion={discussion}
+				nestingLevel={NESTING_LEVEL}
+				setQueryData={setQueryData}
+				modals={modals}
+				setModals={setModals}
+				user={user}
+			/>
 			{alerts.map((alert) => (
 				<Alert
 					key={alert.id}

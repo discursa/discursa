@@ -121,7 +121,7 @@ export const getItemDescription = (description?: string, item?: any) => {
 		: description
 }
 
-export const getSearchItems = (items: ObjectType[], query: string) => {
+export const getSearchItems = (items: any[], query: string) => {
 	return items.filter((item) => {
 		if (query === "") {
 			return item

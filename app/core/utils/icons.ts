@@ -31,4 +31,6 @@ export const icons = {
 	personAdd: "icons/person-add.svg#person-add",
 	signIn: "icons/sign-in.svg#sign-in",
 	signOut: "icons/sign-out.svg#sign-out",
+	people: "icons/people.svg#people",
+	user: "icons/user.svg#user",
 }

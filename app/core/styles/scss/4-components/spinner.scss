@@ -1,21 +1,39 @@
+@import "app/core/styles/scss/1-global/global";
+
+.spinner-sm,
+.spinner-md,
+.spinner-lg,
+.spinner-page {
+	border-radius: 50%;
+	animation: spin 2s linear infinite;
+}
+
 .spinner-sm {
 	width: 30px;
 	height: 30px;
+	border: 2px solid var(--bg-800);
+	border-top: 2px solid var(--bg-400);
 }
 
 .spinner-md {
 	width: 35px;
 	height: 35px;
+	border: 2px solid var(--bg-800);
+	border-top: 2px solid var(--bg-400);
 }
 
 .spinner-lg {
 	width: 40px;
 	height: 40px;
+	border: 3px solid var(--bg-800);
+	border-top: 3px solid var(--bg-400);
 }
 
 .spinner-page {
 	width: 60px;
 	height: 60px;
+	border: 6px solid var(--bg-800);
+	border-top: 6px solid var(--bg-400);
 }
 
 @keyframes spin {

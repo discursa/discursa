@@ -23,6 +23,7 @@ import { DiscussionType, ModalWindowType } from "app/core/types"
 import { addObjectToStore, changeValue, getId } from "app/core/utils/functions"
 import { icons } from "app/core/utils/icons"
 import { pages } from "app/core/utils/pages"
+import { CategoriesSidebarWidget } from "app/core/widgets"
 import { BlitzPage, Link, Routes, useQuery, useRouter, useSession } from "blitz"
 import { FC, Fragment, Suspense, useState } from "react"
 
@@ -37,10 +38,8 @@ const DiscussionsPage: FC = () => {
 	const publicDiscussions = getPublicDiscussions(discussions)
 	const userPrivateDiscussions = getUserPrivateDiscussions(discussions, session)
 	const allDiscussions = [...userPrivateDiscussions, ...publicDiscussions]
-	const [categories] = useQuery(getCategories, {})
 	const [query, setQuery] = useState<string>("")
 	const [top, setTop] = useState<boolean>(false)
-	const [activeCategory, setActiveCategory] = useState<number | null>(null)
 	const [currentDiscussions, setCurrentDiscussions] =
 		useState<DiscussionType[]>(allDiscussions)
 	const groupedButtons = [
@@ -66,22 +65,9 @@ const DiscussionsPage: FC = () => {
 		}
 	}
 
-	const resetCategories = () => {
-		setActiveCategory(null)
-		setCurrentDiscussions(allDiscussions)
-	}
-
-	const changeCategory = (name: string, id: number) => {
-		const categoryDiscussions = discussions.filter((discussion) => {
-			return discussion.category === name
-		})
-		setActiveCategory(id)
-		setCurrentDiscussions(categoryDiscussions)
-	}
-
 	const joinToDiscussionModal = {
 		id: getId(modals),
-		title: "Invite user",
+		title: "Join to private discussion",
 		children: (
 			<JoinToPrivateDisussionModal
 				discussions={discussions}
@@ -99,42 +85,12 @@ const DiscussionsPage: FC = () => {
 			pageClass={styles.LayoutBase}
 			nestingLevel={NESTING_LEVEL}
 		>
-			<aside className="col aifs jcfs g2">
-				<div className="w100 row aic jcsb">
-					<p className="simple-text">Categories</p>
-					{check.admin(session) && (
-						<Link href={Routes.ShowDiscussionCategoriesPage()}>
-							<IconButton
-								variant="tertiary"
-								size="md"
-								href={icons.gear}
-								nestinglevel={NESTING_LEVEL}
-							/>
-						</Link>
-					)}
-				</div>
-				<div className="w100 col g1">
-					<Button
-						variant={activeCategory === null ? "primary" : "tertiary"}
-						size="lg"
-						styles="w100 jcfs"
-						onClick={() => resetCategories()}
-					>
-						View all
-					</Button>
-					{categories.map((category) => (
-						<Button
-							key={category.id_}
-							variant={activeCategory === category.id_ ? "primary" : "tertiary"}
-							size="lg"
-							styles="w100 jcfs"
-							onClick={() => changeCategory(category.name, category.id_)}
-						>
-							{category.name}
-						</Button>
-					))}
-				</div>
-			</aside>
+			<CategoriesSidebarWidget
+				discussions={discussions}
+				allDiscussions={allDiscussions}
+				setCurrentDiscussions={setCurrentDiscussions}
+				nestingLevel={NESTING_LEVEL}
+			/>
 			<div>
 				<div className="w100 row aic jcc g1 bottom-space-md">
 					<ButtonGroup

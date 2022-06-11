@@ -1,5 +1,6 @@
 import getComments from "app/api/queries/Comment/getComments"
 import getDiscussion from "app/api/queries/Discussion/getDiscussion"
+import getNotifications from "app/api/queries/Notification/getNotifications"
 import getThread from "app/api/queries/Thread/getThread"
 import getThreads from "app/api/queries/Thread/getThreads"
 import getUserById from "app/api/queries/User/getUserById"
@@ -10,16 +11,14 @@ import {
 	getUserPrivateThreads,
 } from "app/api/services/functions"
 import {
+	AddUserToUSerThreadModal,
 	Alert,
-	Avatar,
 	Breadcrumbs,
-	Button,
 	CommentForm,
 	CommentList,
 	CreateThreadModal,
 	Header,
 	Icon,
-	IconButton,
 	JoinToPrivateThreadModal,
 	LoadingOverlay,
 	ModalWindow,
@@ -27,23 +26,18 @@ import {
 } from "app/core/components"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
-import { check } from "app/core/modules/Check"
 import {
 	AlertType,
 	CommentType,
 	ModalWindowType,
 	ThreadType,
 } from "app/core/types"
-import {
-	addObjectToStore,
-	getId,
-	getShortenUsername,
-} from "app/core/utils/functions"
+import { addObjectToStore, getId } from "app/core/utils/functions"
 import { icons } from "app/core/utils/icons"
 import { CommentSchema } from "app/core/validation"
+import { ThreadAsideWidget, ThreadsSidebarWidget } from "app/core/widgets"
 import {
 	BlitzPage,
-	Link,
 	Routes,
 	useParam,
 	useQuery,
@@ -63,6 +57,7 @@ const ThreadPage = () => {
 	const [reply, setReply] = useState<boolean>(false)
 	const [alerts, setAlerts] = useState<AlertType[]>([])
 	const [modals, setModals] = useState<ModalWindowType[]>([])
+	const [notifications] = useQuery(getNotifications, {})
 	const [user] = useQuery(getUserById, {
 		// @ts-ignore
 		id: session.userId,
@@ -83,41 +78,7 @@ const ThreadPage = () => {
 	})
 	const [threads] = useQuery(getThreads, {})
 
-	const discussionThreads: ThreadType[] = getDiscussionThreads(
-		threads,
-		discussion
-	)
-	const userPrivateThreads: ThreadType[] = getUserPrivateThreads(
-		threads,
-		discussion,
-		session
-	)
 	const threadComments: CommentType[] = getThreadComments(commets, thread)
-
-	const createThreadModal = {
-		id: getId(modals),
-		title: "Create thread",
-		children: (
-			<CreateThreadModal
-				threads={threads}
-				discussion={discussion}
-				router={router}
-				session={session}
-			/>
-		),
-	}
-
-	const updateThreadModal = {
-		id: getId(modals),
-		title: "Update thread",
-		children: (
-			<UpdateThreadModal
-				thread={thread}
-				setQueryData={setQueryData}
-				router={router}
-			/>
-		),
-	}
 
 	const alreadyMemberAlert: AlertType = {
 		id: getId(alerts),
@@ -163,19 +124,6 @@ const ThreadPage = () => {
 		},
 	]
 
-	const lockIcon = (
-		<Icon size="sm" href={icons.lock} nestingLevel={NESTING_LEVEL} />
-	)
-	const hashIcon = (
-		<Icon size="sm" href={icons.hash} nestingLevel={NESTING_LEVEL} />
-	)
-	const gearIcon = (
-		<Icon size="sm" href={icons.gear} nestingLevel={NESTING_LEVEL} />
-	)
-	const signOutIcon = (
-		<Icon size="sm" href={icons.signOut} nestingLevel={NESTING_LEVEL} />
-	)
-
 	return (
 		<Layout
 			activePage=""
@@ -183,52 +131,16 @@ const ThreadPage = () => {
 			pageClass={styles.LayoutBase}
 			nestingLevel={NESTING_LEVEL}
 		>
-			<aside className="w100 col g2">
-				<div className="w100 row aic jcsb">
-					<p className="simple-text">Threads</p>
-					<div className="row g1 aic jcfe">
-						<IconButton
-							variant="tertiary"
-							size="md"
-							href={icons.signIn}
-							nestinglevel={NESTING_LEVEL}
-							onClick={() => addObjectToStore(setModals, joinToThreadModal)}
-						/>
-						<IconButton
-							variant="tertiary"
-							size="md"
-							href={icons.plus}
-							nestinglevel={NESTING_LEVEL}
-							onClick={() => addObjectToStore(setModals, createThreadModal)}
-						/>
-					</div>
-				</div>
-				<Link href={`/discussions/${discussion.id_}`}>
-					<Button
-						variant="tertiary"
-						size="md"
-						styles="w100 jcfs"
-						leadingIcon={hashIcon}
-					>
-						General
-					</Button>
-				</Link>
-				{[...userPrivateThreads, ...discussionThreads].map((thread) => (
-					<Link
-						key={thread.id_}
-						href={`/discussions/${discussion.id_}/${thread.id_}`}
-					>
-						<Button
-							variant="tertiary"
-							size="md"
-							styles="w100 jcfs"
-							leadingIcon={check.private(thread) ? lockIcon : hashIcon}
-						>
-							{thread.name}
-						</Button>
-					</Link>
-				))}
-			</aside>
+			<ThreadsSidebarWidget
+				discussion={discussion}
+				modals={modals}
+				alerts={alerts}
+				setAlerts={setAlerts}
+				setModals={setModals}
+				threads={threads}
+				session={session}
+				nestingLevel={NESTING_LEVEL}
+			/>
 			<div className="w100 col g2">
 				<Breadcrumbs items={breadcrumbsItems} />
 				<CommentList
@@ -259,52 +171,14 @@ const ThreadPage = () => {
 					}}
 				/>
 			</div>
-			<aside className="w100 col g2 pr-40px box-border">
-				<div className="row aic jcfs">
-					<p className="simple-text right-space-xs">Owner:</p>
-					<Link href={`/${user.name}`}>
-						<a className="row g1">
-							<Avatar
-								type="text"
-								size="sm"
-								shortenName={getShortenUsername(user)}
-							/>
-							{user.name}
-						</a>
-					</Link>
-				</div>
-				<div className="row g1">
-					<p className="simple-text">Type:</p>
-					<p className="sub-text">{thread.visibility}</p>
-				</div>
-				{/* @ts-ignore */}
-				{check.admin(session) || check.author(session, session.userId) ? (
-					<Button
-						variant="secondary"
-						size="md"
-						type="submit"
-						styles="w100"
-						leadingIcon={gearIcon}
-						onClick={() => addObjectToStore(setModals, updateThreadModal)}
-					>
-						Settings
-					</Button>
-				) : (
-					""
-				)}
-				<Button
-					variant="danger"
-					size="md"
-					type="submit"
-					styles="w100"
-					leadingIcon={signOutIcon}
-					onClick={async () => {
-						await threadService.leave(thread, session, setQueryData)
-					}}
-				>
-					Leave
-				</Button>
-			</aside>
+			<ThreadAsideWidget
+				thread={thread}
+				user={user}
+				nestingLevel={NESTING_LEVEL}
+				setQueryData={setQueryData}
+				setModals={setModals}
+				modals={modals}
+			/>
 			{alerts.map((alert) => (
 				<Alert
 					key={alert.id}

@@ -22,6 +22,8 @@ import { LabeledInput } from "./LabeledInput/LabeledInput"
 import { LabeledRadioButton } from "./LabeledRadioButton/LabeledRadioButton"
 import { LabeledTextArea } from "./LabeledTextArea/LabeledTextArea"
 import { LoadingOverlay } from "./LoadingOverlay/LoadingOverlay"
+import { AddUserToUSerThreadModal } from "./ModalWindow/children/AddUserToPrivateThreadModal"
+import { ChangeDiscussionAuthorModal } from "./ModalWindow/children/ChangeDiscussionAuthorModal"
 import { CreateCategoryModal } from "./ModalWindow/children/CreateCategoryModal"
 import { CreateThreadModal } from "./ModalWindow/children/CreateThreadModal"
 import { JoinToPrivateDisussionModal } from "./ModalWindow/children/JoinToDiscussionModal"
@@ -34,6 +36,7 @@ import { Spinner } from "./Spinner/Spinner"
 
 export {
 	AddUserForm,
+	AddUserToUSerThreadModal,
 	Alert,
 	Avatar,
 	Box,
@@ -66,4 +69,5 @@ export {
 	UpdateThreadModal,
 	JoinToPrivateDisussionModal,
 	JoinToPrivateThreadModal,
+	ChangeDiscussionAuthorModal,
 }
