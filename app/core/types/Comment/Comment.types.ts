@@ -6,6 +6,7 @@ export interface CommentType {
 	replierId: string
 	authorId: string
 	parent: number
+	grandParent: number
 	createdAt: Date
 	updatedAt: Date
 }

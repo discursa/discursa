@@ -3,9 +3,11 @@ import { DiscussionService } from "app/api/services"
 import {
 	Alert,
 	Breadcrumbs,
+	DeleteDiscussionModal,
 	DiscussionForm,
 	Header,
 	LoadingOverlay,
+	ModalWindow,
 	Spinner,
 } from "app/core/components"
 import Layout from "app/core/layouts/Layout"
@@ -14,9 +16,10 @@ import {
 	getNothingChangedAlert,
 	getSuccessfullyUpdatedAlert,
 } from "app/core/templates/alert"
-import { AlertType } from "app/core/types"
+import { AlertType, ModalWindowType } from "app/core/types"
 import {
 	addObjectToStore,
+	getId,
 	removeObjectFromStore,
 } from "app/core/utils/functions"
 import { DiscussionSchema } from "app/core/validation"
@@ -30,6 +33,7 @@ export const EditDiscussion = () => {
 	const router = useRouter()
 	const discussionId = useParam("discussionId", "number")
 	const [alerts, setAlerts] = useState<AlertType[]>([])
+	const [modals, setModals] = useState<ModalWindowType[]>([])
 	const [discussion, { setQueryData }] = useQuery(
 		getDiscussion,
 		{
@@ -69,6 +73,12 @@ export const EditDiscussion = () => {
 		"discussion"
 	)
 
+	const deleteDiscussionModal = {
+		id: getId(modals),
+		title: "Are you absolutely sure?",
+		children: <DeleteDiscussionModal discussion={discussion} />,
+	}
+
 	return (
 		<Layout
 			activePage="Discussions"
@@ -92,9 +102,7 @@ export const EditDiscussion = () => {
 						addObjectToStore(setAlerts, successfullyUpdatedAlert)
 					)
 				}
-				onReset={async () => {
-					discussionService.delete(discussion, router)
-				}}
+				onReset={() => addObjectToStore(setModals, deleteDiscussionModal)}
 			/>
 			{alerts.map((alert) => (
 				<Alert
@@ -107,6 +115,17 @@ export const EditDiscussion = () => {
 					styles="bottom-20"
 					remove={() => removeObjectFromStore(alerts, setAlerts)}
 				/>
+			))}
+			{modals.map((modal) => (
+				<ModalWindow
+					key={modal.id}
+					title={modal.title}
+					modals={modals}
+					setModals={setModals}
+					nestingLevel={NESTING_LEVEL}
+				>
+					{modal.children}
+				</ModalWindow>
 			))}
 		</Layout>
 	)

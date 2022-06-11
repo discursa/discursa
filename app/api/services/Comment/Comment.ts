@@ -5,10 +5,6 @@ import { addObjectToDb, deleteObjectFromDb } from "app/core/utils/functions"
 import { BlitzRouter, RouteUrlObject } from "blitz"
 import { DefaultServiceType } from "../types"
 
-interface CommentValuesType {
-	message: string
-}
-
 export class CommentService implements DefaultServiceType {
 	async create(
 		router: BlitzRouter,
@@ -24,10 +20,11 @@ export class CommentService implements DefaultServiceType {
 	}
 	async update() {}
 	async delete(comment: CommentType, router: BlitzRouter) {
-		const message = "This comment will be deleted"
-
 		try {
-			await deleteObjectFromDb(deleteComment, comment, router, "", message)
-		} catch (error: any) {}
+			await deleteObjectFromDb(deleteComment, comment, router, "")
+		} catch (error: any) {
+			console.log(error)
+			throw new Error(error)
+		}
 	}
 }

@@ -120,7 +120,8 @@ export const DiscussionPage = () => {
 										discussion.id_,
 										false,
 										"",
-										session
+										session,
+										discussion
 									)
 								}}
 							/>

@@ -1,39 +1,22 @@
 import getComments from "app/api/queries/Comment/getComments"
 import getDiscussion from "app/api/queries/Discussion/getDiscussion"
-import getNotifications from "app/api/queries/Notification/getNotifications"
 import getThread from "app/api/queries/Thread/getThread"
 import getThreads from "app/api/queries/Thread/getThreads"
 import getUserById from "app/api/queries/User/getUserById"
 import { CommentService, ThreadService } from "app/api/services"
+import { getThreadComments } from "app/api/services/functions"
 import {
-	getDiscussionThreads,
-	getThreadComments,
-	getUserPrivateThreads,
-} from "app/api/services/functions"
-import {
-	AddUserToUSerThreadModal,
 	Alert,
 	Breadcrumbs,
 	CommentForm,
 	CommentList,
-	CreateThreadModal,
 	Header,
-	Icon,
-	JoinToPrivateThreadModal,
 	LoadingOverlay,
 	ModalWindow,
-	UpdateThreadModal,
 } from "app/core/components"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
-import {
-	AlertType,
-	CommentType,
-	ModalWindowType,
-	ThreadType,
-} from "app/core/types"
-import { addObjectToStore, getId } from "app/core/utils/functions"
-import { icons } from "app/core/utils/icons"
+import { AlertType, CommentType, ModalWindowType } from "app/core/types"
 import { CommentSchema } from "app/core/validation"
 import { ThreadAsideWidget, ThreadsSidebarWidget } from "app/core/widgets"
 import {
@@ -57,7 +40,6 @@ const ThreadPage = () => {
 	const [reply, setReply] = useState<boolean>(false)
 	const [alerts, setAlerts] = useState<AlertType[]>([])
 	const [modals, setModals] = useState<ModalWindowType[]>([])
-	const [notifications] = useQuery(getNotifications, {})
 	const [user] = useQuery(getUserById, {
 		// @ts-ignore
 		id: session.userId,
@@ -79,24 +61,6 @@ const ThreadPage = () => {
 	const [threads] = useQuery(getThreads, {})
 
 	const threadComments: CommentType[] = getThreadComments(commets, thread)
-
-	const alreadyMemberAlert: AlertType = {
-		id: getId(alerts),
-		variant: "warning",
-		message: "You have already been member of this thread",
-		iconHref: icons.warning,
-	}
-
-	const joinToThreadModal = {
-		id: getId(modals),
-		title: "Join to private thread",
-		children: (
-			<JoinToPrivateThreadModal
-				threads={threads}
-				pushErrorAlert={() => addObjectToStore(setAlerts, alreadyMemberAlert)}
-			/>
-		),
-	}
 
 	const breadcrumbsItems = [
 		{
@@ -166,7 +130,8 @@ const ThreadPage = () => {
 							thread.id_,
 							false,
 							"",
-							session
+							session,
+							thread
 						)
 					}}
 				/>

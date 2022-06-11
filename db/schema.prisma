@@ -68,15 +68,16 @@ model Discussion {
 }
 
 model Comment {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  message   String   @unique
-  id_       Int      @unique
-  replierId String
-  parent    Int
-  authorId  String
-  type      String
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  message     String   @unique
+  id_         Int      @unique
+  replierId   String
+  parent      Int
+  authorId    String
+  type        String
+  grandParent Int
 }
 
 model Notification {

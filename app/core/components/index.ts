@@ -33,6 +33,7 @@ import { UpdateThreadModal } from "./ModalWindow/children/UpdateThreadModal"
 import { ModalWindow } from "./ModalWindow/ModalWindow"
 import { Navbar } from "./Navbar/Navbar"
 import { Spinner } from "./Spinner/Spinner"
+import { DeleteDiscussionModal } from "./ModalWindow/children/DeleteDiscussionModal"
 
 export {
 	AddUserForm,
@@ -70,4 +71,5 @@ export {
 	JoinToPrivateDisussionModal,
 	JoinToPrivateThreadModal,
 	ChangeDiscussionAuthorModal,
+	DeleteDiscussionModal,
 }

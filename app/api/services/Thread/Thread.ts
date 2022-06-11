@@ -65,7 +65,8 @@ export class ThreadService implements ThreadServiceType {
 		parentId: number,
 		reply: boolean,
 		replierId: string,
-		session: ClientSession
+		session: ClientSession,
+		thread: ThreadType
 	) {
 		const comment = {
 			id_: getId(comments),
@@ -74,6 +75,7 @@ export class ThreadService implements ThreadServiceType {
 			replierId: reply ? replierId : "",
 			authorId: session.userId,
 			type: "thread",
+			grandParent: thread.parent,
 		}
 
 		try {
@@ -84,11 +86,10 @@ export class ThreadService implements ThreadServiceType {
 		}
 	}
 	async delete(thread: ThreadType, router: BlitzRouter) {
-		const message = "This thread will be deleted"
 		const route = Routes.ShowDiscussionPage({ discussionId: thread.parent })
 
 		try {
-			await deleteObjectFromDb(deleteThread, thread, router, route, message)
+			await deleteObjectFromDb(deleteThread, thread, router, route)
 		} catch (error: any) {
 			console.log(error)
 			throw new Error(error)

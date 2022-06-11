@@ -67,12 +67,14 @@ export class DiscussionService implements DiscussionServiceType {
 		parentId: number,
 		reply: boolean,
 		replierId: string,
-		session: ClientSession
+		session: ClientSession,
+		discussion: DiscussionType
 	) {
 		const comment = {
 			id_: getId(comments),
 			message: values.message,
 			parent: parentId,
+			grandParent: discussion.id_,
 			replierId: reply ? replierId : "",
 			authorId: session.userId,
 			type: "discussion",
@@ -123,16 +125,9 @@ export class DiscussionService implements DiscussionServiceType {
 	}
 	async delete(discussion: DiscussionType, router: BlitzRouter) {
 		const route = Routes.ShowDiscussionsPage()
-		const message = "This discussion will be deleted"
 
 		try {
-			await deleteObjectFromDb(
-				deleteDiscussion,
-				discussion,
-				router,
-				route,
-				message
-			)
+			await deleteObjectFromDb(deleteDiscussion, discussion, router, route)
 		} catch (error: any) {
 			console.log(error)
 			throw new Error(error)
