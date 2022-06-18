@@ -234,8 +234,7 @@ export class DiscussionService implements DiscussionServiceType {
 	async leave(
 		discussion: DiscussionType,
 		userId: string,
-		setQueryData: Function,
-		changeAuthorModal: any
+		setQueryData: Function
 	) {
 		const members = removeElementFromArray(discussion.members, userId)
 
@@ -244,16 +243,12 @@ export class DiscussionService implements DiscussionServiceType {
 		}
 
 		try {
-			if (check.author(userId, discussion.authorId)) {
-				changeAuthorModal
-			} else {
-				updateDbObject(
-					leaveDiscussion,
-					discussion.id_,
-					leavedDiscussion,
-					setQueryData
-				)
-			}
+			await updateDbObject(
+				leaveDiscussion,
+				discussion.id_,
+				leavedDiscussion,
+				setQueryData
+			)
 		} catch (error: any) {
 			console.log(error)
 			throw new Error(error)

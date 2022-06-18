@@ -5,7 +5,6 @@ import getThread from "app/api/queries/Thread/getThread"
 import getThreads from "app/api/queries/Thread/getThreads"
 import getUserById from "app/api/queries/User/getUserById"
 import { CommentService, ThreadService } from "app/api/services"
-import { getThreadComments } from "app/api/services/functions"
 import {
 	Alert,
 	Breadcrumbs,
@@ -21,7 +20,6 @@ import styles from "app/core/layouts/Layout.module.scss"
 import {
 	AlertType,
 	CommentFormValuesType,
-	CommentType,
 	ModalWindowType,
 } from "app/core/types"
 import { CommentSchema } from "app/core/validation"

@@ -74,8 +74,12 @@ export const ThreadAsideWidget: FC<ThreadAsideWidgetProps> = (props) => {
 		<Icon size="sm" href={icons.signOut} nestingLevel={nestingLevel} />
 	)
 
+	const peopleIcon = (
+		<Icon size="sm" href={icons.people} nestingLevel={nestingLevel} />
+	)
+
 	return (
-		<aside className="w100 col g2 pr-40px box-border">
+		<aside className="w100 col g1 pr-40px box-border">
 			<div className="row aic jcfs">
 				<p className="simple-text right-space-xs">Owner:</p>
 				<Link href={`/${user.name}`}>
@@ -94,7 +98,25 @@ export const ThreadAsideWidget: FC<ThreadAsideWidgetProps> = (props) => {
 				<p className="sub-text">{thread.visibility}</p>
 			</div>
 			{/* @ts-ignore */}
-			{check.admin(session) || check.author(session, thread.authorId) ? (
+			{check.private && (
+				<Link
+					href={Routes.ShowThreadMembersPage({
+						discussionId: thread.parent,
+						threadId: thread.id_,
+					})}
+				>
+					<Button
+						variant="secondary"
+						size="md"
+						type="submit"
+						styles="w100"
+						leadingicon={peopleIcon}
+					>
+						Members
+					</Button>
+				</Link>
+			)}
+			{check.admin(session) || check.author(session.userId, thread.authorId) ? (
 				<Fragment>
 					<Button
 						variant="secondary"
@@ -129,7 +151,8 @@ export const ThreadAsideWidget: FC<ThreadAsideWidgetProps> = (props) => {
 				styles="w100"
 				leadingicon={signOutIcon}
 				onClick={async () => {
-					await threadService.leave(thread, session, setQueryData)
+					//@ts-ignore
+					await threadService.leave(thread, session.userId, setQueryData)
 				}}
 			>
 				Leave

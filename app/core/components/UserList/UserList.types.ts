@@ -1,29 +1,34 @@
 import { setQueryData } from "blitz"
 import { User } from "@prisma/client"
-import { DiscussionType, ThreadType } from "app/core/types"
+import { DiscussionType, QuestionType, ThreadType } from "app/core/types"
 
 interface ItemUserListProps {
-	users: User[]
+	members: string[]
 	nestingLevel: string
 	setQueryData: Function
 }
 
-interface DiscussionListProps extends ItemUserListProps {
+interface DiscussionListUserProps extends ItemUserListProps {
 	discussion: DiscussionType
 }
 
-interface ThreadListProps extends ItemUserListProps {
+interface ThreadListUserProps extends ItemUserListProps {
 	thread: ThreadType
 }
 
+interface QuestionUserListProps extends ItemUserListProps {
+	question: QuestionType
+}
+
 interface UserListProps extends ItemUserListProps {
-	type: "thread" | "discussion"
+	type: "thread" | "discussion" | "question"
 	object: DiscussionType | ThreadType
 }
 
 export type {
 	ItemUserListProps,
 	UserListProps,
-	DiscussionListProps,
-	ThreadListProps,
+	DiscussionListUserProps,
+	ThreadListUserProps,
+	QuestionUserListProps,
 }

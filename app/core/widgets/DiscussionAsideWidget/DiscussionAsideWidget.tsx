@@ -44,6 +44,10 @@ export const DiscussionAsideWidget: FC<DiscussionAsideWidgetProps> = (
 
 	const discussionService = new DiscussionService()
 
+	const peopleIcon = (
+		<Icon size="sm" href={icons.people} nestingLevel={nestingLevel} />
+	)
+
 	const bellIcon = (
 		<Icon size="sm" href={icons.bell} nestingLevel={nestingLevel} />
 	)
@@ -149,6 +153,23 @@ export const DiscussionAsideWidget: FC<DiscussionAsideWidgetProps> = (
 				<p className="simple-text">Type:</p>
 				<p className="sub-text">{discussion.visibility}</p>
 			</div>
+			{check.private(discussion) && (
+				<Link
+					href={Routes.ShowDiscussionMembersPage({
+						discussionId: discussion.id_,
+					})}
+				>
+					<Button
+						variant="secondary"
+						size="md"
+						type="submit"
+						styles="w100"
+						leadingicon={peopleIcon}
+					>
+						Members
+					</Button>
+				</Link>
+			)}
 			{session && (
 				<Fragment>
 					<Button
@@ -215,8 +236,7 @@ export const DiscussionAsideWidget: FC<DiscussionAsideWidgetProps> = (
 							discussion,
 							// @ts-ignore
 							session.userId,
-							setQueryData,
-							addObjectToStore(setModals, changeAuthorModal)
+							setQueryData
 						)
 					}}
 					styles="w100"

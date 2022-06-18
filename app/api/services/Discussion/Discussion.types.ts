@@ -15,7 +15,6 @@ export interface ValuesType {
 	message: string
 	category: string
 	visibility: string
-	type: string
 	voting: boolean
 }
 
