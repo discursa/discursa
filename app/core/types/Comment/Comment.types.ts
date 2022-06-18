@@ -3,10 +3,14 @@ export interface CommentType {
 	id_: number
 	type: string
 	message: string
-	replierId: string
+	replierId: number | null
 	authorId: string
 	parent: number
 	grandParent: number
 	createdAt: Date
 	updatedAt: Date
+}
+
+export interface CommentFormValuesType {
+	message: string
 }

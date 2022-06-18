@@ -25,17 +25,15 @@ export const deleteObjectFromDb = async (
 	deleteMutation: Function,
 	item: ObjectType,
 	router: BlitzRouter,
-	route: RouteUrlObject | "",
-	
+	route: RouteUrlObject | ""
 ) => {
-		await deleteMutation({
-			id_: item.id_,
-		})
-    if (route !== "") {
-      router.push(route)
-    } else {
-      location.reload()
-    }
+	await deleteMutation({
+		id_: item.id_,
+	})
+	if (route !== "") {
+		router.push(route)
+	} else {
+		location.reload()
 	}
 }
 

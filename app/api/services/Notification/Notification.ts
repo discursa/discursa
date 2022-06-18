@@ -5,7 +5,7 @@ import { NotificationTemplateType } from "app/api/templates/types"
 import { NotificationType } from "app/core/types"
 import {
 	addObjectToDb,
-	removeObjectFromDb,
+	deleteObjectFromDb,
 	updateDbObject,
 } from "app/core/utils/functions"
 import { BlitzRouter, Routes } from "blitz"
@@ -22,16 +22,9 @@ export class NotificationService implements NotificationServiceType {
 	}
 	async delete(notification: NotificationType, router: BlitzRouter) {
 		const route = Routes.ShowInboxPage()
-		const message = "This notification will be deleted"
 
 		try {
-			await removeObjectFromDb(
-				deleteNotification,
-				notification,
-				router,
-				route,
-				message
-			)
+			await deleteObjectFromDb(deleteNotification, notification, router, route)
 		} catch (error: any) {
 			console.log(error)
 			throw new Error(error)

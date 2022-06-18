@@ -9,7 +9,7 @@ const CreateDiscussion = z.object({
 	category: z.string(),
 	upvotes: z.number(),
 	voting: z.boolean(),
-	members: z.string().array(),
+	members: z.any().array(),
 	visibility: z.string(),
 	authorId: z.string(),
 })

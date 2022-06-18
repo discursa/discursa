@@ -30,8 +30,6 @@ interface DiscussionAsideWidgetProps {
 	user: User
 }
 
-const discussionService = new DiscussionService()
-
 export const DiscussionAsideWidget: FC<DiscussionAsideWidgetProps> = (
 	props
 ) => {
@@ -43,6 +41,8 @@ export const DiscussionAsideWidget: FC<DiscussionAsideWidgetProps> = (
 
 	const session = useSession()
 	const router = useRouter()
+
+	const discussionService = new DiscussionService()
 
 	const bellIcon = (
 		<Icon size="sm" href={icons.bell} nestingLevel={nestingLevel} />

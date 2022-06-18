@@ -10,6 +10,7 @@ import {
 	getPrivateDiscussions,
 	getPublicDiscussions,
 	getUserPrivateDiscussions,
+	getDiscussionCommentsLength,
 } from "./Discussion/functions"
 import {
 	getUserInboxNotifications,
@@ -23,6 +24,7 @@ import {
 	getUserPrivateThreads,
 	getThreadById,
 } from "./Thread/functions"
+import { getDiscussionQuestions } from "./Question/functions"
 
 export {
 	getPrivateDisccussionThreads,
@@ -42,4 +44,6 @@ export {
 	getUserReadNotifications,
 	getDiscussionById,
 	getThreadById,
+	getDiscussionCommentsLength,
+	getDiscussionQuestions,
 }

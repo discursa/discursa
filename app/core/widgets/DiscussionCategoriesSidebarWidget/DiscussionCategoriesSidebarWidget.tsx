@@ -6,16 +6,16 @@ import { icons } from "app/core/utils/icons"
 import { Link, Routes, useQuery, useSession } from "blitz"
 import { FC, useState } from "react"
 
-interface CategoriesSidebarWidgetProps {
+interface DiscussionCategoriesSidebarWidgetProps {
 	discussions: DiscussionType[]
 	allDiscussions: DiscussionType[]
 	setCurrentDiscussions: Function
 	nestingLevel: string
 }
 
-export const CategoriesSidebarWidget: FC<CategoriesSidebarWidgetProps> = (
-	props
-) => {
+export const DiscussionCategoriesSidebarWidget: FC<
+	DiscussionCategoriesSidebarWidgetProps
+> = (props) => {
 	const { discussions, allDiscussions, setCurrentDiscussions, nestingLevel } =
 		props
 

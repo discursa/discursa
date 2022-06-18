@@ -1,0 +1,13 @@
+@import "app/core/styles/scss/1-global/global";
+
+.Pagination {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: row;
+	width: 100%;
+	height: auto;
+	gap: 1rem;
+	padding: 0.5rem 0;
+	box-sizing: border-box;
+}

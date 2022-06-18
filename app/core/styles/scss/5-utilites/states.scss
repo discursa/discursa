@@ -185,3 +185,11 @@ a {
 .pr-40px {
 	padding: 0 40px 0 0;
 }
+
+.bg-800 {
+	background: var(--bg-800);
+}
+
+.hover-bg-900:hover {
+	background: var(--bg-900);
+}

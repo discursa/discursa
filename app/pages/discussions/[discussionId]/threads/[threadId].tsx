@@ -1,4 +1,5 @@
 import getComments from "app/api/queries/Comment/getComments"
+import getPaginatedComments from "app/api/queries/Comment/getPaginatedComments"
 import getDiscussion from "app/api/queries/Discussion/getDiscussion"
 import getThread from "app/api/queries/Thread/getThread"
 import getThreads from "app/api/queries/Thread/getThreads"
@@ -14,14 +15,21 @@ import {
 	LoadingOverlay,
 	ModalWindow,
 } from "app/core/components"
+import { ITEMS_PER_PAGE } from "app/core/constants"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
-import { AlertType, CommentType, ModalWindowType } from "app/core/types"
+import {
+	AlertType,
+	CommentFormValuesType,
+	CommentType,
+	ModalWindowType,
+} from "app/core/types"
 import { CommentSchema } from "app/core/validation"
 import { ThreadAsideWidget, ThreadsSidebarWidget } from "app/core/widgets"
 import {
 	BlitzPage,
 	Routes,
+	usePaginatedQuery,
 	useParam,
 	useQuery,
 	useRouter,
@@ -37,6 +45,7 @@ const ThreadPage = () => {
 	const threadId = useParam("threadId", "number")
 	const router = useRouter()
 	const session = useSession()
+	const page = Number(router.query.page) || 0
 	const [reply, setReply] = useState<boolean>(false)
 	const [alerts, setAlerts] = useState<AlertType[]>([])
 	const [modals, setModals] = useState<ModalWindowType[]>([])
@@ -53,14 +62,22 @@ const ThreadPage = () => {
 			staleTime: Infinity,
 		}
 	)
-	const [commets] = useQuery(getComments, {})
+	const [{ paginatedComments, hasMore }, { isPreviousData }] =
+		usePaginatedQuery(getPaginatedComments, {
+			where: {
+				parent: threadId,
+				type: "question",
+			},
+			orderBy: { id_: "asc" },
+			skip: ITEMS_PER_PAGE * page,
+			take: ITEMS_PER_PAGE,
+		})
+	const [comments] = useQuery(getComments, {})
 
 	const [discussion] = useQuery(getDiscussion, {
 		id_: thread.parent,
 	})
 	const [threads] = useQuery(getThreads, {})
-
-	const threadComments: CommentType[] = getThreadComments(commets, thread)
 
 	const breadcrumbsItems = [
 		{
@@ -88,6 +105,18 @@ const ThreadPage = () => {
 		},
 	]
 
+	const commentThread = async (values: CommentFormValuesType) => {
+		await threadService.comment(
+			comments,
+			router,
+			values,
+			thread.id_,
+			null,
+			session,
+			thread
+		)
+	}
+
 	return (
 		<Layout
 			activePage=""
@@ -98,17 +127,16 @@ const ThreadPage = () => {
 			<ThreadsSidebarWidget
 				discussion={discussion}
 				modals={modals}
-				alerts={alerts}
-				setAlerts={setAlerts}
 				setModals={setModals}
 				threads={threads}
 				session={session}
 				nestingLevel={NESTING_LEVEL}
+				questions={[]}
 			/>
 			<div className="w100 col g2">
 				<Breadcrumbs items={breadcrumbsItems} />
 				<CommentList
-					comments={threadComments}
+					comments={paginatedComments}
 					session={session}
 					reply={reply}
 					editComment={async () => {
@@ -116,6 +144,11 @@ const ThreadPage = () => {
 					}}
 					setReply={setReply}
 					nestingLevel={NESTING_LEVEL}
+					type="thread"
+					parent={thread}
+					page={page}
+					isPreviousData={isPreviousData}
+					hasMore={hasMore}
 				/>
 				<CommentForm
 					className="w100 g1"
@@ -123,16 +156,7 @@ const ThreadPage = () => {
 					schema={CommentSchema}
 					initialValues={{ message: "" }}
 					onSubmit={async (values) => {
-						await threadService.comment(
-							threadComments,
-							router,
-							values,
-							thread.id_,
-							false,
-							"",
-							session,
-							thread
-						)
+						await commentThread(values)
 					}}
 				/>
 			</div>

@@ -4,7 +4,7 @@ import { z } from "zod"
 
 const LeaveDiscussion = z.object({
 	id_: z.number(),
-	members: z.string().array(),
+	members: z.any().array(),
 })
 
 export default resolver.pipe(

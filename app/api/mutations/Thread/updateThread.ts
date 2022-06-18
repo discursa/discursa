@@ -5,6 +5,7 @@ import { z } from "zod"
 const UpdateThread = z.object({
 	id_: z.number(),
 	name: z.string(),
+	visibility: z.string(),
 })
 
 export default resolver.pipe(

@@ -24,7 +24,6 @@ import {
 	ValuesType,
 } from "./Discussion.types"
 
-const commentService = new CommentService()
 export class DiscussionService implements DiscussionServiceType {
 	async create(
 		values: ValuesType,
@@ -65,8 +64,7 @@ export class DiscussionService implements DiscussionServiceType {
 		router: BlitzRouter,
 		values: CommentValuesType,
 		parentId: number,
-		reply: boolean,
-		replierId: string,
+		replierId: number | null,
 		session: ClientSession,
 		discussion: DiscussionType
 	) {
@@ -75,10 +73,12 @@ export class DiscussionService implements DiscussionServiceType {
 			message: values.message,
 			parent: parentId,
 			grandParent: discussion.id_,
-			replierId: reply ? replierId : "",
+			replierId: replierId,
 			authorId: session.userId,
 			type: "discussion",
 		}
+
+		const commentService = new CommentService()
 
 		try {
 			await commentService.create(router, "", comment)

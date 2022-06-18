@@ -29,11 +29,6 @@ export const Navbar: FC<NavbarProps> = (props) => {
 			name: "Discussions",
 			route: userRoutes.discussions,
 		},
-		{
-			id: 2,
-			name: "Questions",
-			route: userRoutes.questions,
-		},
 	]
 
 	const navbarButtons = [

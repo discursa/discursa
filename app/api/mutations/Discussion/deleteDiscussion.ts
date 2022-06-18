@@ -12,6 +12,10 @@ export default resolver.pipe(
 	async ({ id_ }) => {
 		await db.comment.deleteMany({ where: { parent: id_, type: "discussion" } })
 		await db.comment.deleteMany({ where: { grandParent: id_, type: "thread" } })
+		await db.comment.deleteMany({
+			where: { grandParent: id_, type: "question" },
+		})
+		await db.question.deleteMany({ where: { parent: id_ } })
 		await db.thread.deleteMany({ where: { parent: id_ } })
 		const discussion = await db.discussion.deleteMany({ where: { id_ } })
 

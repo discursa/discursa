@@ -1,3 +1,5 @@
+import { Accordion } from "app/core/components/Accordion/Accordion"
+import { QuestionsAccordion } from "./Accordion/children/QuestionAccordion"
 import { Alert } from "./Alert/Alert"
 import { Avatar } from "./Avatar/Avatar"
 import { Box } from "./Box/Box"
@@ -26,6 +28,7 @@ import { AddUserToUSerThreadModal } from "./ModalWindow/children/AddUserToPrivat
 import { ChangeDiscussionAuthorModal } from "./ModalWindow/children/ChangeDiscussionAuthorModal"
 import { CreateCategoryModal } from "./ModalWindow/children/CreateCategoryModal"
 import { CreateThreadModal } from "./ModalWindow/children/CreateThreadModal"
+import { DeleteDiscussionModal } from "./ModalWindow/children/DeleteDiscussionModal"
 import { JoinToPrivateDisussionModal } from "./ModalWindow/children/JoinToDiscussionModal"
 import { JoinToPrivateThreadModal } from "./ModalWindow/children/JoinToPrivateThreadModal"
 import { UpdateCategoryModal } from "./ModalWindow/children/UpdateCategoryModal"
@@ -33,7 +36,10 @@ import { UpdateThreadModal } from "./ModalWindow/children/UpdateThreadModal"
 import { ModalWindow } from "./ModalWindow/ModalWindow"
 import { Navbar } from "./Navbar/Navbar"
 import { Spinner } from "./Spinner/Spinner"
-import { DeleteDiscussionModal } from "./ModalWindow/children/DeleteDiscussionModal"
+import { ThreadAccordion } from "./Accordion/children/ThreadAccordion"
+import { CreateQuestionModal } from "./ModalWindow/children/CreateQuestionModal"
+import { Pagination } from "./Pagination/Pagination"
+import { DeleteQuestionModal } from "./ModalWindow/children/DeleteQuestionModal"
 
 export {
 	AddUserForm,
@@ -72,4 +78,10 @@ export {
 	JoinToPrivateThreadModal,
 	ChangeDiscussionAuthorModal,
 	DeleteDiscussionModal,
+	QuestionsAccordion,
+	Accordion,
+	ThreadAccordion,
+	CreateQuestionModal,
+	Pagination,
+	DeleteQuestionModal,
 }

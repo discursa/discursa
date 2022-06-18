@@ -1,6 +1,4 @@
-import getCategories from "app/api/queries/Category/getCategories"
 import getDiscussions from "app/api/queries/Discussion/getDiscussions"
-import { DiscussionService } from "app/api/services"
 import {
 	getPublicDiscussions,
 	getUserPrivateDiscussions,
@@ -14,21 +12,18 @@ import {
 	JoinToPrivateDisussionModal,
 	LoadingOverlay,
 	ModalWindow,
-	Spinner,
 } from "app/core/components"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
-import { check } from "app/core/modules/Check"
 import { DiscussionType, ModalWindowType } from "app/core/types"
 import { addObjectToStore, changeValue, getId } from "app/core/utils/functions"
 import { icons } from "app/core/utils/icons"
 import { pages } from "app/core/utils/pages"
-import { CategoriesSidebarWidget } from "app/core/widgets"
-import { BlitzPage, Link, Routes, useQuery, useRouter, useSession } from "blitz"
+import { DiscussionCategoriesSidebarWidget } from "app/core/widgets"
+import { BlitzPage, Routes, useQuery, useRouter, useSession } from "blitz"
 import { FC, Fragment, Suspense, useState } from "react"
 
 const NESTING_LEVEL: string = ""
-const discussionService = new DiscussionService()
 
 const DiscussionsPage: FC = () => {
 	const session = useSession()
@@ -71,7 +66,6 @@ const DiscussionsPage: FC = () => {
 		children: (
 			<JoinToPrivateDisussionModal
 				discussions={discussions}
-				discussionService={discussionService}
 				session={session}
 				router={router}
 			/>
@@ -85,7 +79,7 @@ const DiscussionsPage: FC = () => {
 			pageClass={styles.LayoutBase}
 			nestingLevel={NESTING_LEVEL}
 		>
-			<CategoriesSidebarWidget
+			<DiscussionCategoriesSidebarWidget
 				discussions={discussions}
 				allDiscussions={allDiscussions}
 				setCurrentDiscussions={setCurrentDiscussions}

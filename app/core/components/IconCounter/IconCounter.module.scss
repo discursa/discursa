@@ -1,0 +1,16 @@
+@import "app/core/styles/scss/1-global/global";
+
+.IconCounter {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: row;
+	width: 50px;
+	height: 30px;
+	background: var(--bg-700);
+	border-radius: $radius-md;
+	font-size: $simple-text;
+	color: var(--bg-400);
+	box-sizing: border-box;
+	gap: 0.5rem;
+}

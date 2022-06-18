@@ -7,7 +7,7 @@ const CreateComment = z.object({
 	message: z.string(),
 	parent: z.number(),
 	grandParent: z.number(),
-	replierId: z.string(),
+	replierId: z.number().nullable(),
 	authorId: z.string(),
 	type: z.string(),
 })

@@ -1,5 +1,5 @@
 import { check } from "app/core/modules/Check"
-import { DiscussionType } from "app/core/types"
+import { CommentType, DiscussionType } from "app/core/types"
 import { ClientSession } from "blitz"
 
 const getPrivateDiscussions = (discussions: DiscussionType[]) => {
@@ -25,6 +25,7 @@ const getUserPrivateDiscussions = (
 	const privateDiscussions = getPrivateDiscussions(discussions)
 
 	const userPrivateDiscussions = privateDiscussions.filter((discussions) => {
+		// @ts-ignore
 		return discussions.members.includes(session.userId)
 	})
 
@@ -39,9 +40,30 @@ const getDiscussionById = (discussions: DiscussionType[], id: string) => {
 	return discussion
 }
 
+const getDiscussionCommentsLength = (
+	discussion: DiscussionType,
+	comments: CommentType[]
+) => {
+	const discussionGeneralComments = comments.filter((comment) => {
+		return comment.parent === discussion.id_ && comment.type === "discussion"
+	})
+
+	const discussionThreadsComments = comments.filter((comment) => {
+		return comment.grandParent === discussion.id_ && comment.type === "thread"
+	})
+
+	const discussionComments = [
+		...discussionGeneralComments,
+		...discussionThreadsComments,
+	]
+
+	return discussionComments.length
+}
+
 export {
 	getPrivateDiscussions,
 	getPublicDiscussions,
 	getUserPrivateDiscussions,
 	getDiscussionById,
+	getDiscussionCommentsLength,
 }

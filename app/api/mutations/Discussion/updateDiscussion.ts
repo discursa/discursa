@@ -7,6 +7,7 @@ const UpdateDiscussion = z.object({
 	name: z.string(),
 	message: z.string(),
 	category: z.string(),
+	visibility: z.string(),
 })
 
 export default resolver.pipe(

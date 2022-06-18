@@ -114,8 +114,8 @@
 		border: $red-border;
 	}
 	&:disabled {
-		background: var(--bg-800);
-		color: $red-600;
-		border: 1px solid var(--bg-600);
+		background: var(--bg-700);
+		color: $red-500;
+		border: 1px solid var(--bg-500);
 	}
 }

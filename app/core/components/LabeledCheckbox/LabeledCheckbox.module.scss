@@ -11,6 +11,8 @@
 	border-radius: $radius-md;
 	box-sizing: border-box;
 	.IconSm {
+		width: 16px;
+		height: 16px;
 		color: var(--bg-900);
 	}
 }
