@@ -46,7 +46,7 @@ export const check = {
 		session: ClientSession,
 		object: DiscussionType | ThreadType | QuestionType
 	) {
-		if (check.admin(session) && check.author(session, object.authorId)) {
+		if (check.admin(session) && check.author(session.userId, object.authorId)) {
 			return true
 		} else {
 			return false
@@ -56,6 +56,7 @@ export const check = {
 		object: DiscussionType | ThreadType | QuestionType,
 		session: ClientSession
 	) {
+		// @ts-ignore
 		return Boolean(object.members?.includes(session.userId))
 	},
 }

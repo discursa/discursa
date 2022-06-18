@@ -8,10 +8,12 @@ export const Pagination: FC<PaginationProps> = (props) => {
 	const { page, hasMore, isPreviousData } = props
 	const router = useRouter()
 
+	// @ts-ignore
 	const goToPreviousPage = () => router.push({ query: { page: page - 1 } })
 
 	const goToNextPage = () => {
 		if (!isPreviousData && hasMore) {
+			// @ts-ignore
 			router.push({ query: { page: page + 1 } })
 		}
 	}
