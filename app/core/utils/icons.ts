@@ -33,4 +33,6 @@ export const icons = {
 	signOut: "icons/sign-out.svg#sign-out",
 	people: "icons/people.svg#people",
 	user: "icons/user.svg#user",
+	comment: "icons/comment.svg#comment",
+	chevronDown: "icons/chevron-down.svg#chevron-down",
 }

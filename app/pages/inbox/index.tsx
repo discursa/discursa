@@ -27,7 +27,7 @@ const InboxPage: FC = () => {
 		{
 			id: 0,
 			name: "Inbox",
-			leadingIcon: (
+			leadingicon: (
 				<Icon size="md" href={icons.inbox} nestingLevel={NESTING_LEVEL} />
 			),
 			styles: "jcfs w100",
@@ -38,7 +38,7 @@ const InboxPage: FC = () => {
 		{
 			id: 1,
 			name: "Saved",
-			leadingIcon: (
+			leadingicon: (
 				<Icon size="md" href={icons.bookmark} nestingLevel={NESTING_LEVEL} />
 			),
 			styles: "jcfs w100",
@@ -49,7 +49,7 @@ const InboxPage: FC = () => {
 		{
 			id: 2,
 			name: "Read",
-			leadingIcon: (
+			leadingicon: (
 				<Icon size="md" href={icons.check} nestingLevel={NESTING_LEVEL} />
 			),
 			styles: "jcfs w100",

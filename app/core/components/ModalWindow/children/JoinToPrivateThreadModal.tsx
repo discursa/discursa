@@ -14,12 +14,11 @@ interface Values {
 	code: string
 }
 
-const threadService = new ThreadService()
-
 export const JoinToPrivateThreadModal: FC<JoinToThreadModalProps> = (props) => {
 	const { threads, pushErrorAlert } = props
 	const session = useSession()
 	const [error, setError] = useState(false)
+	const threadService = new ThreadService()
 
 	const submitRequest = async (values: Values) => {
 		const thread = getThreadById(threads, values.code)
@@ -42,7 +41,7 @@ export const JoinToPrivateThreadModal: FC<JoinToThreadModalProps> = (props) => {
 					await submitRequest(values)
 				}}
 			/>
-			{error && <p className="red top-space-sm">Code isn't valid</p>}
+			{error && <p className="red top-space-sm">Code isn&apos;t valid</p>}
 		</Fragment>
 	)
 }

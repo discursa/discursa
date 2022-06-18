@@ -1,3 +1,4 @@
+import { DiscussionService } from "app/api/services"
 import { DiscussionServiceType } from "app/api/services/Discussion/Discussion.types"
 import { getDiscussionById } from "app/api/services/functions"
 import { check } from "app/core/modules/Check"
@@ -10,14 +11,14 @@ interface JoinToPrivateDisussionModal {
 	discussions: DiscussionType[]
 	session: ClientSession
 	router: BlitzRouter
-	discussionService: DiscussionServiceType
 }
 
 export const JoinToPrivateDisussionModal: FC<JoinToPrivateDisussionModal> = (
 	props
 ) => {
-	const { discussions, session, router, discussionService } = props
+	const { discussions, session, router } = props
 	const [error, setError] = useState(false)
+	const discussionService = new DiscussionService()
 
 	return (
 		<Fragment>
@@ -36,6 +37,7 @@ export const JoinToPrivateDisussionModal: FC<JoinToPrivateDisussionModal> = (
 						setError(false)
 						await discussionService.join(
 							discussion,
+							// @ts-ignore
 							session.userId,
 							setQueryData
 						)
@@ -47,7 +49,7 @@ export const JoinToPrivateDisussionModal: FC<JoinToPrivateDisussionModal> = (
 			/>
 			{error && (
 				<p className="red top-space-sm">
-					Code isn't valid or you has already joined this discusion
+					Code isn&apos;t valid or you has already joined this discusion
 				</p>
 			)}
 		</Fragment>

@@ -4,7 +4,7 @@ import { icons } from "../utils/icons"
 
 export const getNothingChangedAlert = (
 	alerts: AlertType[],
-	item: "discussion"
+	item: "discussion" | "thread" | "question"
 ) => {
 	return {
 		id: getId(alerts),
@@ -16,7 +16,7 @@ export const getNothingChangedAlert = (
 
 export const getSuccessfullyUpdatedAlert = (
 	alerts: AlertType[],
-	item: "discussion"
+	item: "discussion" | "thread" | "question"
 ) => {
 	return {
 		id: getId(alerts),

@@ -1,6 +1,8 @@
 import getComments from "app/api/queries/Comment/getComments"
+import getPaginatedComments from "app/api/queries/Comment/getPaginatedComments"
 import getDiscussion from "app/api/queries/Discussion/getDiscussion"
 import getNotifications from "app/api/queries/Notification/getNotifications"
+import getQuestions from "app/api/queries/Question/getQuestions"
 import getThreads from "app/api/queries/Thread/getThreads"
 import getUser from "app/api/queries/User/getUser"
 import { CommentService, DiscussionService } from "app/api/services"
@@ -16,9 +18,15 @@ import {
 import { CommentForm } from "app/core/components/Form/children/CommentForm"
 import { AddUserToPrivateDiscussionModal } from "app/core/components/ModalWindow/children/AddUserToPrivateDiscussionModal"
 import { PreviewableMessage } from "app/core/components/PreviewableMessage/PreviewableMessage"
+import { ITEMS_PER_PAGE } from "app/core/constants"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
-import { AlertType, CommentType, ModalWindowType } from "app/core/types"
+import {
+	AlertType,
+	CommentFormValuesType,
+	CommentType,
+	ModalWindowType,
+} from "app/core/types"
 import { getId } from "app/core/utils/functions"
 import { CommentSchema } from "app/core/validation"
 import { DiscussionAsideWidget, ThreadsSidebarWidget } from "app/core/widgets"
@@ -26,6 +34,7 @@ import {
 	BlitzPage,
 	Link,
 	Routes,
+	usePaginatedQuery,
 	useParam,
 	useQuery,
 	useRouter,
@@ -40,23 +49,31 @@ const commentService = new CommentService()
 export const DiscussionPage = () => {
 	const router = useRouter()
 	const session = useSession()
+	const page = Number(router.query.page) || 0
 	const discussionId = useParam("discussionId", "number")
 	const [discussion, { setQueryData }] = useQuery(
 		getDiscussion,
 		{ id_: discussionId },
 		{ staleTime: Infinity }
 	)
+	const [{ paginatedComments, hasMore }, { isPreviousData }] =
+		usePaginatedQuery(getPaginatedComments, {
+			where: {
+				parent: discussionId,
+				type: "discussion",
+			},
+			orderBy: { id_: "asc" },
+			skip: ITEMS_PER_PAGE * page,
+			take: ITEMS_PER_PAGE,
+		})
 	const [threads] = useQuery(getThreads, {})
 	const [reply, setReply] = useState<boolean>(false)
 	// @ts-ignore
 	const [user] = useQuery(getUser, { id: discussion.authorId })
+	const [questions] = useQuery(getQuestions, {})
 	const [comments] = useQuery(getComments, {})
 	const [modals, setModals] = useState<ModalWindowType[]>([])
 	const [alerts, setAlerts] = useState<AlertType[]>([])
-	const discussionComments: CommentType[] = getDiscussionComments(
-		comments,
-		discussion
-	)
 
 	const breadcrumbsItems = [
 		{
@@ -76,6 +93,18 @@ export const DiscussionPage = () => {
 		},
 	]
 
+	const commentDiscussion = async (values: CommentFormValuesType) => {
+		await discussionService.comment(
+			comments,
+			router,
+			values,
+			discussion.id_,
+			null,
+			session,
+			discussion
+		)
+	}
+
 	return (
 		<Layout
 			activePage=""
@@ -87,46 +116,40 @@ export const DiscussionPage = () => {
 				discussion={discussion}
 				nestingLevel={NESTING_LEVEL}
 				modals={modals}
-				alerts={alerts}
-				setAlerts={setAlerts}
 				setModals={setModals}
 				threads={threads}
 				session={session}
+				questions={questions}
 			/>
 			<div className="col g1">
 				<Breadcrumbs items={breadcrumbsItems} />
 				<h1 className="bottom-space-sm">{discussion.name}</h1>
 				<PreviewableMessage message={discussion.message} user={user} />
-				<div className="col top-space-sm g2">
-					<CommentList
-						comments={discussionComments}
-						session={session}
-						nestingLevel={NESTING_LEVEL}
-						editComment={async () => await commentService.update()}
-						reply={reply}
-						setReply={setReply}
-					/>
-					<section className={styles.MessageForm}>
-						{session && (
-							<CommentForm
-								className="w100 g1"
-								submitText="Create"
-								schema={CommentSchema}
-								onSubmit={async (values) => {
-									await discussionService.comment(
-										comments,
-										router,
-										values,
-										discussion.id_,
-										false,
-										"",
-										session
-									)
-								}}
-							/>
-						)}
-					</section>
-				</div>
+				<CommentList
+					comments={paginatedComments}
+					session={session}
+					nestingLevel={NESTING_LEVEL}
+					editComment={async () => await commentService.update()}
+					reply={reply}
+					setReply={setReply}
+					type="discussion"
+					parent={discussion}
+					page={page}
+					isPreviousData={isPreviousData}
+					hasMore={hasMore}
+				/>
+				<section className={styles.MessageForm}>
+					{session && (
+						<CommentForm
+							className="w100 g1"
+							submitText="Create"
+							schema={CommentSchema}
+							onSubmit={async (values) => {
+								await commentDiscussion(values)
+							}}
+						/>
+					)}
+				</section>
 			</div>
 			<DiscussionAsideWidget
 				discussion={discussion}

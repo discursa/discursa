@@ -1,36 +1,35 @@
 @import "app/core/styles/scss/1-global/global";
 
 .DiscussionCard {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-direction: row;
-  width: 100%;
-  height: 80px;
-  background: var(--bg-900);
-  border-radius: $radius-xl;
-  border: 1px solid var(--bg-600);
-  box-sizing: border-box;
-  padding: 0.5rem;
-  gap: 1rem;
-  cursor: pointer;
-
-  .IconContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 60px;
-    height: 60px;
-    background: var(--bg-800);
-    border-radius: $radius-md;
-  }
-  &:hover {
-    border: $blue-border;
-    background: var(--bg-800);
-    border-bottom: 1px solid $blue-500;
-  }
-  &:focus {
-    border: $blue-border;
-    box-shadow: $focus;
-  }
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: row;
+	width: 100%;
+	height: 80px;
+	background: var(--bg-900);
+	border-radius: $radius-xl;
+	border: 1px solid var(--bg-600);
+	box-sizing: border-box;
+	padding: 0.5rem;
+	gap: 1rem;
+	cursor: pointer;
+	.IconContainer {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 60px;
+		height: 60px;
+		background: var(--bg-800);
+		border-radius: $radius-md;
+	}
+	&:hover {
+		border: $blue-border;
+		background: var(--bg-800);
+		border-bottom: 1px solid $blue-500;
+	}
+	&:focus {
+		border: $blue-border;
+		box-shadow: $focus;
+	}
 }

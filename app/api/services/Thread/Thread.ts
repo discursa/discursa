@@ -21,8 +21,6 @@ interface ValuesType {
 	visibility: string
 }
 
-const commentService = new CommentService()
-
 export class ThreadService implements ThreadServiceType {
 	async create(
 		threads: ThreadType[],
@@ -63,18 +61,21 @@ export class ThreadService implements ThreadServiceType {
 		router: BlitzRouter,
 		values: CommentValuesType,
 		parentId: number,
-		reply: boolean,
-		replierId: string,
-		session: ClientSession
+		replierId: number | null,
+		session: ClientSession,
+		thread: ThreadType
 	) {
 		const comment = {
 			id_: getId(comments),
 			message: values.message,
 			parent: parentId,
-			replierId: reply ? replierId : "",
+			replierId: replierId,
 			authorId: session.userId,
 			type: "thread",
+			grandParent: thread.parent,
 		}
+
+		const commentService = new CommentService()
 
 		try {
 			await commentService.create(router, "", comment)
@@ -84,11 +85,13 @@ export class ThreadService implements ThreadServiceType {
 		}
 	}
 	async delete(thread: ThreadType, router: BlitzRouter) {
-		const message = "This thread will be deleted"
 		const route = Routes.ShowDiscussionPage({ discussionId: thread.parent })
+		const message = "This thread will be deleted"
 
 		try {
-			await deleteObjectFromDb(deleteThread, thread, router, route, message)
+			if (window.confirm(message)) {
+				await deleteObjectFromDb(deleteThread, thread, router, route)
+			}
 		} catch (error: any) {
 			console.log(error)
 			throw new Error(error)

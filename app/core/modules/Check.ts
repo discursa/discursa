@@ -1,5 +1,5 @@
 import { ClientSession } from "blitz"
-import { DiscussionType, ThreadType } from "../types"
+import { DiscussionType, QuestionType, ThreadType } from "../types"
 
 interface changesCheck {
 	name: string
@@ -15,14 +15,14 @@ export const check = {
 			(subscriber) => subscriber === session.userId
 		)
 	},
-	author(userId: string, authorId: string) {
+	author(userId: string | null, authorId: string) {
 		return Boolean(userId === authorId)
 	},
 	admin(session: ClientSession) {
 		return Boolean(session.role === "ADMIN")
 	},
 	changes(arrayForCheck: changesCheck[]) {
-		return arrayForCheck.some((item) => item.name === item.inintialName)
+		return arrayForCheck.some((item) => item.name === item.initialName)
 	},
 	private(object: any) {
 		return Boolean(object.visibility === "Private")
@@ -33,7 +33,8 @@ export const check = {
 	invitePermitions(object: any, session: ClientSession) {
 		if (
 			check.private(object) &&
-			check.author(session, object.authorId) &&
+			// @ts-ignore
+			check.author(session.userId, object.authorId) &&
 			check.admin(session)
 		) {
 			return true
@@ -41,14 +42,20 @@ export const check = {
 			return false
 		}
 	},
-	editPermitions(session: ClientSession, object: DiscussionType | ThreadType) {
+	editPermitions(
+		session: ClientSession,
+		object: DiscussionType | ThreadType | QuestionType
+	) {
 		if (check.admin(session) && check.author(session, object.authorId)) {
 			return true
 		} else {
 			return false
 		}
 	},
-	joined(object: DiscussionType | ThreadType, session: ClientSession) {
+	joined(
+		object: DiscussionType | ThreadType | QuestionType,
+		session: ClientSession
+	) {
 		return Boolean(object.members?.includes(session.userId))
 	},
 }

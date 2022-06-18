@@ -24,7 +24,6 @@ import {
 	ValuesType,
 } from "./Discussion.types"
 
-const commentService = new CommentService()
 export class DiscussionService implements DiscussionServiceType {
 	async create(
 		values: ValuesType,
@@ -65,18 +64,21 @@ export class DiscussionService implements DiscussionServiceType {
 		router: BlitzRouter,
 		values: CommentValuesType,
 		parentId: number,
-		reply: boolean,
-		replierId: string,
-		session: ClientSession
+		replierId: number | null,
+		session: ClientSession,
+		discussion: DiscussionType
 	) {
 		const comment = {
 			id_: getId(comments),
 			message: values.message,
 			parent: parentId,
-			replierId: reply ? replierId : "",
+			grandParent: discussion.id_,
+			replierId: replierId,
 			authorId: session.userId,
 			type: "discussion",
 		}
+
+		const commentService = new CommentService()
 
 		try {
 			await commentService.create(router, "", comment)
@@ -123,16 +125,9 @@ export class DiscussionService implements DiscussionServiceType {
 	}
 	async delete(discussion: DiscussionType, router: BlitzRouter) {
 		const route = Routes.ShowDiscussionsPage()
-		const message = "This discussion will be deleted"
 
 		try {
-			await deleteObjectFromDb(
-				deleteDiscussion,
-				discussion,
-				router,
-				route,
-				message
-			)
+			await deleteObjectFromDb(deleteDiscussion, discussion, router, route)
 		} catch (error: any) {
 			console.log(error)
 			throw new Error(error)

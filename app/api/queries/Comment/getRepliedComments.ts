@@ -3,7 +3,7 @@ import db from "db"
 import { z } from "zod"
 
 const GetRepliedComments = z.object({
-	replierId: z.string(),
+	replierId: z.number(),
 })
 
 export default resolver.pipe(

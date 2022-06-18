@@ -30,8 +30,6 @@ interface DiscussionAsideWidgetProps {
 	user: User
 }
 
-const discussionService = new DiscussionService()
-
 export const DiscussionAsideWidget: FC<DiscussionAsideWidgetProps> = (
 	props
 ) => {
@@ -43,6 +41,8 @@ export const DiscussionAsideWidget: FC<DiscussionAsideWidgetProps> = (
 
 	const session = useSession()
 	const router = useRouter()
+
+	const discussionService = new DiscussionService()
 
 	const bellIcon = (
 		<Icon size="sm" href={icons.bell} nestingLevel={nestingLevel} />
@@ -155,7 +155,7 @@ export const DiscussionAsideWidget: FC<DiscussionAsideWidgetProps> = (
 						key="0"
 						variant="secondary"
 						size="md"
-						leadingIcon={subscribeButtonIcon}
+						leadingicon={subscribeButtonIcon}
 						styles="w100"
 						onClick={async () => await getDiscussionNotifications()}
 					>
@@ -166,7 +166,7 @@ export const DiscussionAsideWidget: FC<DiscussionAsideWidgetProps> = (
 							key="1"
 							variant="secondary"
 							size="md"
-							leadingIcon={arrowUpIcon}
+							leadingicon={arrowUpIcon}
 							styles={`w100 ${
 								check.upvote(discussion, session) && "active blue-border"
 							}`}
@@ -200,7 +200,7 @@ export const DiscussionAsideWidget: FC<DiscussionAsideWidgetProps> = (
 						variant="secondary"
 						size="md"
 						styles="w100"
-						leadingIcon={gearIcon}
+						leadingicon={gearIcon}
 					>
 						Settings
 					</Button>
@@ -220,7 +220,7 @@ export const DiscussionAsideWidget: FC<DiscussionAsideWidgetProps> = (
 						)
 					}}
 					styles="w100"
-					leadingIcon={signOutIcon}
+					leadingicon={signOutIcon}
 				>
 					Leave
 				</Button>

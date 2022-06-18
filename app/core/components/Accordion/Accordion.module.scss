@@ -1,0 +1,39 @@
+@import "app/core/styles/scss/1-global/global";
+
+.Accordion {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	width: 100%;
+	min-height: 50px;
+	height: auto;
+	background: var(--bg-800);
+	border: 1px solid var(--bg-700);
+	border-radius: $radius-md;
+	box-sizing: border-box;
+	padding: 0.5rem;
+	&:hover {
+		border: 1px solid var(--bg-500);
+	}
+	&:focus-within {
+		box-shadow: $focus;
+	}
+	.RotatedIcon {
+		transform: rotate(180deg);
+	}
+	.Content {
+		display: none;
+		overflow: hidden;
+	}
+	.ShowContent {
+		display: flex;
+		align-items: flex-start;
+		justify-content: flex-start;
+		flex-direction: column;
+		width: 100%;
+		height: auto;
+		margin: 0.5rem 0;
+		gap: 1rem;
+	}
+}

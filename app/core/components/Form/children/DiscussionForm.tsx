@@ -66,7 +66,6 @@ export function DiscussionForm<S extends z.ZodType<any, any>>(
 					label="Allow voting at this discussion"
 					labelProps={radioButtonLabelProps}
 					outerProps={outerProps}
-					nestingLevel="../"
 				/>
 			</div>
 		</Form>
