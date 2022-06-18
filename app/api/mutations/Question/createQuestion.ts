@@ -7,6 +7,7 @@ const CreateQuestion = z.object({
 	name: z.string(),
 	description: z.string(),
 	visibility: z.string(),
+	members: z.string().array(),
 	authorId: z.string(),
 	parent: z.number(),
 })

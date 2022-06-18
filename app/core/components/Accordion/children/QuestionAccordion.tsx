@@ -114,7 +114,7 @@ const CompactQuestionList: FC<CompactQuestionsListProps> = (props) => {
 						variant="tertiary"
 						size="md"
 						styles="w100 jcfs bg-800 hover-bg-900"
-						leadingIcon={check.private(question) ? lockIcon : questionIcon}
+						leadingicon={check.private(question) ? lockIcon : questionIcon}
 					>
 						{question.name}
 					</Button>

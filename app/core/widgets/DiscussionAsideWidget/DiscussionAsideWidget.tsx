@@ -155,7 +155,7 @@ export const DiscussionAsideWidget: FC<DiscussionAsideWidgetProps> = (
 						key="0"
 						variant="secondary"
 						size="md"
-						leadingIcon={subscribeButtonIcon}
+						leadingicon={subscribeButtonIcon}
 						styles="w100"
 						onClick={async () => await getDiscussionNotifications()}
 					>
@@ -166,7 +166,7 @@ export const DiscussionAsideWidget: FC<DiscussionAsideWidgetProps> = (
 							key="1"
 							variant="secondary"
 							size="md"
-							leadingIcon={arrowUpIcon}
+							leadingicon={arrowUpIcon}
 							styles={`w100 ${
 								check.upvote(discussion, session) && "active blue-border"
 							}`}
@@ -200,7 +200,7 @@ export const DiscussionAsideWidget: FC<DiscussionAsideWidgetProps> = (
 						variant="secondary"
 						size="md"
 						styles="w100"
-						leadingIcon={gearIcon}
+						leadingicon={gearIcon}
 					>
 						Settings
 					</Button>
@@ -220,7 +220,7 @@ export const DiscussionAsideWidget: FC<DiscussionAsideWidgetProps> = (
 						)
 					}}
 					styles="w100"
-					leadingIcon={signOutIcon}
+					leadingicon={signOutIcon}
 				>
 					Leave
 				</Button>

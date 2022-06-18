@@ -1,3 +1,5 @@
+import { User } from "@prisma/client"
+
 interface QuestionType {
 	id: string
 	id_: number
@@ -8,6 +10,7 @@ interface QuestionType {
 	authorId: string
 	answerId: string
 	parent: number
+	members: string[]
 	createdAt: Date
 	updatedAt: Date
 }

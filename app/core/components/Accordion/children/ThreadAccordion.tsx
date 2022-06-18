@@ -132,7 +132,7 @@ const CompactThreadList: FC<CompactThreadListProps> = (props) => {
 						variant="tertiary"
 						size="md"
 						styles="w100 jcfs bg-800 hover-bg-900"
-						leadingIcon={check.private(thread) ? lockIcon : hashIcon}
+						leadingicon={check.private(thread) ? lockIcon : hashIcon}
 					>
 						{thread.name}
 					</Button>

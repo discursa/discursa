@@ -101,7 +101,7 @@ export const ThreadAsideWidget: FC<ThreadAsideWidgetProps> = (props) => {
 						size="md"
 						type="submit"
 						styles="w100"
-						leadingIcon={gearIcon}
+						leadingicon={gearIcon}
 						onClick={() => addObjectToStore(setModals, updateThreadModal)}
 					>
 						Settings
@@ -111,7 +111,7 @@ export const ThreadAsideWidget: FC<ThreadAsideWidgetProps> = (props) => {
 						size="md"
 						type="submit"
 						styles="w100"
-						leadingIcon={userAddIcon}
+						leadingicon={userAddIcon}
 						onClick={() =>
 							addObjectToStore(setModals, inviteUserToPrivateThreadModal)
 						}
@@ -127,7 +127,7 @@ export const ThreadAsideWidget: FC<ThreadAsideWidgetProps> = (props) => {
 				size="md"
 				type="submit"
 				styles="w100"
-				leadingIcon={signOutIcon}
+				leadingicon={signOutIcon}
 				onClick={async () => {
 					await threadService.leave(thread, session, setQueryData)
 				}}

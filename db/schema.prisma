@@ -68,9 +68,10 @@ model Discussion {
   upvotes     Int      @default(0)
   category    String
   authorId    String
-  members     User[]
+  members     String[]
   vouters     String[]
   subscribers String[]
+  User        User[]
 }
 
 model Comment {
@@ -113,9 +114,10 @@ model Thread {
   id_        Int      @unique
   name       String   @unique
   visibility String
-  members    User[]
+  members    String[]
   parent     Int
   authorId   String
+  User       User[]
 }
 
 model Question {
@@ -130,5 +132,6 @@ model Question {
   authorId    String
   answerId    String   @default("")
   parent      Int
-  members     User[]
+  members     String[]
+  User        User[]
 }

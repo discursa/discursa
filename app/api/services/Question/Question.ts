@@ -1,6 +1,7 @@
 import answerQuestion from "app/api/mutations/Question/answerQuestion"
 import createQuestion from "app/api/mutations/Question/createQuestion"
 import deleteQuestion from "app/api/mutations/Question/deleteQuestion"
+import joinQuestion from "app/api/mutations/Question/joinQuestion"
 import updateQuestion from "app/api/mutations/Question/updateQuestion"
 import { check } from "app/core/modules/Check"
 import {
@@ -13,6 +14,7 @@ import {
 	addObjectToDb,
 	deleteObjectFromDb,
 	getId,
+	removeElementFromArray,
 	updateDbObject,
 } from "app/core/utils/functions"
 import { BlitzRouter, ClientSession, Routes } from "blitz"
@@ -35,6 +37,7 @@ export class QuestionService implements QuestionServiceType {
 			description: values.description,
 			visibility: values.visibility,
 			authorId: session.userId,
+			members: values.visibility === "Private" ? [session.userId] : [],
 			parent: discussion.id_,
 		}
 		a
@@ -140,6 +143,45 @@ export class QuestionService implements QuestionServiceType {
 
 		try {
 			await commentService.create(router, "", comment)
+		} catch (error: any) {
+			console.log(error)
+			throw new Error(error)
+		}
+	}
+	async join(question: QuestionType, userId: string, setQueryData: Function) {
+		const joinedQuestion = {
+			members: [...question.members, userId],
+		}
+
+		try {
+			await updateDbObject(
+				joinQuestion,
+				question.id_,
+				joinedQuestion,
+				setQueryData
+			)
+		} catch (error: any) {
+			console.log(error)
+			throw new Error(error)
+		}
+	}
+
+	async leave(
+		question: QuestionType,
+		session: ClientSession,
+		setQueryData: Function
+	) {
+		const leavedQuestion = {
+			members: removeElementFromArray(question.members, session.userId),
+		}
+
+		try {
+			await updateDbObject(
+				joinQuestion,
+				question.id_,
+				leavedQuestion,
+				setQueryData
+			)
 		} catch (error: any) {
 			console.log(error)
 			throw new Error(error)

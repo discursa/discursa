@@ -2,17 +2,17 @@ import { resolver } from "blitz"
 import db from "db"
 import { z } from "zod"
 
-const JoinDiscussion = z.object({
+const ChangeAuthor = z.object({
 	id_: z.number(),
-	members: z.string().array(),
+	authorId: z.string(),
 })
 
 export default resolver.pipe(
-	resolver.zod(JoinDiscussion),
+	resolver.zod(ChangeAuthor),
 	resolver.authorize(),
 	async ({ id_, ...data }) => {
-		const discussion = await db.discussion.update({ where: { id_ }, data })
+		const question = await db.question.updateMany({ where: { id_ }, data })
 
-		return discussion
+		return question
 	}
 )

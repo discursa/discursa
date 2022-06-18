@@ -178,7 +178,7 @@ const QuestionPage: FC = () => {
 				/>
 				<CommentForm
 					className="w100 g1"
-					submitText="Create"
+					submitText="Send"
 					schema={CommentSchema}
 					initialValues={{ message: "" }}
 					onSubmit={async (values) => {
@@ -190,6 +190,8 @@ const QuestionPage: FC = () => {
 				question={question}
 				nestingLevel={NESTING_LEVEL}
 				session={session}
+				modals={modals}
+				setModals={setModals}
 			/>
 			{modals.map((modal) => (
 				<ModalWindow

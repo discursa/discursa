@@ -10,6 +10,7 @@ export default resolver.pipe(
 	resolver.zod(DeleteComment),
 	resolver.authorize(),
 	async ({ id_ }) => {
+		await db.comment.deleteMany({ where: { replierId: id_ } })
 		const comment = await db.comment.deleteMany({ where: { id_ } })
 
 		return comment
