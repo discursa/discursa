@@ -35,4 +35,7 @@ export const icons = {
 	user: "icons/user.svg#user",
 	comment: "icons/comment.svg#comment",
 	chevronDown: "icons/chevron-down.svg#chevron-down",
+	thumbsUp: "icons/thumbsup.svg#thumbsup",
+	thumbsDown: "icons/thumbsdown.svg#thumbsdown",
+	circleSlash: "icons/circle-slash.svg#circle-slash",
 }

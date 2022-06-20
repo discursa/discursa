@@ -7,30 +7,33 @@ interface changesCheck {
 }
 
 export const check = {
-	upvote(discussion: DiscussionType, session: ClientSession) {
-		return discussion.vouters.some((vouter) => vouter === session.userId)
+	upvote(discussion: DiscussionType, session: ClientSession): boolean {
+		return discussion.upvoters.some((vouter) => vouter === session.userId)
 	},
-	subscribe(discussion: DiscussionType, session: ClientSession) {
+	unvote(discussion: DiscussionType, session: ClientSession): boolean {
+		return discussion.unvoters.some((vouter) => vouter === session.userId)
+	},
+	subscribe(discussion: DiscussionType, session: ClientSession): boolean {
 		return discussion.subscribers.some(
 			(subscriber) => subscriber === session.userId
 		)
 	},
-	author(userId: string | null, authorId: string) {
+	author(userId: string | null, authorId: string): boolean {
 		return Boolean(userId === authorId)
 	},
-	admin(session: ClientSession) {
+	admin(session: ClientSession): boolean {
 		return Boolean(session.role === "ADMIN")
 	},
-	changes(arrayForCheck: changesCheck[]) {
+	changes(arrayForCheck: changesCheck[]): boolean {
 		return arrayForCheck.some((item) => item.name === item.initialName)
 	},
-	private(object: any) {
+	private(object: any): boolean {
 		return Boolean(object.visibility === "Private")
 	},
-	public(object: any) {
+	public(object: any): boolean {
 		return Boolean(object.visibility === "Public")
 	},
-	invitePermitions(object: any, session: ClientSession) {
+	invitePermitions(object: any, session: ClientSession): boolean {
 		if (
 			check.private(object) &&
 			// @ts-ignore
@@ -45,7 +48,7 @@ export const check = {
 	editPermitions(
 		session: ClientSession,
 		object: DiscussionType | ThreadType | QuestionType
-	) {
+	): boolean {
 		if (check.admin(session) && check.author(session.userId, object.authorId)) {
 			return true
 		} else {
@@ -55,7 +58,7 @@ export const check = {
 	joined(
 		object: DiscussionType | ThreadType | QuestionType,
 		session: ClientSession
-	) {
+	): boolean {
 		// @ts-ignore
 		return Boolean(object.members?.includes(session.userId))
 	},

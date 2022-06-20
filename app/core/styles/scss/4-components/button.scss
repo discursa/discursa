@@ -84,6 +84,11 @@
 	&:focus {
 		box-shadow: $focus;
 	}
+	&:disabled {
+		background: var(--bg-600);
+		border: 1px solid var(--bg-500);
+		color: var(--bg-300);
+	}
 }
 
 .tertiary-btn-sm,

@@ -8,9 +8,11 @@ import { CommentService, ThreadService } from "app/api/services"
 import {
 	Alert,
 	Breadcrumbs,
+	Button,
 	CommentForm,
 	CommentList,
 	Header,
+	InfoBlock,
 	LoadingOverlay,
 	ModalWindow,
 } from "app/core/components"
@@ -22,10 +24,16 @@ import {
 	CommentFormValuesType,
 	ModalWindowType,
 } from "app/core/types"
+import { icons } from "app/core/utils/icons"
 import { CommentSchema } from "app/core/validation"
-import { ThreadAsideWidget, ThreadsSidebarWidget } from "app/core/widgets"
+import {
+	ThreadAsideWidget,
+	ThreadsSidebarWidget,
+	UserBannedWidget,
+} from "app/core/widgets"
 import {
 	BlitzPage,
+	Link,
 	Routes,
 	usePaginatedQuery,
 	useParam,
@@ -115,7 +123,10 @@ const ThreadPage = () => {
 		)
 	}
 
-	return (
+	// @ts-ignore
+	return thread.banned.includes(session.userId) ? (
+		<UserBannedWidget nestingLevel={NESTING_LEVEL} />
+	) : (
 		<Layout
 			activePage=""
 			pageTitle={thread.name}

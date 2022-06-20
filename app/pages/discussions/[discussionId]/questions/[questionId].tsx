@@ -6,12 +6,13 @@ import getQuestions from "app/api/queries/Question/getQuestions"
 import getThreads from "app/api/queries/Thread/getThreads"
 import getUserById from "app/api/queries/User/getUserById"
 import { CommentService, QuestionService } from "app/api/services"
-import { getQuestionComments } from "app/api/services/Comment/functions"
 import {
 	Breadcrumbs,
+	Button,
 	CommentForm,
 	CommentList,
 	Header,
+	InfoBlock,
 	LoadingOverlay,
 	ModalWindow,
 } from "app/core/components"
@@ -20,10 +21,16 @@ import { ITEMS_PER_PAGE } from "app/core/constants"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
 import { CommentFormValuesType, ModalWindowType } from "app/core/types"
+import { icons } from "app/core/utils/icons"
 import { CommentSchema } from "app/core/validation"
-import { QuestionAsideWidget, ThreadsSidebarWidget } from "app/core/widgets"
+import {
+	QuestionAsideWidget,
+	ThreadsSidebarWidget,
+	UserBannedWidget,
+} from "app/core/widgets"
 import {
 	BlitzPage,
+	Link,
 	Routes,
 	usePaginatedQuery,
 	useParam,
@@ -124,7 +131,10 @@ const QuestionPage: FC = () => {
 		return comment.id !== question.answerId
 	})
 
-	return (
+	// @ts-ignore
+	return question.banned.includes(session.userId) ? (
+		<UserBannedWidget nestingLevel={NESTING_LEVEL} />
+	) : (
 		<Layout
 			activePage="Discussions"
 			pageTitle={question.name}

@@ -11,6 +11,7 @@ import { UserList } from "app/core/components/UserList/UserList"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
 import { icons } from "app/core/utils/icons"
+import { UserHasntPermitionsWidget } from "app/core/widgets"
 import { BlitzPage, Link, Routes, useParam, useQuery } from "blitz"
 import { FC, Fragment, Suspense } from "react"
 
@@ -67,7 +68,9 @@ const QuestionMembersPage: FC = () => {
 		},
 	]
 
-	return (
+	return question.visibility === "Public" ? (
+		<UserHasntPermitionsWidget nestingLevel={NESTING_LEVEL} />
+	) : (
 		<Layout
 			activePage="Discussions"
 			pageTitle="Members"
@@ -75,38 +78,16 @@ const QuestionMembersPage: FC = () => {
 			nestingLevel={NESTING_LEVEL}
 		>
 			<aside />
-			{question.visibility === "Public" ? (
-				<section className="w100 col g1 jcc">
-					<InfoBlock
-						title="Question is public"
-						description="You can't see members, because question is public"
-						href={icons.error}
-						nestingLevel={NESTING_LEVEL}
-					>
-						<Link
-							href={Routes.ShowQuestionPage({
-								discussionId: discussion.id_,
-								questionId: question.id_,
-							})}
-						>
-							<Button variant="secondary" size="lg" type="submit">
-								Back to question
-							</Button>
-						</Link>
-					</InfoBlock>
-				</section>
-			) : (
-				<section className="w100 col g1">
-					<Breadcrumbs items={breadcrumbsItems} />
-					<UserList
-						type="question"
-						object={question}
-						members={question.members}
-						nestingLevel={NESTING_LEVEL}
-						setQueryData={setQueryData}
-					/>
-				</section>
-			)}
+			<section className="w100 col g1">
+				<Breadcrumbs items={breadcrumbsItems} />
+				<UserList
+					type="question"
+					object={question}
+					members={question.members}
+					nestingLevel={NESTING_LEVEL}
+					setQueryData={setQueryData}
+				/>
+			</section>
 		</Layout>
 	)
 }

@@ -3,8 +3,11 @@ import {
 	QuestionService,
 	ThreadService,
 } from "app/api/services"
+import { getSearchItems } from "app/core/utils/functions"
+import { icons } from "app/core/utils/icons"
 import { setQueryData } from "blitz"
 import { FC, Fragment } from "react"
+import { InfoBlock } from "../InfoBlock/InfoBlock"
 import { UserCard } from "../UserCard/UserCard"
 import styles from "./UserList.module.scss"
 import {
@@ -59,17 +62,38 @@ const DiscussionUserList: FC<DiscussionListUserProps> = (props) => {
 		await discussionService.leave(discussion, userId, setQueryData)
 	}
 
+	const banUser = async (userId: string) => {
+		const discussionService = new DiscussionService()
+
+		if (discussion.members.includes(userId)) {
+			await discussionService.ban(discussion, userId, setQueryData)
+		} else {
+			await discussionService.unban(discussion, userId, setQueryData)
+		}
+	}
+
 	return (
 		<Fragment>
-			{members.map((member) => (
-				<UserCard
-					key={member}
-					userId={member}
+			{members.length === 0 ? (
+				<InfoBlock
+					title="There are no users"
+					description="There are no users has been found"
+					href={icons.info}
 					nestingLevel={nestingLevel}
-					object={discussion}
-					kickUser={() => kickUser(member)}
 				/>
-			))}
+			) : (
+				members.map((member) => (
+					<UserCard
+						key={member}
+						userId={member}
+						nestingLevel={nestingLevel}
+						object={discussion}
+						kickUser={() => kickUser(member)}
+						banUser={() => banUser(member)}
+						type="discussion"
+					/>
+				))
+			)}
 		</Fragment>
 	)
 }
@@ -85,15 +109,25 @@ const ThreadUserList: FC<ThreadListUserProps> = (props) => {
 
 	return (
 		<Fragment>
-			{members.map((member) => (
-				<UserCard
-					key={member}
-					userId={member}
+			{members.length === 0 ? (
+				<InfoBlock
+					title="There are no users"
+					description="There are no users has been found"
+					href={icons.info}
 					nestingLevel={nestingLevel}
-					object={thread}
-					kickUser={() => kickUser(member)}
 				/>
-			))}
+			) : (
+				members.map((member) => (
+					<UserCard
+						key={member}
+						userId={member}
+						nestingLevel={nestingLevel}
+						object={thread}
+						kickUser={() => kickUser(member)}
+						type="thread"
+					/>
+				))
+			)}
 		</Fragment>
 	)
 }
@@ -109,15 +143,25 @@ const QuestionUserList: FC<QuestionUserListProps> = (props) => {
 
 	return (
 		<Fragment>
-			{members.map((member) => (
-				<UserCard
-					key={member}
-					userId={member}
+			{members.length === 0 ? (
+				<InfoBlock
+					title="There are no users"
+					description="There are no users has been found"
+					href={icons.info}
 					nestingLevel={nestingLevel}
-					object={question}
-					kickUser={() => kickUser(member)}
 				/>
-			))}
+			) : (
+				members.map((member) => (
+					<UserCard
+						key={member}
+						userId={member}
+						nestingLevel={nestingLevel}
+						object={question}
+						kickUser={() => kickUser(member)}
+						type="question"
+					/>
+				))
+			)}
 		</Fragment>
 	)
 }

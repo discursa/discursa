@@ -4,6 +4,7 @@ export interface ThreadType {
 	name: string
 	visibility: string
 	members: string[]
+	banned: string[]
 	parent: number
 	authorId: string
 	createdAt: Date

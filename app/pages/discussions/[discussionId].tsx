@@ -1,22 +1,21 @@
 import getComments from "app/api/queries/Comment/getComments"
 import getPaginatedComments from "app/api/queries/Comment/getPaginatedComments"
 import getDiscussion from "app/api/queries/Discussion/getDiscussion"
-import getNotifications from "app/api/queries/Notification/getNotifications"
 import getQuestions from "app/api/queries/Question/getQuestions"
 import getThreads from "app/api/queries/Thread/getThreads"
 import getUser from "app/api/queries/User/getUser"
 import { CommentService, DiscussionService } from "app/api/services"
-import { getDiscussionComments } from "app/api/services/Comment/functions"
 import {
 	Alert,
 	Breadcrumbs,
+	Button,
 	CommentList,
 	Header,
+	InfoBlock,
 	LoadingOverlay,
 	ModalWindow,
 } from "app/core/components"
 import { CommentForm } from "app/core/components/Form/children/CommentForm"
-import { AddUserToPrivateDiscussionModal } from "app/core/components/ModalWindow/children/AddUserToPrivateDiscussionModal"
 import { PreviewableMessage } from "app/core/components/PreviewableMessage/PreviewableMessage"
 import { ITEMS_PER_PAGE } from "app/core/constants"
 import Layout from "app/core/layouts/Layout"
@@ -24,12 +23,15 @@ import styles from "app/core/layouts/Layout.module.scss"
 import {
 	AlertType,
 	CommentFormValuesType,
-	CommentType,
 	ModalWindowType,
 } from "app/core/types"
-import { getId } from "app/core/utils/functions"
+import { icons } from "app/core/utils/icons"
 import { CommentSchema } from "app/core/validation"
-import { DiscussionAsideWidget, ThreadsSidebarWidget } from "app/core/widgets"
+import {
+	DiscussionAsideWidget,
+	ThreadsSidebarWidget,
+	UserBannedWidget,
+} from "app/core/widgets"
 import {
 	BlitzPage,
 	Link,
@@ -105,9 +107,12 @@ export const DiscussionPage = () => {
 		)
 	}
 
-	return (
+	// @ts-ignore
+	return discussion.banned.includes(session.userId) ? (
+		<UserBannedWidget nestingLevel={NESTING_LEVEL} />
+	) : (
 		<Layout
-			activePage=""
+			activePage="Discussions"
 			pageTitle={discussion.name}
 			pageClass={styles.LayoutBase}
 			nestingLevel={NESTING_LEVEL}

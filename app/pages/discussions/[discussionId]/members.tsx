@@ -1,23 +1,23 @@
 import getDiscussion from "app/api/queries/Discussion/getDiscussion"
-import styles from "app/core/layouts/Layout.module.scss"
-import Layout from "app/core/layouts/Layout"
-import { BlitzPage, Link, Routes, useParam, useQuery } from "blitz"
 import {
 	Breadcrumbs,
-	Button,
+	ButtonNavigation,
 	Header,
-	InfoBlock,
+	Icon,
 	LoadingOverlay,
 } from "app/core/components"
 import { UserList } from "app/core/components/UserList/UserList"
-import { Fragment, Suspense } from "react"
+import Layout from "app/core/layouts/Layout"
+import styles from "app/core/layouts/Layout.module.scss"
 import { icons } from "app/core/utils/icons"
+import { UserHasntPermitionsWidget } from "app/core/widgets"
+import { BlitzPage, Routes, useParam, useQuery } from "blitz"
+import { Fragment, Suspense, useState } from "react"
 
 const NESTING_LEVEL = "../../"
 
 const DiscussionMembersPage = () => {
 	const discussionId = useParam("discussionId", "number")
-
 	const [discussion, { setQueryData }] = useQuery(
 		getDiscussion,
 		{
@@ -27,6 +27,8 @@ const DiscussionMembersPage = () => {
 			staleTime: Infinity,
 		}
 	)
+
+	const [shownUsers, setShownUsers] = useState<string[]>(discussion.members)
 
 	const breadcrumbsItems = [
 		{
@@ -51,45 +53,56 @@ const DiscussionMembersPage = () => {
 		},
 	]
 
-	return (
+	const peopleIcon = (
+		<Icon size="sm" href={icons.people} nestingLevel={NESTING_LEVEL} />
+	)
+	const circleSlashIcon = (
+		<Icon size="sm" href={icons.circleSlash} nestingLevel={NESTING_LEVEL} />
+	)
+
+	const buttonNavigation = [
+		{
+			id: 0,
+			name: "Members",
+			leadingicon: peopleIcon,
+			styles: "w100 jcfs",
+			onClick() {
+				setShownUsers(discussion.members)
+			},
+		},
+		{
+			id: 1,
+			name: "Banned",
+			leadingicon: circleSlashIcon,
+			styles: "w100 jcfs",
+			onClick() {
+				setShownUsers(discussion.banned)
+			},
+		},
+	]
+
+	return discussion.visibility === "Public" ? (
+		<UserHasntPermitionsWidget nestingLevel={NESTING_LEVEL} />
+	) : (
 		<Layout
 			activePage="Discussions"
 			pageTitle="Members"
 			pageClass={styles.LayoutBase}
 			nestingLevel={NESTING_LEVEL}
 		>
-			<aside />
-			{discussion.visibility === "Public" ? (
-				<section className="w100 col g1 jcc">
-					<InfoBlock
-						title="Discussion is public"
-						description="You can't see members, because discussion is public"
-						href={icons.error}
-						nestingLevel={NESTING_LEVEL}
-					>
-						<Link
-							href={Routes.ShowDiscussionPage({
-								discussionId: discussion.id_,
-							})}
-						>
-							<Button variant="secondary" size="lg" type="submit">
-								Back to discussion
-							</Button>
-						</Link>
-					</InfoBlock>
-				</section>
-			) : (
-				<section className="w100 col g1">
-					<Breadcrumbs items={breadcrumbsItems} />
-					<UserList
-						type="discussion"
-						object={discussion}
-						members={discussion.members}
-						nestingLevel={NESTING_LEVEL}
-						setQueryData={setQueryData}
-					/>
-				</section>
-			)}
+			<aside className="col aifs jcfs g1">
+				<ButtonNavigation buttons={buttonNavigation} size="lg" />
+			</aside>
+			<section className="w100 col g1">
+				<Breadcrumbs items={breadcrumbsItems} />
+				<UserList
+					type="discussion"
+					object={discussion}
+					members={shownUsers}
+					nestingLevel={NESTING_LEVEL}
+					setQueryData={setQueryData}
+				/>
+			</section>
 		</Layout>
 	)
 }

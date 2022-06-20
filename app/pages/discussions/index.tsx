@@ -1,4 +1,4 @@
-import getDiscussions from "app/api/queries/Discussion/getDiscussions"
+import getPaginatedDiscussions from "app/api/queries/Discussion/getPaginatedDiscussions"
 import {
 	getPublicDiscussions,
 	getUserPrivateDiscussions,
@@ -13,6 +13,7 @@ import {
 	LoadingOverlay,
 	ModalWindow,
 } from "app/core/components"
+import { ITEMS_PER_PAGE } from "app/core/constants"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
 import { DiscussionType, ModalWindowType } from "app/core/types"
@@ -20,7 +21,13 @@ import { addObjectToStore, changeValue, getId } from "app/core/utils/functions"
 import { icons } from "app/core/utils/icons"
 import { pages } from "app/core/utils/pages"
 import { DiscussionCategoriesSidebarWidget } from "app/core/widgets"
-import { BlitzPage, Routes, useQuery, useRouter, useSession } from "blitz"
+import {
+	BlitzPage,
+	Routes,
+	usePaginatedQuery,
+	useRouter,
+	useSession,
+} from "blitz"
 import { FC, Fragment, Suspense, useState } from "react"
 
 const NESTING_LEVEL: string = ""
@@ -28,10 +35,22 @@ const NESTING_LEVEL: string = ""
 const DiscussionsPage: FC = () => {
 	const session = useSession()
 	const router = useRouter()
+	const page = Number(router.query.page) || 0
 	const [modals, setModals] = useState<ModalWindowType[]>([])
-	const [discussions] = useQuery(getDiscussions, {})
-	const publicDiscussions = getPublicDiscussions(discussions)
-	const userPrivateDiscussions = getUserPrivateDiscussions(discussions, session)
+	const [{ paginatedDiscussions, hasMore }, { isPreviousData }] =
+		usePaginatedQuery(getPaginatedDiscussions, {
+			where: {},
+			orderBy: { id_: "asc" },
+			skip: ITEMS_PER_PAGE * page,
+			take: ITEMS_PER_PAGE,
+		})
+
+	const userPrivateDiscussions = getUserPrivateDiscussions(
+		paginatedDiscussions,
+		session
+	)
+	const publicDiscussions = getPublicDiscussions(paginatedDiscussions)
+
 	const allDiscussions = [...userPrivateDiscussions, ...publicDiscussions]
 	const [query, setQuery] = useState<string>("")
 	const [top, setTop] = useState<boolean>(false)
@@ -65,7 +84,7 @@ const DiscussionsPage: FC = () => {
 		title: "Join to private discussion",
 		children: (
 			<JoinToPrivateDisussionModal
-				discussions={discussions}
+				discussions={paginatedDiscussions}
 				session={session}
 				router={router}
 			/>
@@ -80,7 +99,7 @@ const DiscussionsPage: FC = () => {
 			nestingLevel={NESTING_LEVEL}
 		>
 			<DiscussionCategoriesSidebarWidget
-				discussions={discussions}
+				discussions={paginatedDiscussions}
 				allDiscussions={allDiscussions}
 				setCurrentDiscussions={setCurrentDiscussions}
 				nestingLevel={NESTING_LEVEL}
@@ -120,9 +139,12 @@ const DiscussionsPage: FC = () => {
 				<DiscussionList
 					discussions={currentDiscussions}
 					top={top}
-					search={discussions.length !== 0}
+					search={paginatedDiscussions.length !== 0}
 					query={query}
 					nestingLevel={NESTING_LEVEL}
+					isPreviousData={isPreviousData}
+					hasMore={hasMore}
+					page={page}
 				/>
 			</div>
 			<div />

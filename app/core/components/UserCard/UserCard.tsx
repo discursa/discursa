@@ -10,7 +10,7 @@ import styles from "./UserCard.module.scss"
 import { UserCardProps } from "./UserCard.types"
 
 export const UserCard: FC<UserCardProps> = (props) => {
-	const { userId, nestingLevel, kickUser, object } = props
+	const { userId, nestingLevel, kickUser, object, banUser, type } = props
 
 	const session = useSession()
 
@@ -28,8 +28,20 @@ export const UserCard: FC<UserCardProps> = (props) => {
 			</div>
 			{check.author(session.userId, object.authorId) && (
 				<div className="jcfe aic g1">
+					{type === "discussion" && (
+						<Button
+							variant="secondary"
+							size="sm"
+							type="submit"
+							//@ts-ignore
+							onClick={() => banUser()}
+							disabled={session.userId === userId}
+						>
+							{object.banned.includes(userId) ? "Unban user" : "Ban user"}
+						</Button>
+					)}
 					<Button
-						variant="danger"
+						variant="secondary"
 						size="sm"
 						type="submit"
 						onClick={() => kickUser()}

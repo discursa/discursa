@@ -56,8 +56,16 @@ export const DiscussionAsideWidget: FC<DiscussionAsideWidgetProps> = (
 		<Icon size="sm" href={icons.bellSlash} nestingLevel={nestingLevel} />
 	)
 
-	const arrowUpIcon = (
-		<Icon size="md" href={icons.arrowUp} nestingLevel={nestingLevel} />
+	const personAddIcon = (
+		<Icon size="sm" href={icons.personAdd} nestingLevel={nestingLevel} />
+	)
+
+	const thumbUpIcon = (
+		<Icon size="sm" href={icons.thumbsUp} nestingLevel={nestingLevel} />
+	)
+
+	const thumbDownIcon = (
+		<Icon size="sm" href={icons.thumbsDown} nestingLevel={nestingLevel} />
 	)
 
 	const gearIcon = (
@@ -120,14 +128,14 @@ export const DiscussionAsideWidget: FC<DiscussionAsideWidgetProps> = (
 		}
 	}
 
-	const evaluateDiscussion = async () => {
-		if (!check.upvote(discussion, session)) {
-			// @ts-ignore
-			await discussionService.upvote(discussion, session.userId, setQueryData)
-		} else {
-			// @ts-ignore
-			await discussionService.unvote(discussion, session.userId, setQueryData)
-		}
+	const upvoteDiscussion = async () => {
+		// @ts-ignore
+		await discussionService.upvote(discussion, session.userId, setQueryData)
+	}
+
+	const unvoteDiscussion = async () => {
+		// @ts-ignore
+		await discussionService.unvote(discussion, session.userId, setQueryData)
 	}
 
 	return (
@@ -183,32 +191,52 @@ export const DiscussionAsideWidget: FC<DiscussionAsideWidgetProps> = (
 						{subscribeButtonText}
 					</Button>
 					{discussion.voting && (
-						<Button
-							key="1"
-							variant="secondary"
-							size="md"
-							leadingicon={arrowUpIcon}
-							styles={`w100 ${
-								check.upvote(discussion, session) && "active blue-border"
-							}`}
-							onClick={async () => await evaluateDiscussion()}
-						>
-							{discussion.upvotes}
-						</Button>
+						<div className="row w100 g1">
+							<Button
+								variant="secondary"
+								size="md"
+								type="submit"
+								leadingicon={thumbUpIcon}
+								styles={
+									check.upvote(discussion, session)
+										? "active blue-border w50"
+										: "w50"
+								}
+								onClick={upvoteDiscussion}
+							>
+								{discussion.upvotes}
+							</Button>
+							<Button
+								variant="secondary"
+								size="md"
+								type="submit"
+								leadingicon={thumbDownIcon}
+								styles={
+									check.unvote(discussion, session)
+										? "active blue-border w50"
+										: "w50"
+								}
+								onClick={unvoteDiscussion}
+							>
+								{discussion.unvotes}
+							</Button>
+						</div>
 					)}
 				</Fragment>
 			)}
 			{check.invitePermitions(discussion, session) && (
-				<IconButton
+				<Button
 					variant="secondary"
 					size="md"
-					href={icons.personAdd}
-					nestinglevel={nestingLevel}
+					type="submit"
 					styles="w100"
+					leadingicon={personAddIcon}
 					onClick={() =>
 						addObjectToStore(setModals, inviteUserToDiscussionModal)
 					}
-				/>
+				>
+					Invite
+				</Button>
 			)}
 			{session.userId === discussion.authorId && (
 				<Link

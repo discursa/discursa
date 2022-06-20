@@ -1,10 +1,11 @@
+import banUserAtDiscussion from "app/api/mutations/Discussion/banUserAtDiscussion"
 import createDiscussion from "app/api/mutations/Discussion/createDiscussion"
 import deleteDiscussion from "app/api/mutations/Discussion/deleteDiscussion"
 import joinDiscussion from "app/api/mutations/Discussion/joinDiscussion"
 import leaveDiscussion from "app/api/mutations/Discussion/leaveDiscussion"
 import subscribeDiscussion from "app/api/mutations/Discussion/subscribeDiscussion"
 import updateDiscussion from "app/api/mutations/Discussion/updateDiscussion"
-import upvoteDiscussion from "app/api/mutations/Discussion/upvoteDiscussion"
+import { default as voteDiscussion } from "app/api/mutations/Discussion/voteDiscussion"
 import { FORM_ERROR } from "app/core/components/Form/children/DiscussionForm"
 import { check } from "app/core/modules/Check"
 import { CommentType, DiscussionType } from "app/core/types"
@@ -20,7 +21,6 @@ import { CommentService } from "../Comment/Comment"
 import {
 	CommentValuesType,
 	DiscussionServiceType,
-	UpvotedValuesType,
 	ValuesType,
 } from "./Discussion.types"
 
@@ -31,6 +31,8 @@ export class DiscussionService implements DiscussionServiceType {
 		session: ClientSession,
 		router: BlitzRouter
 	) {
+		const members = values.visibility === "Public" ? [] : [session.userId]
+
 		const discussion = {
 			id_: getId(discussions),
 			name: values.name,
@@ -39,9 +41,12 @@ export class DiscussionService implements DiscussionServiceType {
 			visibility: values.visibility,
 			voting: values.voting,
 			upvotes: 0,
-			vouters: [],
+			unvotes: 0,
+			upvoters: [],
+			unvoters: [],
 			subscribers: [],
-			members: [],
+			members: members,
+			banned: [],
 			authorId: session.userId,
 		}
 
@@ -139,15 +144,32 @@ export class DiscussionService implements DiscussionServiceType {
 		userId: string,
 		setQueryData: Function
 	) {
-		const updatedVouters = [...discussion.vouters, userId]
-		const upvotedDiscussion: UpvotedValuesType = {
-			upvotes: discussion.upvotes + 1,
-			vouters: updatedVouters,
+		const upvoters = discussion.upvoters.includes(userId)
+			? removeElementFromArray(discussion.upvoters, userId)
+			: [...discussion.upvoters, userId]
+
+		const upvotesCount = discussion.upvoters.includes(userId)
+			? discussion.upvotes - 1
+			: discussion.upvotes + 1
+
+		const unvoters = discussion.unvoters.includes(userId)
+			? removeElementFromArray(discussion.unvoters, userId)
+			: discussion.unvoters
+
+		const unvotesCount = discussion.unvoters.includes(userId)
+			? discussion.unvotes - 1
+			: discussion.unvotes
+
+		const upvotedDiscussion = {
+			upvotes: upvotesCount,
+			upvoters: upvoters,
+			unvotes: unvotesCount,
+			unvoters: unvoters,
 		}
 
 		try {
-			updateDbObject(
-				upvoteDiscussion,
+			await updateDbObject(
+				voteDiscussion,
 				discussion.id_,
 				upvotedDiscussion,
 				setQueryData
@@ -163,15 +185,32 @@ export class DiscussionService implements DiscussionServiceType {
 		userId: string,
 		setQueryData: Function
 	) {
-		const updatedVouters = removeElementFromArray(discussion.vouters, userId)
-		const unvotedDiscussion: UpvotedValuesType = {
-			upvotes: discussion.upvotes - 1,
-			vouters: updatedVouters,
+		const upvoters = discussion.upvoters.includes(userId)
+			? removeElementFromArray(discussion.upvoters, userId)
+			: discussion.upvoters
+
+		const upvotesCount = discussion.upvoters.includes(userId)
+			? discussion.upvotes - 1
+			: discussion.upvotes
+
+		const unvotesCount = discussion.unvoters.includes(userId)
+			? discussion.unvotes - 1
+			: discussion.unvotes + 1
+
+		const unvouters = discussion.unvoters.includes(userId)
+			? removeElementFromArray(discussion.unvoters, userId)
+			: [...discussion.unvoters, userId]
+
+		const unvotedDiscussion = {
+			upvotes: upvotesCount,
+			upvoters: upvoters,
+			unvotes: unvotesCount,
+			unvoters: unvouters,
 		}
 
 		try {
-			updateDbObject(
-				upvoteDiscussion,
+			await updateDbObject(
+				voteDiscussion,
 				discussion.id_,
 				unvotedDiscussion,
 				setQueryData
@@ -193,7 +232,7 @@ export class DiscussionService implements DiscussionServiceType {
 		}
 
 		try {
-			updateDbObject(
+			await updateDbObject(
 				subscribeDiscussion,
 				discussion.id_,
 				subscribedDiscussion,
@@ -219,7 +258,7 @@ export class DiscussionService implements DiscussionServiceType {
 		}
 
 		try {
-			updateDbObject(
+			await updateDbObject(
 				subscribeDiscussion,
 				discussion.id_,
 				unsubscribedDiscussion,
@@ -267,10 +306,52 @@ export class DiscussionService implements DiscussionServiceType {
 		}
 
 		try {
-			updateDbObject(
+			await updateDbObject(
 				joinDiscussion,
 				discussion.id_,
 				joinedDiscussion,
+				setQueryData
+			)
+		} catch (error: any) {
+			console.log(error)
+			throw new Error(error)
+		}
+	}
+
+	async ban(
+		discussion: DiscussionType,
+		userId: string,
+		setQueryData: Function
+	) {
+		const bannedMembers = {
+			banned: [...discussion.banned, userId],
+		}
+
+		try {
+			await updateDbObject(
+				banUserAtDiscussion,
+				discussion.id_,
+				bannedMembers,
+				setQueryData
+			)
+		} catch (error: any) {
+			console.log(error)
+			throw new Error(error)
+		}
+	}
+
+	async unban(
+		discussion: DiscussionType,
+		userId: string,
+		setQueryData: Function
+	) {
+		const bannedMembers = removeElementFromArray(discussion.banned, userId)
+
+		try {
+			await updateDbObject(
+				banUserAtDiscussion,
+				discussion.id_,
+				bannedMembers,
 				setQueryData
 			)
 		} catch (error: any) {

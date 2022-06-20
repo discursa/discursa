@@ -6,4 +6,6 @@ export interface UserCardProps {
 	nestingLevel: string
 	object: DiscussionType | ThreadType
 	kickUser: Function
+	banUser?: Function
+	type: "discussion" | "thread" | "question"
 }
