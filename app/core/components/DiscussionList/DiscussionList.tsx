@@ -1,10 +1,12 @@
+import { ITEMS_PER_PAGE } from "app/core/constants"
 import { getSearchItems } from "app/core/utils/functions"
 import { icons } from "app/core/utils/icons"
 import { Routes, useRouter } from "blitz"
-import { FC } from "react"
+import { FC, Fragment } from "react"
 import { Button } from "../Button/Button"
 import DiscussionCard from "../DiscussionCard/DiscussionCard"
 import { InfoBlock } from "../InfoBlock/InfoBlock"
+import { Pagination } from "../Pagination/Pagination"
 import styles from "./DiscussionList.module.scss"
 import {
 	DiscussionListProps,
@@ -13,7 +15,16 @@ import {
 } from "./DiscussionList.types"
 
 export const DiscussionList: FC<DiscussionListProps> = (props) => {
-	const { discussions, search, query, top, nestingLevel } = props
+	const {
+		discussions,
+		search,
+		query,
+		top,
+		nestingLevel,
+		isPreviousData,
+		hasMore,
+		page,
+	} = props
 
 	return top ? (
 		<TopDiscussionsList
@@ -21,6 +32,9 @@ export const DiscussionList: FC<DiscussionListProps> = (props) => {
 			search={search}
 			query={query}
 			nestingLevel={nestingLevel}
+			isPreviousData={isPreviousData}
+			hasMore={hasMore}
+			page={page}
 		/>
 	) : (
 		<AllDiscussionsList
@@ -28,24 +42,55 @@ export const DiscussionList: FC<DiscussionListProps> = (props) => {
 			search={search}
 			query={query}
 			nestingLevel={nestingLevel}
+			isPreviousData={isPreviousData}
+			hasMore={hasMore}
+			page={page}
 		/>
 	)
 }
 
 const AllDiscussionsList: FC<SubListProps> = (props) => {
-	const { discussions, search, query, nestingLevel } = props
+	const {
+		discussions,
+		search,
+		query,
+		nestingLevel,
+		isPreviousData,
+		hasMore,
+		page,
+	} = props
 
 	const foundDiscussions = getSearchItems(discussions, query)
 
 	return search ? (
-		<SearchList discussions={foundDiscussions} nestingLevel={nestingLevel} />
+		<SearchList
+			discussions={foundDiscussions}
+			nestingLevel={nestingLevel}
+			isPreviousData={isPreviousData}
+			hasMore={hasMore}
+			page={page}
+		/>
 	) : (
-		<List discussions={discussions} nestingLevel={nestingLevel} />
+		<List
+			discussions={discussions}
+			nestingLevel={nestingLevel}
+			isPreviousData={isPreviousData}
+			hasMore={hasMore}
+			page={page}
+		/>
 	)
 }
 
 const TopDiscussionsList: FC<SubListProps> = (props) => {
-	const { discussions, search, query, nestingLevel } = props
+	const {
+		discussions,
+		search,
+		query,
+		nestingLevel,
+		isPreviousData,
+		hasMore,
+		page,
+	} = props
 
 	const topDiscussions = discussions.sort((a, b) => {
 		return b.upvotes - a.upvotes
@@ -56,16 +101,24 @@ const TopDiscussionsList: FC<SubListProps> = (props) => {
 	return search ? (
 		<SearchList
 			discussions={foundDiscussions}
-			resetInputValue={() => resetInputValue()}
 			nestingLevel={nestingLevel}
+			isPreviousData={isPreviousData}
+			hasMore={hasMore}
+			page={page}
 		/>
 	) : (
-		<List discussions={topDiscussions} nestingLevel={nestingLevel} />
+		<List
+			discussions={topDiscussions}
+			nestingLevel={nestingLevel}
+			isPreviousData={isPreviousData}
+			hasMore={hasMore}
+			page={page}
+		/>
 	)
 }
 
 const SearchList: FC<ListProps> = (props) => {
-	const { discussions, nestingLevel } = props
+	const { discussions, nestingLevel, isPreviousData, hasMore, page } = props
 	const router = useRouter()
 
 	const redirectToCreateDiscussionPage = () => {
@@ -84,7 +137,7 @@ const SearchList: FC<ListProps> = (props) => {
 				size="lg"
 				onClick={() => redirectToCreateDiscussionPage()}
 			>
-				Create Discussion
+				New discussion
 			</Button>
 		</InfoBlock>
 	) : (
@@ -96,12 +149,18 @@ const SearchList: FC<ListProps> = (props) => {
 					nestingLevel={nestingLevel}
 				/>
 			))}
+			{discussions.length > ITEMS_PER_PAGE && (
+				<Pagination
+					isPreviousData={isPreviousData}
+					hasMore={hasMore}
+					page={page}
+				/>
+			)}
 		</ul>
 	)
 }
-
 const List: FC<ListProps> = (props) => {
-	const { discussions, nestingLevel } = props
+	const { discussions, nestingLevel, isPreviousData, hasMore, page } = props
 	const router = useRouter()
 
 	const redirectToCreateDiscussionPage = () => {
@@ -117,10 +176,10 @@ const List: FC<ListProps> = (props) => {
 		>
 			<Button
 				variant="primary"
-				size="md"
+				size="lg"
 				onClick={() => redirectToCreateDiscussionPage()}
 			>
-				Create discussion
+				New discussion
 			</Button>
 		</InfoBlock>
 	) : (
@@ -132,6 +191,13 @@ const List: FC<ListProps> = (props) => {
 					nestingLevel={nestingLevel}
 				/>
 			))}
+			{discussions.length > ITEMS_PER_PAGE && (
+				<Pagination
+					isPreviousData={isPreviousData}
+					hasMore={hasMore}
+					page={page}
+				/>
+			)}
 		</ul>
 	)
 }

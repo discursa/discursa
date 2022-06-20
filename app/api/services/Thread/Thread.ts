@@ -118,12 +118,8 @@ export class ThreadService implements ThreadServiceType {
 			throw new Error(error)
 		}
 	}
-	async leave(
-		thread: ThreadType,
-		session: ClientSession,
-		setQueryData: Function
-	) {
-		const members = removeElementFromArray(thread.members, session.userId)
+	async leave(thread: ThreadType, userId: string, setQueryData: Function) {
+		const members = removeElementFromArray(thread.members, userId)
 
 		try {
 			await updateDbObject(leaveThread, thread.id_, members, setQueryData)

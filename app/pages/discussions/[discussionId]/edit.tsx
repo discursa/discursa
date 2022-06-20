@@ -27,10 +27,9 @@ import { BlitzPage, Routes, useParam, useQuery, useRouter } from "blitz"
 import { Fragment, Suspense, useState } from "react"
 
 const NESTING_LEVEL = "../../"
-const discussionService = new DiscussionService()
 
 export const EditDiscussion = () => {
-	const router = useRouter()
+	const discussionService = new DiscussionService()
 	const discussionId = useParam("discussionId", "number")
 	const [alerts, setAlerts] = useState<AlertType[]>([])
 	const [modals, setModals] = useState<ModalWindowType[]>([])
@@ -98,7 +97,9 @@ export const EditDiscussion = () => {
 						values,
 						discussion,
 						setQueryData,
+						// @ts-ignore
 						addObjectToStore(setAlerts, nothingChangedAlert),
+						// @ts-ignore
 						addObjectToStore(setAlerts, successfullyUpdatedAlert)
 					)
 				}

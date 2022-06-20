@@ -6,6 +6,8 @@ import { SavedNotificationsWidget } from "./SavedNotifications/SavedNotification
 import { ThreadAsideWidget } from "./ThreadAsideWidget/ThreadAsideWidget"
 import { ThreadsSidebarWidget } from "./ThreadsSidebarWidget/ThreadsSidebarWidget"
 import { QuestionAsideWidget } from "./QuestionAsideWidget/QuestionAsideWidget"
+import { UserBannedWidget } from "./UserBannedWidget/UserBannedWidget"
+import { UserHasntPermitionsWidget } from "./UserHasntPermitionsWidget/UserHasntPermitionsWidget"
 
 export {
 	DiscussionCategoriesSidebarWidget,
@@ -16,4 +18,6 @@ export {
 	ThreadAsideWidget,
 	DiscussionAsideWidget,
 	QuestionAsideWidget,
+	UserBannedWidget,
+	UserHasntPermitionsWidget,
 }

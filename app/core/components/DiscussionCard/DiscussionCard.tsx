@@ -1,5 +1,6 @@
 import getComments from "app/api/queries/Comment/getComments"
 import getUser from "app/api/queries/User/getUser"
+import getUserById from "app/api/queries/User/getUserById"
 import {
 	getDiscussionCommentsLength,
 	getDiscussionThreads,
@@ -15,8 +16,8 @@ import { DiscussionCardProps } from "./DiscussionCard.types"
 
 const DiscussionCard: FC<DiscussionCardProps> = (props) => {
 	const { discussion, nestingLevel } = props
-	const { name, category, createdAt, authorId, upvotes } = discussion
-	const [user] = useQuery(getUser, {
+	const { name, category, createdAt, authorId, upvotes, unvotes } = discussion
+	const [user] = useQuery(getUserById, {
 		id: authorId,
 	})
 	const [comments] = useQuery(getComments, {})
@@ -59,7 +60,12 @@ const DiscussionCard: FC<DiscussionCardProps> = (props) => {
 					/>
 					<IconCounter
 						counter={upvotes}
-						href={icons.arrowUp}
+						href={icons.thumbsUp}
+						nestingLevel={nestingLevel}
+					/>
+					<IconCounter
+						counter={unvotes}
+						href={icons.thumbsDown}
 						nestingLevel={nestingLevel}
 					/>
 				</div>

@@ -8,10 +8,14 @@ const CreateDiscussion = z.object({
 	message: z.string(),
 	category: z.string(),
 	upvotes: z.number(),
+	unvotes: z.number(),
+	upvoters: z.string().array(),
+	unvoters: z.string().array(),
 	voting: z.boolean(),
 	visibility: z.string(),
 	members: z.string().array(),
 	authorId: z.string(),
+	banned: z.string().array(),
 })
 
 export default resolver.pipe(

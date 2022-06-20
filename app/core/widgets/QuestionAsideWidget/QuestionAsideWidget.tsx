@@ -25,7 +25,7 @@ import {
 	useQuery,
 	useSession,
 } from "blitz"
-import { FC } from "react"
+import { FC, Fragment } from "react"
 
 interface QuestionAsideWidgetProps {
 	question: QuestionType
@@ -56,6 +56,10 @@ export const QuestionAsideWidget: FC<QuestionAsideWidgetProps> = (props) => {
 		<Icon size="sm" href={icons.signOut} nestingLevel={nestingLevel} />
 	)
 
+	const peopleIcon = (
+		<Icon size="sm" href={icons.people} nestingLevel={nestingLevel} />
+	)
+
 	const addUserToPrivateQuestionModal = {
 		id: getId(modals),
 		title: "Invite someone to question",
@@ -84,12 +88,13 @@ export const QuestionAsideWidget: FC<QuestionAsideWidgetProps> = (props) => {
 			addObjectToStore(setModals, changeQuestionAuthorModal)
 		} else {
 			const questionService = new QuestionService()
-			await questionService.leave(question, session, setQueryData)
+			//@ts-ignore
+			await questionService.leave(question, session.userId, setQueryData)
 		}
 	}
 
 	return (
-		<aside className="w100 col g2 pr-40px box-border">
+		<aside className="w100 col g1 pr-40px box-border">
 			<div className="row aic jcfs">
 				<p className="simple-text right-space-xs">Owner:</p>
 				<Link href={`/${user.name}`}>
@@ -113,18 +118,36 @@ export const QuestionAsideWidget: FC<QuestionAsideWidgetProps> = (props) => {
 			</div>
 			{check.author(session.userId, question.authorId) &&
 			check.private(question) ? (
-				<Button
-					variant="secondary"
-					size="md"
-					type="submit"
-					styles="w100"
-					leadingicon={personAddIcon}
-					onClick={() =>
-						addObjectToStore(setModals, addUserToPrivateQuestionModal)
-					}
-				>
-					Invite
-				</Button>
+				<Fragment>
+					<Link
+						href={Routes.ShowQuestionMembersPage({
+							discussionId: question.parent,
+							questionId: question.id_,
+						})}
+					>
+						<Button
+							variant="secondary"
+							size="md"
+							type="submit"
+							styles="w100"
+							leadingicon={peopleIcon}
+						>
+							Members
+						</Button>
+					</Link>
+					<Button
+						variant="secondary"
+						size="md"
+						type="submit"
+						styles="w100"
+						leadingicon={personAddIcon}
+						onClick={() =>
+							addObjectToStore(setModals, addUserToPrivateQuestionModal)
+						}
+					>
+						Invite
+					</Button>
+				</Fragment>
 			) : (
 				""
 			)}

@@ -1,15 +1,18 @@
 import { DiscussionType } from "app/core/types"
 
 export interface DiscussionListProps extends SubListProps {
-  top: boolean
+	top: boolean
 }
 
 export interface SubListProps extends ListProps {
-  search: boolean
-  query: string
+	search: boolean
+	query: string
 }
 
 export interface ListProps {
-  discussions: DiscussionType[]
-  nestingLevel: string
+	discussions: DiscussionType[]
+	nestingLevel: string
+	isPreviousData: any
+	hasMore: boolean
+	page: number
 }

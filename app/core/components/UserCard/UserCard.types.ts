@@ -2,8 +2,10 @@ import { User } from "@prisma/client"
 import { DiscussionType, ThreadType } from "app/core/types"
 
 export interface UserCardProps {
-	user: User
+	userId: string
 	nestingLevel: string
 	object: DiscussionType | ThreadType
 	kickUser: Function
+	banUser?: Function
+	type: "discussion" | "thread" | "question"
 }

@@ -8,6 +8,8 @@ export interface DiscussionServiceType extends DefaultServiceType {
 	unsubscribe: Function
 	leave: Function
 	join: Function
+	ban: Function
+	unban: Function
 }
 
 export interface ValuesType {
@@ -15,7 +17,6 @@ export interface ValuesType {
 	message: string
 	category: string
 	visibility: string
-	type: string
 	voting: boolean
 }
 

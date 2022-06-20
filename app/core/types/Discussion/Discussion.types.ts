@@ -8,9 +8,12 @@ export interface DiscussionType {
 	authorId: string
 	voting: boolean
 	upvotes: number
+	unvotes: number
 	members: string[]
-	vouters: string[]
+	upvoters: string[]
+	unvoters: string[]
 	subscribers: string[]
+	banned: string[]
 	createdAt: Date
 	updatedAt: Date
 }

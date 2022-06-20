@@ -16,14 +16,8 @@ model User {
   hashedPassword String?
   role           String   @default("USER")
 
-  tokens       Token[]
-  sessions     Session[]
-  Thread       Thread?     @relation(fields: [threadId], references: [id])
-  threadId     String?     @db.ObjectId
-  Discussion   Discussion? @relation(fields: [discussionId], references: [id])
-  discussionId String?     @db.ObjectId
-  Question     Question?   @relation(fields: [questionId], references: [id])
-  questionId   String?     @db.ObjectId
+  tokens   Token[]
+  sessions Session[]
 }
 
 model Session {
@@ -66,12 +60,14 @@ model Discussion {
   visibility  String
   voting      Boolean
   upvotes     Int      @default(0)
+  unvotes     Int      @default(0)
   category    String
   authorId    String
   members     String[]
-  vouters     String[]
+  upvoters    String[]
+  unvoters    String[]
   subscribers String[]
-  User        User[]
+  banned      String[]
 }
 
 model Comment {
@@ -117,7 +113,7 @@ model Thread {
   members    String[]
   parent     Int
   authorId   String
-  User       User[]
+  banned     String[]
 }
 
 model Question {
@@ -133,5 +129,5 @@ model Question {
   answerId    String   @default("")
   parent      Int
   members     String[]
-  User        User[]
+  banned      String[]
 }

@@ -42,6 +42,7 @@ export const IconButtonDropdown: FC<IconButtonDropdownProps> = (props) => {
 			/>
 			<div
 				className={shown ? styles.ButtonDropDown : "overflow-hidden"}
+				// @ts-ignore
 				ref={currentRef}
 			>
 				{items.map((item) => (

@@ -166,11 +166,7 @@ export class QuestionService implements QuestionServiceType {
 		}
 	}
 
-	async leave(
-		question: QuestionType,
-		session: ClientSession,
-		setQueryData: Function
-	) {
+	async leave(question: QuestionType, userId: string, setQueryData: Function) {
 		const leavedQuestion = {
 			members: removeElementFromArray(question.members, session.userId),
 		}

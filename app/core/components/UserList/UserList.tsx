@@ -1,33 +1,50 @@
-import { User } from "@prisma/client"
-import { DiscussionService, ThreadService } from "app/api/services"
+import {
+	DiscussionService,
+	QuestionService,
+	ThreadService,
+} from "app/api/services"
+import { getSearchItems } from "app/core/utils/functions"
+import { icons } from "app/core/utils/icons"
 import { setQueryData } from "blitz"
-import React, { FC, Fragment } from "react"
+import { FC, Fragment } from "react"
+import { InfoBlock } from "../InfoBlock/InfoBlock"
 import { UserCard } from "../UserCard/UserCard"
 import styles from "./UserList.module.scss"
 import {
-	DiscussionListProps,
-	ThreadListProps,
+	DiscussionListUserProps,
+	ThreadListUserProps,
+	QuestionUserListProps,
 	UserListProps,
 } from "./UserList.types"
 
 export const UserList: FC<UserListProps> = (props) => {
-	const { users, nestingLevel, type, object } = props
+	const { members, nestingLevel, type, object } = props
 
 	return (
 		<ul className={styles.UserList}>
-			{type === "thread" ? (
+			{type === "thread" && (
 				<ThreadUserList
 					// @ts-ignore
 					thread={object}
-					users={users}
+					members={members}
 					nestingLevel={nestingLevel}
 					setQueryData={setQueryData}
 				/>
-			) : (
+			)}
+			{type === "discussion" && (
 				<DiscussionUserList
 					// @ts-ignore
 					discussion={object}
-					users={users}
+					members={members}
+					nestingLevel={nestingLevel}
+					setQueryData={setQueryData}
+				/>
+			)}
+			{type === "question" && (
+				<QuestionUserList
+					// @ts-ignore
+					question={object}
+					members={members}
 					nestingLevel={nestingLevel}
 					setQueryData={setQueryData}
 				/>
@@ -36,55 +53,115 @@ export const UserList: FC<UserListProps> = (props) => {
 	)
 }
 
-const DiscussionUserList: FC<DiscussionListProps> = (props) => {
-	const { users, nestingLevel, discussion, setQueryData } = props
+const DiscussionUserList: FC<DiscussionListUserProps> = (props) => {
+	const { members, nestingLevel, discussion, setQueryData } = props
 
-	const discussionService = new DiscussionService()
+	const kickUser = async (userId: string) => {
+		const discussionService = new DiscussionService()
 
-	const kickUser = async (user: User) => {
-		await discussionService.leave(discussion, user.id, setQueryData)
+		await discussionService.leave(discussion, userId, setQueryData)
+	}
+
+	const banUser = async (userId: string) => {
+		const discussionService = new DiscussionService()
+
+		if (discussion.members.includes(userId)) {
+			await discussionService.ban(discussion, userId, setQueryData)
+		} else {
+			await discussionService.unban(discussion, userId, setQueryData)
+		}
 	}
 
 	return (
 		<Fragment>
-			{users.map((user) => (
-				<UserCard
-					key={user.id}
-					user={user}
+			{members.length === 0 ? (
+				<InfoBlock
+					title="There are no users"
+					description="There are no users has been found"
+					href={icons.info}
 					nestingLevel={nestingLevel}
-					object={discussion}
-					kickUser={() => kickUser(user)}
 				/>
-			))}
+			) : (
+				members.map((member) => (
+					<UserCard
+						key={member}
+						userId={member}
+						nestingLevel={nestingLevel}
+						object={discussion}
+						kickUser={() => kickUser(member)}
+						banUser={() => banUser(member)}
+						type="discussion"
+					/>
+				))
+			)}
 		</Fragment>
 	)
 }
 
-const ThreadUserList: FC<ThreadListProps> = (props) => {
-	const { users, nestingLevel, thread, setQueryData } = props
+const ThreadUserList: FC<ThreadListUserProps> = (props) => {
+	const { members, nestingLevel, thread, setQueryData } = props
 
-	const threadService = new ThreadService()
+	const kickUser = async (userId: string) => {
+		const threadService = new ThreadService()
 
-	const kickUser = async (user: User) => {
-		const session = {
-			userId: user.id,
-		}
-
-		// @ts-ignore
-		await threadService.leave(thread, session, setQueryData)
+		await threadService.leave(thread, userId, setQueryData)
 	}
 
 	return (
 		<Fragment>
-			{users.map((user) => (
-				<UserCard
-					key={user.id}
-					user={user}
+			{members.length === 0 ? (
+				<InfoBlock
+					title="There are no users"
+					description="There are no users has been found"
+					href={icons.info}
 					nestingLevel={nestingLevel}
-					object={thread}
-					kickUser={() => kickUser(user)}
 				/>
-			))}
+			) : (
+				members.map((member) => (
+					<UserCard
+						key={member}
+						userId={member}
+						nestingLevel={nestingLevel}
+						object={thread}
+						kickUser={() => kickUser(member)}
+						type="thread"
+					/>
+				))
+			)}
+		</Fragment>
+	)
+}
+
+const QuestionUserList: FC<QuestionUserListProps> = (props) => {
+	const { members, nestingLevel, question, setQueryData } = props
+
+	const kickUser = async (userId: string) => {
+		const questionService = new QuestionService()
+
+		await questionService.leave(question, userId, setQueryData)
+	}
+
+	return (
+		<Fragment>
+			{members.length === 0 ? (
+				<InfoBlock
+					title="There are no users"
+					description="There are no users has been found"
+					href={icons.info}
+					nestingLevel={nestingLevel}
+				/>
+			) : (
+				members.map((member) => (
+					<UserCard
+						key={member}
+						userId={member}
+						nestingLevel={nestingLevel}
+						object={question}
+						kickUser={() => kickUser(member)}
+						type="question"
+					/>
+				))
+			)}
 		</Fragment>
 	)
 }
