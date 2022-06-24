@@ -1,17 +1,7 @@
-import {
-	Button,
-	Icon,
-	QuestionsAccordion,
-	ThreadAccordion,
-} from "app/core/components"
-import {
-	DiscussionType,
-	ModalWindowType,
-	QuestionType,
-	ThreadType,
-} from "app/core/types"
-import { icons } from "app/core/utils/icons"
-import { ClientSession, Link, Routes, useSession } from "blitz"
+import getQuestions from "app/api/queries/Question/getQuestions"
+import { QuestionsAccordion, ThreadAccordion } from "app/core/components"
+import { DiscussionType, ModalWindowType, ThreadType } from "app/core/types"
+import { ClientSession, useQuery, useSession } from "blitz"
 import { FC } from "react"
 
 interface ThreadsSidebarWidgetProps {
@@ -21,14 +11,13 @@ interface ThreadsSidebarWidgetProps {
 	nestingLevel: string
 	modals: ModalWindowType[]
 	setModals: Function
-	questions: QuestionType[]
 }
 
 export const ThreadsSidebarWidget: FC<ThreadsSidebarWidgetProps> = (props) => {
-	const { discussion, nestingLevel, modals, setModals, threads, questions } =
-		props
+	const { discussion, nestingLevel, modals, setModals, threads } = props
 
 	const session = useSession()
+	const [questions] = useQuery(getQuestions, {})
 
 	return (
 		<aside className="w100 col g2">

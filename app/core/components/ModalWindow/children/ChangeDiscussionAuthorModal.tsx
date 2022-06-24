@@ -1,7 +1,6 @@
 import { User } from "@prisma/client"
-import changeDiscussionAuthor from "app/api/mutations/Discussion/changeDiscussionAuthor"
+import { DiscussionService } from "app/api/services"
 import { DiscussionType } from "app/core/types"
-import { updateDbObject } from "app/core/utils/functions"
 import { FC, Fragment, useState } from "react"
 import { ChangeAuthorForm } from "../../Form/children/ChangeAuthorForm"
 
@@ -15,9 +14,12 @@ interface ChangeAuthorFormValuesType {
 	username: string
 }
 
-export const ChangeDiscussionAuthorModal: FC<ChangeAuthorModalProps> = (props) => {
+export const ChangeDiscussionAuthorModal: FC<ChangeAuthorModalProps> = (
+	props
+) => {
 	const { users, discussion, setQueryData } = props
 
+	const discussionService = new DiscussionService()
 	const [error, setError] = useState<boolean>(false)
 
 	const submitRequest = async (values: ChangeAuthorFormValuesType) => {
@@ -25,16 +27,11 @@ export const ChangeDiscussionAuthorModal: FC<ChangeAuthorModalProps> = (props) =
 			return user.name === values.username
 		})
 
-		const newAuthorValues = {
-			authorId: newAuthor?.id,
-		}
-
 		if (newAuthor !== undefined) {
 			setError(false)
-			await updateDbObject(
-				changeDiscussionAuthor,
-				discussion.id_,
-				newAuthorValues,
+			await discussionService.changeAuthor(
+				discussion,
+				newAuthor.id,
 				setQueryData
 			)
 		} else {

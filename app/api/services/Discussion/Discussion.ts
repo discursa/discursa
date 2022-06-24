@@ -1,4 +1,5 @@
 import banUserAtDiscussion from "app/api/mutations/Discussion/banUserAtDiscussion"
+import changeDiscussionAuthor from "app/api/mutations/Discussion/changeDiscussionAuthor"
 import createDiscussion from "app/api/mutations/Discussion/createDiscussion"
 import deleteDiscussion from "app/api/mutations/Discussion/deleteDiscussion"
 import joinDiscussion from "app/api/mutations/Discussion/joinDiscussion"
@@ -8,7 +9,7 @@ import updateDiscussion from "app/api/mutations/Discussion/updateDiscussion"
 import { default as voteDiscussion } from "app/api/mutations/Discussion/voteDiscussion"
 import { FORM_ERROR } from "app/core/components/Form/children/DiscussionForm"
 import { check } from "app/core/modules/Check"
-import { CommentType, DiscussionType } from "app/core/types"
+import { DiscussionFormValuesType, DiscussionType } from "app/core/types"
 import {
 	addObjectToDb,
 	deleteObjectFromDb,
@@ -17,16 +18,11 @@ import {
 	updateDbObject,
 } from "app/core/utils/functions"
 import { BlitzRouter, ClientSession, Routes } from "blitz"
-import { CommentService } from "../Comment/Comment"
-import {
-	CommentValuesType,
-	DiscussionServiceType,
-	ValuesType,
-} from "./Discussion.types"
+import { DiscussionServiceType } from "./Discussion.types"
 
 export class DiscussionService implements DiscussionServiceType {
 	async create(
-		values: ValuesType,
+		values: DiscussionFormValuesType,
 		discussions: DiscussionType[],
 		session: ClientSession,
 		router: BlitzRouter
@@ -64,37 +60,8 @@ export class DiscussionService implements DiscussionServiceType {
 		}
 	}
 
-	async comment(
-		comments: CommentType[],
-		router: BlitzRouter,
-		values: CommentValuesType,
-		parentId: number,
-		replierId: number | null,
-		session: ClientSession,
-		discussion: DiscussionType
-	) {
-		const comment = {
-			id_: getId(comments),
-			message: values.message,
-			parent: parentId,
-			grandParent: discussion.id_,
-			replierId: replierId,
-			authorId: session.userId,
-			type: "discussion",
-		}
-
-		const commentService = new CommentService()
-
-		try {
-			await commentService.create(router, "", comment)
-		} catch (error: any) {
-			console.log(error)
-			throw new Error(error)
-		}
-	}
-
 	async update(
-		values: ValuesType,
+		values: DiscussionFormValuesType,
 		discussion: DiscussionType,
 		setQueryData: Function,
 		pushNothingChangedAlert: any,
@@ -352,6 +319,28 @@ export class DiscussionService implements DiscussionServiceType {
 				banUserAtDiscussion,
 				discussion.id_,
 				bannedMembers,
+				setQueryData
+			)
+		} catch (error: any) {
+			console.log(error)
+			throw new Error(error)
+		}
+	}
+
+	async changeAuthor(
+		discussion: DiscussionType,
+		userId: string | null,
+		setQueryData: Function
+	) {
+		const newAuthor = {
+			authorId: userId,
+		}
+
+		try {
+			await updateDbObject(
+				changeDiscussionAuthor,
+				discussion.id_,
+				newAuthor,
 				setQueryData
 			)
 		} catch (error: any) {

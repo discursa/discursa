@@ -1,39 +1,11 @@
-import {
-	CommentType,
-	DiscussionType,
-	QuestionType,
-	ThreadType,
-} from "app/core/types"
+import { CommentType, QuestionType, ThreadType } from "app/core/types"
 
 export const getNoRepliedComments = (comments: CommentType[]) => {
 	const noRepliedComments = comments.filter((comment) => {
-		return comment.replierId === ""
+		return comment.replierId === null
 	})
 
 	return noRepliedComments
-}
-
-export const getAllDiscussionsComments = (comments: CommentType[]) => {
-	const noRepliedComments = getNoRepliedComments(comments)
-
-	const allDiscussionsComments = noRepliedComments.filter((comment) => {
-		return comment.type === "discussion"
-	})
-
-	return allDiscussionsComments
-}
-
-export const getDiscussionComments = (
-	comments: CommentType[],
-	discussion: DiscussionType
-) => {
-	const allDiscussionsComments = getAllDiscussionsComments(comments)
-
-	const discussionComments = allDiscussionsComments.filter((comment) => {
-		return comment.parent === discussion.id_
-	})
-
-	return discussionComments
 }
 
 export const getAllThreadsComments = (comments: CommentType[]) => {

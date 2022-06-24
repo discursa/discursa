@@ -1,64 +1,28 @@
-import getComments from "app/api/queries/Comment/getComments"
-import getPaginatedComments from "app/api/queries/Comment/getPaginatedComments"
 import getDiscussion from "app/api/queries/Discussion/getDiscussion"
 import getThread from "app/api/queries/Thread/getThread"
 import getThreads from "app/api/queries/Thread/getThreads"
 import getUserById from "app/api/queries/User/getUserById"
-import { CommentService, ThreadService } from "app/api/services"
-import {
-	Alert,
-	Breadcrumbs,
-	Button,
-	CommentForm,
-	CommentList,
-	Header,
-	InfoBlock,
-	LoadingOverlay,
-	ModalWindow,
-} from "app/core/components"
-import { ITEMS_PER_PAGE } from "app/core/constants"
+import { Alert, Header, LoadingOverlay, ModalWindow } from "app/core/components"
+import { LoaderBox } from "app/core/components/LoaderBox/LoaderBox"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
-import {
-	AlertType,
-	CommentFormValuesType,
-	ModalWindowType,
-} from "app/core/types"
-import { icons } from "app/core/utils/icons"
-import { CommentSchema } from "app/core/validation"
+import { AlertType, ModalWindowType } from "app/core/types"
 import {
 	ThreadAsideWidget,
+	ThreadMainWidget,
 	ThreadsSidebarWidget,
 	UserBannedWidget,
 } from "app/core/widgets"
-import {
-	BlitzPage,
-	Link,
-	Routes,
-	usePaginatedQuery,
-	useParam,
-	useQuery,
-	useRouter,
-	useSession,
-} from "blitz"
+import { BlitzPage, useParam, useQuery, useSession } from "blitz"
 import { Fragment, Suspense, useState } from "react"
 
 const NESTING_LEVEL = "../../"
-const threadService = new ThreadService()
-const commentService = new CommentService()
 
 const ThreadPage = () => {
 	const threadId = useParam("threadId", "number")
-	const router = useRouter()
 	const session = useSession()
-	const page = Number(router.query.page) || 0
-	const [reply, setReply] = useState<boolean>(false)
 	const [alerts, setAlerts] = useState<AlertType[]>([])
 	const [modals, setModals] = useState<ModalWindowType[]>([])
-	const [user] = useQuery(getUserById, {
-		// @ts-ignore
-		id: session.userId,
-	})
 	const [thread, { setQueryData }] = useQuery(
 		getThread,
 		{
@@ -68,60 +32,13 @@ const ThreadPage = () => {
 			staleTime: Infinity,
 		}
 	)
-	const [{ paginatedComments, hasMore }, { isPreviousData }] =
-		usePaginatedQuery(getPaginatedComments, {
-			where: {
-				parent: threadId,
-				type: "question",
-			},
-			orderBy: { id_: "asc" },
-			skip: ITEMS_PER_PAGE * page,
-			take: ITEMS_PER_PAGE,
-		})
-	const [comments] = useQuery(getComments, {})
 
 	const [discussion] = useQuery(getDiscussion, {
 		id_: thread.parent,
 	})
+	// @ts-ignore
+	const [user] = useQuery(getUserById, { id: session.userId })
 	const [threads] = useQuery(getThreads, {})
-
-	const breadcrumbsItems = [
-		{
-			id: 0,
-			name: "General",
-			route: Routes.ShowHome(),
-		},
-		{
-			id: 1,
-			name: "Discussions",
-			route: Routes.ShowDiscussionsPage(),
-		},
-		{
-			id: 2,
-			name: discussion.name,
-			route: Routes.ShowDiscussionPage({ discussionId: discussion.id_ }),
-		},
-		{
-			id: 3,
-			name: thread.name,
-			route: Routes.ShowThreadPage({
-				discussionId: discussion.id_,
-				threadId: thread.id_,
-			}),
-		},
-	]
-
-	const commentThread = async (values: CommentFormValuesType) => {
-		await threadService.comment(
-			comments,
-			router,
-			values,
-			thread.id_,
-			null,
-			session,
-			thread
-		)
-	}
 
 	// @ts-ignore
 	return thread.banned.includes(session.userId) ? (
@@ -133,50 +50,29 @@ const ThreadPage = () => {
 			pageClass={styles.LayoutBase}
 			nestingLevel={NESTING_LEVEL}
 		>
-			<ThreadsSidebarWidget
-				discussion={discussion}
-				modals={modals}
-				setModals={setModals}
-				threads={threads}
-				session={session}
-				nestingLevel={NESTING_LEVEL}
-				questions={[]}
-			/>
-			<div className="w100 col g2">
-				<Breadcrumbs items={breadcrumbsItems} />
-				<CommentList
-					comments={paginatedComments}
+			<Suspense fallback={<LoaderBox size="sm" />}>
+				<ThreadsSidebarWidget
+					discussion={discussion}
+					modals={modals}
+					setModals={setModals}
+					threads={threads}
 					session={session}
-					reply={reply}
-					editComment={async () => {
-						await commentService.update()
-					}}
-					setReply={setReply}
 					nestingLevel={NESTING_LEVEL}
-					type="thread"
-					parent={thread}
-					page={page}
-					isPreviousData={isPreviousData}
-					hasMore={hasMore}
 				/>
-				<CommentForm
-					className="w100 g1"
-					submitText="Create"
-					schema={CommentSchema}
-					initialValues={{ message: "" }}
-					onSubmit={async (values) => {
-						await commentThread(values)
-					}}
+			</Suspense>
+			<Suspense fallback={<LoaderBox size="sm" />}>
+				<ThreadMainWidget threadId={threadId} nestingLevel={NESTING_LEVEL} />
+			</Suspense>
+			<Suspense fallback={<LoaderBox size="sm" />}>
+				<ThreadAsideWidget
+					thread={thread}
+					user={user}
+					nestingLevel={NESTING_LEVEL}
+					setQueryData={setQueryData}
+					setModals={setModals}
+					modals={modals}
 				/>
-			</div>
-			<ThreadAsideWidget
-				thread={thread}
-				user={user}
-				nestingLevel={NESTING_LEVEL}
-				setQueryData={setQueryData}
-				setModals={setModals}
-				modals={modals}
-			/>
+			</Suspense>
 			{alerts.map((alert) => (
 				<Alert
 					key={alert.id}
