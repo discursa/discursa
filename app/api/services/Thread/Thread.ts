@@ -3,7 +3,13 @@ import deleteThread from "app/api/mutations/Thread/deleteThread"
 import joinThread from "app/api/mutations/Thread/joinThread"
 import leaveThread from "app/api/mutations/Thread/leaveThread"
 import updateThread from "app/api/mutations/Thread/updateThread"
-import { CommentType, DiscussionType, ThreadType } from "app/core/types"
+import {
+	CommentFormValuesType,
+	CommentType,
+	DiscussionType,
+	ThreadFormValuesType,
+	ThreadType,
+} from "app/core/types"
 import {
 	addObjectToDb,
 	deleteObjectFromDb,
@@ -13,7 +19,6 @@ import {
 } from "app/core/utils/functions"
 import { BlitzRouter, ClientSession, Routes } from "blitz"
 import { CommentService } from "../Comment/Comment"
-import { CommentValuesType } from "../Discussion/Discussion.types"
 import { ThreadServiceType } from "./Thread.types"
 
 interface ValuesType {
@@ -24,7 +29,7 @@ interface ValuesType {
 export class ThreadService implements ThreadServiceType {
 	async create(
 		threads: ThreadType[],
-		values: ValuesType,
+		values: ThreadFormValuesType,
 		discussion: DiscussionType,
 		router: BlitzRouter,
 		session: ClientSession
@@ -32,6 +37,7 @@ export class ThreadService implements ThreadServiceType {
 		const thread = {
 			id_: getId(threads),
 			name: values.name,
+			message: values.message,
 			visibility: values.visibility,
 			members: values.visibility === "Private" ? [session.userId] : [],
 			parent: discussion.id_,
@@ -59,7 +65,7 @@ export class ThreadService implements ThreadServiceType {
 	async comment(
 		comments: CommentType[],
 		router: BlitzRouter,
-		values: CommentValuesType,
+		values: CommentFormValuesType,
 		parentId: number,
 		replierId: number | null,
 		session: ClientSession,
@@ -128,4 +134,6 @@ export class ThreadService implements ThreadServiceType {
 			throw new Error(error)
 		}
 	}
+
+	// TODO: Add change author method
 }

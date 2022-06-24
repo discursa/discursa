@@ -8,7 +8,7 @@ import {
 	getSearchItems,
 } from "app/core/utils/functions"
 import { icons } from "app/core/utils/icons"
-import { Link, Routes } from "blitz"
+import { Link, Routes, useRouter } from "blitz"
 import { FC, Fragment, Suspense, useState } from "react"
 import { Button } from "../../Button/Button"
 import { Icon } from "../../Icon/Icon"
@@ -21,8 +21,6 @@ interface QuestionsAccordionProps {
 	discussion: DiscussionType
 	questions: QuestionType[]
 	nestingLevel: string
-	modals: ModalWindowType[]
-	setModals: Function
 }
 
 interface CompactQuestionsListProps {
@@ -33,16 +31,10 @@ interface CompactQuestionsListProps {
 }
 
 export const QuestionsAccordion: FC<QuestionsAccordionProps> = (props) => {
-	const { discussion, questions, nestingLevel, modals, setModals } = props
+	const { discussion, questions, nestingLevel } = props
 	const [query, setQuery] = useState<string>("")
 
-	const createQuestionModal = {
-		id: getId(modals),
-		title: "Ask question",
-		children: (
-			<CreateQuestionModal questions={questions} discussion={discussion} />
-		),
-	}
+	const router = useRouter()
 
 	const additionalButton = (
 		<IconButton
@@ -50,7 +42,9 @@ export const QuestionsAccordion: FC<QuestionsAccordionProps> = (props) => {
 			size="sm"
 			href={icons.plus}
 			nestinglevel={nestingLevel}
-			onClick={() => addObjectToStore(setModals, createQuestionModal)}
+			onClick={() =>
+				router.push(`/discussions/${discussion.id_}/questions/new`)
+			}
 		/>
 	)
 

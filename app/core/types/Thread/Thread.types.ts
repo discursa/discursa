@@ -1,8 +1,12 @@
-export interface ThreadType {
+interface ThreadFormValuesType {
+	name: string
+	message: string
+	visibility: string
+}
+
+interface ThreadType extends ThreadFormValuesType {
 	id: string
 	id_: number
-	name: string
-	visibility: string
 	members: string[]
 	banned: string[]
 	parent: number
@@ -10,3 +14,5 @@ export interface ThreadType {
 	createdAt: Date
 	updatedAt: Date
 }
+
+export type { ThreadFormValuesType, ThreadType }

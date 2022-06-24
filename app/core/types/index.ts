@@ -8,7 +8,7 @@ import {
 import { ModalWindowType } from "./ModalWindow/ModalWindow.types"
 import { NotificationType } from "./Notification/Notification.types"
 import { QuestionType, QuestionFromValuesType } from "./Question/Question.types"
-import { ThreadType } from "./Thread/Thread.types"
+import { ThreadType, ThreadFormValuesType } from "./Thread/Thread.types"
 
 type ObjectType =
 	| DiscussionType
@@ -32,4 +32,5 @@ export type {
 	QuestionFromValuesType,
 	CommentFormValuesType,
 	DiscussionFormValuesType,
+	ThreadFormValuesType,
 }

@@ -168,6 +168,7 @@ export class QuestionService implements QuestionServiceType {
 
 	async leave(question: QuestionType, userId: string, setQueryData: Function) {
 		const leavedQuestion = {
+			// @ts-ignore
 			members: removeElementFromArray(question.members, session.userId),
 		}
 
@@ -183,4 +184,6 @@ export class QuestionService implements QuestionServiceType {
 			throw new Error(error)
 		}
 	}
+
+	// TODO: Write change question author method
 }

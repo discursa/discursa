@@ -1,7 +1,8 @@
 import { z } from "zod"
-import { name } from "app/core/utils/validation"
+import { name, message } from "app/core/utils/validation"
 
 export const ThreadSchema = z.object({
 	name,
+	message,
 	visibility: z.string(),
 })
