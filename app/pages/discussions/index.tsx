@@ -13,6 +13,7 @@ import {
 	LoadingOverlay,
 	ModalWindow,
 } from "app/core/components"
+import { LoaderBox } from "app/core/components/LoaderBox/LoaderBox"
 import { ITEMS_PER_PAGE } from "app/core/constants"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
@@ -98,12 +99,14 @@ const DiscussionsPage: FC = () => {
 			pageClass={styles.LayoutBase}
 			nestingLevel={NESTING_LEVEL}
 		>
-			<DiscussionCategoriesSidebarWidget
-				discussions={paginatedDiscussions}
-				allDiscussions={allDiscussions}
-				setCurrentDiscussions={setCurrentDiscussions}
-				nestingLevel={NESTING_LEVEL}
-			/>
+			<Suspense fallback={<LoaderBox size="sm" />}>
+				<DiscussionCategoriesSidebarWidget
+					discussions={paginatedDiscussions}
+					allDiscussions={allDiscussions}
+					setCurrentDiscussions={setCurrentDiscussions}
+					nestingLevel={NESTING_LEVEL}
+				/>
+			</Suspense>
 			<div>
 				<div className="w100 row aic jcc g1 bottom-space-md">
 					<ButtonGroup
@@ -136,16 +139,18 @@ const DiscussionsPage: FC = () => {
 						New
 					</Button>
 				</div>
-				<DiscussionList
-					discussions={currentDiscussions}
-					top={top}
-					search={paginatedDiscussions.length !== 0}
-					query={query}
-					nestingLevel={NESTING_LEVEL}
-					isPreviousData={isPreviousData}
-					hasMore={hasMore}
-					page={page}
-				/>
+				<Suspense fallback={<LoaderBox size="sm" />}>
+					<DiscussionList
+						discussions={currentDiscussions}
+						top={top}
+						search={paginatedDiscussions.length !== 0}
+						query={query}
+						nestingLevel={NESTING_LEVEL}
+						isPreviousData={isPreviousData}
+						hasMore={hasMore}
+						page={page}
+					/>
+				</Suspense>
 			</div>
 			<div />
 			{modals.map((modal) => (

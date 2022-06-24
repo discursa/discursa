@@ -1,12 +1,15 @@
-export interface DiscussionType {
-	id: string
-	id_: number
+interface DiscussionFormValuesType {
 	name: string
+	category: string
 	message: string
 	visibility: string
-	category: string
-	authorId: string
 	voting: boolean
+}
+
+interface DiscussionType extends DiscussionFormValuesType {
+	id: string
+	id_: number
+	authorId: string
 	upvotes: number
 	unvotes: number
 	members: string[]
@@ -17,3 +20,5 @@ export interface DiscussionType {
 	createdAt: Date
 	updatedAt: Date
 }
+
+export type { DiscussionFormValuesType, DiscussionType }

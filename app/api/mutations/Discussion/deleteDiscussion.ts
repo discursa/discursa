@@ -10,7 +10,6 @@ export default resolver.pipe(
 	resolver.zod(DeleteDiscussion),
 	resolver.authorize(),
 	async ({ id_ }) => {
-		await db.comment.deleteMany({ where: { parent: id_, type: "discussion" } })
 		await db.comment.deleteMany({ where: { grandParent: id_, type: "thread" } })
 		await db.comment.deleteMany({
 			where: { grandParent: id_, type: "question" },

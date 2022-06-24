@@ -8,6 +8,7 @@
 	height: auto;
 	background: var(--bg-800);
 	border: 2px solid var(--bg-700);
+	border-radius: $radius-lg;
 	padding: 1rem;
 	box-sizing: border-box;
 }

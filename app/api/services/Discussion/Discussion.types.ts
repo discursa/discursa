@@ -1,7 +1,6 @@
 import { DefaultServiceType } from "../types"
 
 export interface DiscussionServiceType extends DefaultServiceType {
-	comment: Function
 	upvote: Function
 	unvote: Function
 	subscribe: Function
@@ -10,21 +9,5 @@ export interface DiscussionServiceType extends DefaultServiceType {
 	join: Function
 	ban: Function
 	unban: Function
-}
-
-export interface ValuesType {
-	name: string
-	message: string
-	category: string
-	visibility: string
-	voting: boolean
-}
-
-export interface CommentValuesType {
-	message: string
-}
-
-export interface UpvotedValuesType {
-	upvotes: number
-	vouters: string[]
+	changeAuthor: Function
 }

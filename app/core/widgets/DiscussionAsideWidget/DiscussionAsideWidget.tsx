@@ -110,6 +110,19 @@ export const DiscussionAsideWidget: FC<DiscussionAsideWidgetProps> = (
 		),
 	}
 
+	const changeAuthor = async () => {
+		if (discussion.authorId === session.userId) {
+			addObjectToStore(setModals, changeAuthorModal)
+		} else {
+			await discussionService.leave(
+				discussion,
+				// @ts-ignore
+				session.userId,
+				setQueryData
+			)
+		}
+	}
+
 	const getDiscussionNotifications = async () => {
 		if (check.subscribe(discussion, session)) {
 			await discussionService.unsubscribe(
@@ -259,14 +272,7 @@ export const DiscussionAsideWidget: FC<DiscussionAsideWidgetProps> = (
 				<Button
 					variant="danger"
 					size="md"
-					onClick={async () => {
-						await discussionService.leave(
-							discussion,
-							// @ts-ignore
-							session.userId,
-							setQueryData
-						)
-					}}
+					onClick={changeAuthor}
 					styles="w100"
 					leadingicon={signOutIcon}
 				>
