@@ -44,8 +44,6 @@ export const DiscussionPage = () => {
 				<ThreadsSidebarWidget
 					discussion={discussion}
 					nestingLevel={NESTING_LEVEL}
-					modals={modals}
-					setModals={setModals}
 					threads={threads}
 					session={session}
 				/>

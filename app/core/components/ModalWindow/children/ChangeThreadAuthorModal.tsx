@@ -1,12 +1,12 @@
 import { User } from "@prisma/client"
-import { QuestionService } from "app/api/services"
-import { QuestionType } from "app/core/types"
+import { ThreadService } from "app/api/services"
+import { ThreadType } from "app/core/types"
 import { FC, Fragment, useState } from "react"
 import { ChangeAuthorForm } from "../../Form/children/ChangeAuthorForm"
 
-interface ChangeQuestionAuthorModalProps {
+interface ChangeThreadAuthorModalProps {
 	users: User[]
-	question: QuestionType
+	thread: ThreadType
 	setQueryData: Function
 }
 
@@ -14,22 +14,22 @@ interface ChangeAuthorFormValuesType {
 	username: string
 }
 
-export const ChangeQuestionAuthorModal: FC<ChangeQuestionAuthorModalProps> = (
+export const ChangeThreadAuthorModal: FC<ChangeThreadAuthorModalProps> = (
 	props
 ) => {
-	const { users, question, setQueryData } = props
+	const { users, thread, setQueryData } = props
 
 	const [error, setError] = useState<boolean>(false)
 
 	const submitRequest = async (values: ChangeAuthorFormValuesType) => {
-		const questionService = new QuestionService()
+		const threadService = new ThreadService()
 		const newAuthor = users.find((user) => {
 			return user.name === values.username
 		})
 
 		if (newAuthor !== undefined) {
 			setError(false)
-			await questionService.changeAuthor(question, newAuthor.id, setQueryData)
+			await threadService.changeAuthor(thread, newAuthor.id, setQueryData)
 		} else {
 			setError(true)
 		}

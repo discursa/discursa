@@ -109,6 +109,7 @@ model Thread {
   updatedAt  DateTime @updatedAt
   id_        Int      @unique
   name       String   @unique
+  message    String
   visibility String
   members    String[]
   parent     Int

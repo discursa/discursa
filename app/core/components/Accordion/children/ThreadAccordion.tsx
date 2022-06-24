@@ -28,31 +28,12 @@ interface CompactThreadListProps {
 	query?: string
 }
 
-interface ThreadsAccordionProps extends CompactThreadListProps {
-	modals: ModalWindowType[]
-	setModals: Function
-}
-
-export const ThreadAccordion: FC<ThreadsAccordionProps> = (props) => {
-	const { discussion, threads, modals, setModals, session, nestingLevel } =
-		props
+export const ThreadAccordion: FC<CompactThreadListProps> = (props) => {
+	const { discussion, threads, session, nestingLevel } = props
 
 	const [query, setQuery] = useState<string>("")
 
 	const router = useRouter()
-
-	const createThreadModal = {
-		id: getId(modals),
-		title: "Create thread",
-		children: (
-			<CreateThreadModal
-				threads={threads}
-				discussion={discussion}
-				router={router}
-				session={session}
-			/>
-		),
-	}
 
 	const additionalButton = (
 		<IconButton
@@ -60,7 +41,7 @@ export const ThreadAccordion: FC<ThreadsAccordionProps> = (props) => {
 			size="sm"
 			href={icons.plus}
 			nestinglevel={nestingLevel}
-			onClick={() => addObjectToStore(setModals, createThreadModal)}
+			onClick={() => router.push(`/discussions/${discussion.id_}/threads/new`)}
 		/>
 	)
 

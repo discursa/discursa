@@ -46,8 +46,6 @@ const QuestionPage: FC = () => {
 					session={session}
 					threads={threads}
 					nestingLevel={NESTING_LEVEL}
-					modals={modals}
-					setModals={setModals}
 				/>
 			</Suspense>
 			<Suspense fallback={<LoaderBox size="sm" />}>

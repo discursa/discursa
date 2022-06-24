@@ -5,4 +5,5 @@ export interface QuestionServiceType extends DefaultServiceType {
 	comment: Function
 	join: Function
 	leave: Function
+	changeAuthor: Function
 }

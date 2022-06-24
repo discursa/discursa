@@ -5,6 +5,7 @@ import { z } from "zod"
 const CreateThread = z.object({
 	id_: z.number(),
 	name: z.string(),
+	message: z.string(),
 	visibility: z.string(),
 	members: z.string().array().optional(),
 	parent: z.number(),

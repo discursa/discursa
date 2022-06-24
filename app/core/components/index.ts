@@ -29,8 +29,6 @@ import { AddUserToPrivateQuestionModal } from "./ModalWindow/children/AddUserToP
 import { AddUserToUSerThreadModal } from "./ModalWindow/children/AddUserToPrivateThreadModal"
 import { ChangeDiscussionAuthorModal } from "./ModalWindow/children/ChangeDiscussionAuthorModal"
 import { CreateCategoryModal } from "./ModalWindow/children/CreateCategoryModal"
-import { CreateQuestionModal } from "./ModalWindow/children/CreateQuestionModal"
-import { CreateThreadModal } from "./ModalWindow/children/CreateThreadModal"
 import { DeleteDiscussionModal } from "./ModalWindow/children/DeleteDiscussionModal"
 import { DeleteQuestionModal } from "./ModalWindow/children/DeleteQuestionModal"
 import { JoinToPrivateDisussionModal } from "./ModalWindow/children/JoinToDiscussionModal"
@@ -42,6 +40,7 @@ import { Navbar } from "./Navbar/Navbar"
 import { Pagination } from "./Pagination/Pagination"
 import { Spinner } from "./Spinner/Spinner"
 import { ChangeQuestionAuthorModal } from "./ModalWindow/children/ChangeQuestionAuthorModal"
+import { ChangeThreadAuthorModal } from "./ModalWindow/children/ChangeThreadAuthorModal"
 
 export {
 	AddUserForm,
@@ -57,7 +56,6 @@ export {
 	CommentForm,
 	CommentList,
 	CreateCategoryModal,
-	CreateThreadModal,
 	DiscussionForm,
 	DiscussionList,
 	Header,
@@ -83,9 +81,9 @@ export {
 	QuestionsAccordion,
 	Accordion,
 	ThreadAccordion,
-	CreateQuestionModal,
 	Pagination,
 	DeleteQuestionModal,
 	AddUserToPrivateQuestionModal,
 	ChangeQuestionAuthorModal,
+	ChangeThreadAuthorModal,
 }

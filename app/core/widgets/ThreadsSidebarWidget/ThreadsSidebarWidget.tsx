@@ -9,12 +9,10 @@ interface ThreadsSidebarWidgetProps {
 	session: ClientSession
 	threads: ThreadType[]
 	nestingLevel: string
-	modals: ModalWindowType[]
-	setModals: Function
 }
 
 export const ThreadsSidebarWidget: FC<ThreadsSidebarWidgetProps> = (props) => {
-	const { discussion, nestingLevel, modals, setModals, threads } = props
+	const { discussion, nestingLevel, threads } = props
 
 	const session = useSession()
 	const [questions] = useQuery(getQuestions, {})
@@ -22,8 +20,6 @@ export const ThreadsSidebarWidget: FC<ThreadsSidebarWidgetProps> = (props) => {
 	return (
 		<aside className="w100 col g2">
 			<ThreadAccordion
-				modals={modals}
-				setModals={setModals}
 				discussion={discussion}
 				session={session}
 				threads={threads}
@@ -33,8 +29,6 @@ export const ThreadsSidebarWidget: FC<ThreadsSidebarWidgetProps> = (props) => {
 				discussion={discussion}
 				questions={questions}
 				nestingLevel={nestingLevel}
-				modals={modals}
-				setModals={setModals}
 			/>
 		</aside>
 	)

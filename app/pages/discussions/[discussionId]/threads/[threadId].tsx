@@ -53,8 +53,6 @@ const ThreadPage = () => {
 			<Suspense fallback={<LoaderBox size="sm" />}>
 				<ThreadsSidebarWidget
 					discussion={discussion}
-					modals={modals}
-					setModals={setModals}
 					threads={threads}
 					session={session}
 					nestingLevel={NESTING_LEVEL}

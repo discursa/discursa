@@ -1,12 +1,12 @@
 import { RouteUrlObject } from "blitz"
 
 export interface BreadcrumbsProps {
-  items: BreadcrumbsItem[]
-  separator?: ">" | "/"
+	items: BreadcrumbsItem[]
+	separator?: ">" | "/"
 }
 
 interface BreadcrumbsItem {
-  id: number
-  name: string
-  route: RouteUrlObject
+	id: number
+	name: string
+	route: RouteUrlObject | string
 }
