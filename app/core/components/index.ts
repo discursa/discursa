@@ -40,6 +40,7 @@ import { Navbar } from "./Navbar/Navbar"
 import { Pagination } from "./Pagination/Pagination"
 import { Spinner } from "./Spinner/Spinner"
 import { ChangeQuestionAuthorModal } from "./ModalWindow/children/ChangeQuestionAuthorModal"
+import { ChangeThreadAuthorModal } from "./ModalWindow/children/ChangeThreadAuthorModal"
 
 export {
 	AddUserForm,
@@ -84,4 +85,5 @@ export {
 	DeleteQuestionModal,
 	AddUserToPrivateQuestionModal,
 	ChangeQuestionAuthorModal,
+	ChangeThreadAuthorModal,
 }

@@ -1,10 +1,12 @@
 import answerQuestion from "app/api/mutations/Question/answerQuestion"
+import changeQuestionAuthor from "app/api/mutations/Question/changeQuestionAuthor"
 import createQuestion from "app/api/mutations/Question/createQuestion"
 import deleteQuestion from "app/api/mutations/Question/deleteQuestion"
 import joinQuestion from "app/api/mutations/Question/joinQuestion"
 import updateQuestion from "app/api/mutations/Question/updateQuestion"
 import { check } from "app/core/modules/Check"
 import {
+	CommentFormValuesType,
 	CommentType,
 	DiscussionType,
 	QuestionFromValuesType,
@@ -20,7 +22,6 @@ import {
 import { BlitzRouter, ClientSession, Routes } from "blitz"
 import { a } from "react-spring"
 import { CommentService } from "../Comment/Comment"
-import { CommentValuesType } from "../Discussion/Discussion.types"
 import { QuestionServiceType } from "./Question.types"
 
 export class QuestionService implements QuestionServiceType {
@@ -123,7 +124,7 @@ export class QuestionService implements QuestionServiceType {
 	async comment(
 		comments: CommentType[],
 		router: BlitzRouter,
-		values: CommentValuesType,
+		values: CommentFormValuesType,
 		parentId: number,
 		replierId: number | null,
 		session: ClientSession,
@@ -168,8 +169,7 @@ export class QuestionService implements QuestionServiceType {
 
 	async leave(question: QuestionType, userId: string, setQueryData: Function) {
 		const leavedQuestion = {
-			// @ts-ignore
-			members: removeElementFromArray(question.members, session.userId),
+			members: removeElementFromArray(question.members, userId),
 		}
 
 		try {
@@ -185,5 +185,25 @@ export class QuestionService implements QuestionServiceType {
 		}
 	}
 
-	// TODO: Write change question author method
+	async changeAuthor(
+		question: QuestionType,
+		userId: string,
+		setQueryData: Function
+	) {
+		const newAuthor = {
+			authorId: userId,
+		}
+
+		try {
+			await updateDbObject(
+				changeQuestionAuthor,
+				question.id_,
+				newAuthor,
+				setQueryData
+			)
+		} catch (error: any) {
+			console.log(error)
+			throw new Error(error)
+		}
+	}
 }

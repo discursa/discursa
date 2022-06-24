@@ -5,6 +5,7 @@ import {
 	AddUserToUSerThreadModal,
 	Avatar,
 	Button,
+	ChangeThreadAuthorModal,
 	Icon,
 	UpdateThreadModal,
 } from "app/core/components"
@@ -18,6 +19,7 @@ import { icons } from "app/core/utils/icons"
 import { Link, Routes, useQuery, useRouter, useSession } from "blitz"
 import { FC, Fragment } from "react"
 import { check } from "app/core/modules/Check"
+import getUsers from "app/api/queries/User/getUsers"
 
 interface ThreadAsideWidgetProps {
 	thread: ThreadType
@@ -35,6 +37,7 @@ export const ThreadAsideWidget: FC<ThreadAsideWidgetProps> = (props) => {
 
 	const session = useSession()
 	const router = useRouter()
+	const [users] = useQuery(getUsers, {})
 
 	const [notifications] = useQuery(getNotifications, {})
 
@@ -62,6 +65,18 @@ export const ThreadAsideWidget: FC<ThreadAsideWidgetProps> = (props) => {
 		),
 	}
 
+	const changeThreadAuthorModal = {
+		id: getId(modals),
+		title: "Change author",
+		children: (
+			<ChangeThreadAuthorModal
+				users={users}
+				thread={thread}
+				setQueryData={setQueryData}
+			/>
+		),
+	}
+
 	const gearIcon = (
 		<Icon size="sm" href={icons.gear} nestingLevel={nestingLevel} />
 	)
@@ -77,6 +92,15 @@ export const ThreadAsideWidget: FC<ThreadAsideWidgetProps> = (props) => {
 	const peopleIcon = (
 		<Icon size="sm" href={icons.people} nestingLevel={nestingLevel} />
 	)
+
+	const leaveThread = async () => {
+		if (thread.authorId !== session.userId) {
+			// @ts-ignore
+			await threadService.leave(thread, session.userId, setQueryData)
+		} else {
+			addObjectToStore(setModals, changeThreadAuthorModal)
+		}
+	}
 
 	return (
 		<aside className="w100 col g1 pr-40px box-border">

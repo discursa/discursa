@@ -1,3 +1,4 @@
+import changeThreadAuthor from "app/api/mutations/Thread/changeThreadAuthor"
 import createThread from "app/api/mutations/Thread/createThread"
 import deleteThread from "app/api/mutations/Thread/deleteThread"
 import joinThread from "app/api/mutations/Thread/joinThread"
@@ -135,5 +136,25 @@ export class ThreadService implements ThreadServiceType {
 		}
 	}
 
-	// TODO: Add change author method
+	async changeAuthor(
+		thread: ThreadType,
+		userId: string,
+		setQueryData: Function
+	) {
+		const newAuthor = {
+			authorId: userId,
+		}
+
+		try {
+			await updateDbObject(
+				changeThreadAuthor,
+				thread.id_,
+				newAuthor,
+				setQueryData
+			)
+		} catch (error: any) {
+			console.log(error)
+			throw new Error(error)
+		}
+	}
 }
