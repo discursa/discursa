@@ -3,6 +3,7 @@ import {
 	QuestionService,
 	ThreadService,
 } from "app/api/services"
+import { typeGuard } from "app/core/modules/TypeGuard"
 import { getSearchItems } from "app/core/utils/functions"
 import { icons } from "app/core/utils/icons"
 import { setQueryData } from "blitz"
@@ -20,29 +21,30 @@ import {
 export const UserList: FC<UserListProps> = (props) => {
 	const { members, nestingLevel, type, object } = props
 
+	const threadType = type === "thread" && typeGuard.isThread(object)
+	const discussionType = type === "discussion" && typeGuard.isDiscussion(object)
+	const questionType = type === "question" && typeGuard.isQuestion(object)
+
 	return (
 		<ul className={styles.UserList}>
-			{type === "thread" && (
+			{threadType && (
 				<ThreadUserList
-					// @ts-ignore
 					thread={object}
 					members={members}
 					nestingLevel={nestingLevel}
 					setQueryData={setQueryData}
 				/>
 			)}
-			{type === "discussion" && (
+			{discussionType && (
 				<DiscussionUserList
-					// @ts-ignore
 					discussion={object}
 					members={members}
 					nestingLevel={nestingLevel}
 					setQueryData={setQueryData}
 				/>
 			)}
-			{type === "question" && (
+			{questionType && (
 				<QuestionUserList
-					// @ts-ignore
 					question={object}
 					members={members}
 					nestingLevel={nestingLevel}

@@ -10,6 +10,7 @@ import {
 	ModalWindow,
 } from "app/core/components"
 import { check } from "app/core/modules/Check"
+import { typeGuard } from "app/core/modules/TypeGuard"
 import { ModalWindowType, QuestionType } from "app/core/types"
 import {
 	addObjectToStore,
@@ -88,8 +89,10 @@ export const QuestionAsideWidget: FC<QuestionAsideWidgetProps> = (props) => {
 			addObjectToStore(setModals, changeQuestionAuthorModal)
 		} else {
 			const questionService = new QuestionService()
-			//@ts-ignore
-			await questionService.leave(question, session.userId, setQueryData)
+
+			if (typeGuard.isString(session.userId)) {
+				await questionService.leave(question, session.userId, setQueryData)
+			}
 		}
 	}
 

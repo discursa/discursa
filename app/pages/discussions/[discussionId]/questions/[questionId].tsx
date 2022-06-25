@@ -5,6 +5,7 @@ import { Header, LoadingOverlay, ModalWindow } from "app/core/components"
 import { LoaderBox } from "app/core/components/LoaderBox/LoaderBox"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
+import { typeGuard } from "app/core/modules/TypeGuard"
 import { ModalWindowType } from "app/core/types"
 import {
 	QuestionAsideWidget,
@@ -30,8 +31,11 @@ const QuestionPage: FC = () => {
 	const [threads] = useQuery(getThreads, {})
 	const [modals, setModals] = useState<ModalWindowType[]>([])
 
-	// @ts-ignore
-	return question.banned.includes(session.userId) ? (
+	const userBannedCondition =
+		typeGuard.isString(session.userId) &&
+		question.banned.includes(session.userId)
+
+	return userBannedCondition ? (
 		<UserBannedWidget nestingLevel={NESTING_LEVEL} />
 	) : (
 		<Layout

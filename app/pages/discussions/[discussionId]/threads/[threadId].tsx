@@ -6,6 +6,7 @@ import { Alert, Header, LoadingOverlay, ModalWindow } from "app/core/components"
 import { LoaderBox } from "app/core/components/LoaderBox/LoaderBox"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
+import { typeGuard } from "app/core/modules/TypeGuard"
 import { AlertType, ModalWindowType } from "app/core/types"
 import {
 	ThreadAsideWidget,
@@ -39,9 +40,10 @@ const ThreadPage = () => {
 	// @ts-ignore
 	const [user] = useQuery(getUserById, { id: session.userId })
 	const [threads] = useQuery(getThreads, {})
+	const userBannedCondition =
+		typeGuard.isString(session.userId) && thread.banned.includes(session.userId)
 
-	// @ts-ignore
-	return thread.banned.includes(session.userId) ? (
+	return userBannedCondition ? (
 		<UserBannedWidget nestingLevel={NESTING_LEVEL} />
 	) : (
 		<Layout

@@ -1,3 +1,4 @@
+import { typeGuard } from "app/core/modules/TypeGuard"
 import { DiscussionType, ThreadType } from "app/core/types"
 import { ClientSession } from "blitz"
 
@@ -36,8 +37,9 @@ export const getUserPrivateThreads = (
 	)
 
 	const userPrivateThreads = privateDiscussionThreads.filter((thread) => {
-		// @ts-ignore
-		return thread.members?.includes(session.userId)
+		if (typeGuard.isString(session.userId)) {
+			return thread.members.includes(session.userId)
+		}
 	})
 
 	return userPrivateThreads

@@ -11,6 +11,7 @@ import {
 } from "app/core/components"
 import { AddUserToPrivateDiscussionModal } from "app/core/components/ModalWindow/children/AddUserToPrivateDiscussionModal"
 import { check } from "app/core/modules/Check"
+import { typeGuard } from "app/core/modules/TypeGuard"
 import { DiscussionType, ModalWindowType } from "app/core/types"
 import {
 	addObjectToStore,
@@ -113,28 +114,24 @@ export const DiscussionAsideWidget: FC<DiscussionAsideWidgetProps> = (
 	const changeAuthor = async () => {
 		if (discussion.authorId === session.userId) {
 			addObjectToStore(setModals, changeAuthorModal)
-		} else {
-			await discussionService.leave(
-				discussion,
-				// @ts-ignore
-				session.userId,
-				setQueryData
-			)
+		} else if (typeGuard.isString(session.userId)) {
+			await discussionService.leave(discussion, session.userId, setQueryData)
 		}
 	}
 
 	const getDiscussionNotifications = async () => {
-		if (check.subscribe(discussion, session)) {
+		if (
+			check.subscribe(discussion, session) &&
+			typeGuard.isString(session.userId)
+		) {
 			await discussionService.unsubscribe(
 				discussion,
-				// @ts-ignore
 				session.userId,
 				setQueryData
 			)
-		} else {
+		} else if (typeGuard.isString(session.userId)) {
 			await discussionService.subscribe(
 				discussion,
-				// @ts-ignore
 				session.userId,
 				setQueryData
 			)
@@ -142,13 +139,15 @@ export const DiscussionAsideWidget: FC<DiscussionAsideWidgetProps> = (
 	}
 
 	const upvoteDiscussion = async () => {
-		// @ts-ignore
-		await discussionService.upvote(discussion, session.userId, setQueryData)
+		if (typeGuard.isString(session.userId)) {
+			await discussionService.upvote(discussion, session.userId, setQueryData)
+		}
 	}
 
 	const unvoteDiscussion = async () => {
-		// @ts-ignore
-		await discussionService.unvote(discussion, session.userId, setQueryData)
+		if (typeGuard.isString(session.userId)) {
+			await discussionService.unvote(discussion, session.userId, setQueryData)
+		}
 	}
 
 	return (

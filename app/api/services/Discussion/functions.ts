@@ -1,4 +1,5 @@
 import { check } from "app/core/modules/Check"
+import { typeGuard } from "app/core/modules/TypeGuard"
 import { CommentType, DiscussionType } from "app/core/types"
 import { ClientSession } from "blitz"
 
@@ -25,8 +26,9 @@ const getUserPrivateDiscussions = (
 	const privateDiscussions = getPrivateDiscussions(discussions)
 
 	const userPrivateDiscussions = privateDiscussions.filter((discussions) => {
-		// @ts-ignore
-		return discussions.members.includes(session.userId)
+		if (typeGuard.isString(session.userId)) {
+			return discussions.members.includes(session.userId)
+		}
 	})
 
 	return userPrivateDiscussions

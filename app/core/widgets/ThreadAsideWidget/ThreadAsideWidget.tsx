@@ -20,6 +20,7 @@ import { Link, Routes, useQuery, useRouter, useSession } from "blitz"
 import { FC, Fragment } from "react"
 import { check } from "app/core/modules/Check"
 import getUsers from "app/api/queries/User/getUsers"
+import { typeGuard } from "app/core/modules/TypeGuard"
 
 interface ThreadAsideWidgetProps {
 	thread: ThreadType
@@ -94,8 +95,10 @@ export const ThreadAsideWidget: FC<ThreadAsideWidgetProps> = (props) => {
 	)
 
 	const leaveThread = async () => {
-		if (thread.authorId !== session.userId) {
-			// @ts-ignore
+		if (
+			thread.authorId !== session.userId &&
+			typeGuard.isString(session.userId)
+		) {
 			await threadService.leave(thread, session.userId, setQueryData)
 		} else {
 			addObjectToStore(setModals, changeThreadAuthorModal)
@@ -121,8 +124,7 @@ export const ThreadAsideWidget: FC<ThreadAsideWidgetProps> = (props) => {
 				<p className="simple-text">Type:</p>
 				<p className="sub-text">{thread.visibility}</p>
 			</div>
-			{/* @ts-ignore */}
-			{check.private && (
+			{check.private(thread) && (
 				<Link
 					href={Routes.ShowThreadMembersPage({
 						discussionId: thread.parent,
@@ -174,10 +176,7 @@ export const ThreadAsideWidget: FC<ThreadAsideWidgetProps> = (props) => {
 				type="submit"
 				styles="w100"
 				leadingicon={signOutIcon}
-				onClick={async () => {
-					//@ts-ignore
-					await threadService.leave(thread, session.userId, setQueryData)
-				}}
+				onClick={leaveThread}
 			>
 				Leave
 			</Button>

@@ -8,7 +8,8 @@ import { CommentService, QuestionService } from "app/api/services"
 import { Breadcrumbs, CommentForm, CommentList } from "app/core/components"
 import { PreviewableMessage } from "app/core/components/PreviewableMessage/PreviewableMessage"
 import { ITEMS_PER_PAGE } from "app/core/constants"
-import { CommentFormValuesType } from "app/core/types"
+import { typeGuard } from "app/core/modules/TypeGuard"
+import { CommentFormValuesType, CommentType } from "app/core/types"
 import { CommentSchema } from "app/core/validation"
 import {
 	Routes,
@@ -51,6 +52,9 @@ export const QuestionMainWidget: FC<QuestionMainWidgetProps> = (props) => {
 	const answer = comments.find((comment) => {
 		return comment.id === question.answerId
 	})
+
+	const answerNonEqualUndefined =
+		question.answered && typeGuard.isComment(answer)
 
 	const [author] = useQuery(getUserById, {
 		id: answer?.authorId,
@@ -112,22 +116,20 @@ export const QuestionMainWidget: FC<QuestionMainWidgetProps> = (props) => {
 		)
 	}
 
-	// @ts-ignore
-	const paginatedCommentsWithoutAnswer = paginatedComments.filter((comment) => {
-		return comment.id !== question.answerId
-	})
+	const paginatedCommentsWithoutAnswer: CommentType[] =
+		paginatedComments.filter((comment: CommentType) => {
+			return comment.id !== question.answerId
+		})
 
 	return (
 		<section className="w100 col aifs jcfs g1">
 			<Breadcrumbs items={breadcrumbsItems} />
 			<h2>{question.name}</h2>
 			<PreviewableMessage message={question.description} user={user} />
-			{question.answered && (
+			{answerNonEqualUndefined && (
 				<Fragment>
 					<h3 className="top-space-sm">Suggested answer:</h3>
-					{/* @ts-ignore */}
 					<PreviewableMessage
-						// @ts-ignore
 						message={answer.message}
 						user={author}
 						answer={true}
