@@ -1,3 +1,4 @@
+import { typeGuard } from "app/core/modules/TypeGuard"
 import { useRouter } from "blitz"
 import React, { FC } from "react"
 import { Button } from "../Button/Button"
@@ -8,12 +9,14 @@ export const Pagination: FC<PaginationProps> = (props) => {
 	const { page, hasMore, isPreviousData } = props
 	const router = useRouter()
 
-	// @ts-ignore
-	const goToPreviousPage = () => router.push({ query: { page: page - 1 } })
+	const goToPreviousPage = () => {
+		if (typeGuard.isNumber(page)) {
+			router.push({ query: { page: page - 1 } })
+		}
+	}
 
 	const goToNextPage = () => {
-		if (!isPreviousData && hasMore) {
-			// @ts-ignore
+		if (!isPreviousData && hasMore && typeGuard.isNumber(page)) {
 			router.push({ query: { page: page + 1 } })
 		}
 	}

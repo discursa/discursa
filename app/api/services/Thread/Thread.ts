@@ -4,6 +4,7 @@ import deleteThread from "app/api/mutations/Thread/deleteThread"
 import joinThread from "app/api/mutations/Thread/joinThread"
 import leaveThread from "app/api/mutations/Thread/leaveThread"
 import updateThread from "app/api/mutations/Thread/updateThread"
+import { typeGuard } from "app/core/modules/TypeGuard"
 import {
 	CommentFormValuesType,
 	CommentType,
@@ -114,8 +115,10 @@ export class ThreadService implements ThreadServiceType {
 		const members = [...thread.members, session.userId]
 
 		try {
-			// @ts-ignore
-			if (thread.members.includes(session.userId)) {
+			if (
+				typeGuard.isString(session.userId) &&
+				thread.members.includes(session.userId)
+			) {
 				pushErrorAlert()
 			} else {
 				await updateDbObject(joinThread, thread.id_, members, setQueryData)

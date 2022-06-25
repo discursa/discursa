@@ -1,5 +1,6 @@
 import createComment from "app/api/mutations/Comment/createComment"
 import deleteComment from "app/api/mutations/Comment/deleteComment"
+import { typeGuard } from "app/core/modules/TypeGuard"
 import {
 	CommentFormValuesType,
 	CommentType,
@@ -30,7 +31,7 @@ export class CommentService implements CommentServiceType {
 	async update() {}
 	async delete(comment: CommentType, router: BlitzRouter) {
 		try {
-			await deleteObjectFromDb(deleteComment, comment, router, "")
+			await deleteObjectFromDb(deleteComment, comment, router, null)
 		} catch (error: any) {
 			console.log(error)
 			throw new Error(error)
@@ -38,7 +39,7 @@ export class CommentService implements CommentServiceType {
 	}
 
 	async reply(
-		type: "question" | "discussion" | "thread",
+		type: "question" | "thread",
 		comments: CommentType[],
 		router: BlitzRouter,
 		values: CommentFormValuesType,
@@ -46,27 +47,7 @@ export class CommentService implements CommentServiceType {
 		comment: CommentType,
 		session: ClientSession
 	) {
-		if (type === "discussion") {
-			const discussionService = new DiscussionService()
-			try {
-				discussionService.comment(
-					comments,
-					router,
-					values,
-					parent.id_,
-					true,
-					comment.id_,
-					session,
-					// @ts-ignore
-					parent
-				)
-			} catch (error: any) {
-				console.log(error)
-				throw new Error(error)
-			}
-		}
-
-		if (type === "thread") {
+		if (type === "thread" && typeGuard.isThread(parent)) {
 			const threadService = new ThreadService()
 
 			try {
@@ -75,10 +56,8 @@ export class CommentService implements CommentServiceType {
 					router,
 					values,
 					parent.id_,
-					true,
 					comment.id_,
 					session,
-					// @ts-ignore
 					parent
 				)
 			} catch (error: any) {
@@ -87,7 +66,7 @@ export class CommentService implements CommentServiceType {
 			}
 		}
 
-		if (type === "question") {
+		if (type === "question" && typeGuard.isQuestion(parent)) {
 			const questionService = new QuestionService()
 
 			try {
@@ -96,10 +75,8 @@ export class CommentService implements CommentServiceType {
 					router,
 					values,
 					parent.id_,
-					true,
 					comment.id_,
 					session,
-					// @ts-ignore
 					parent
 				)
 			} catch (error: any) {

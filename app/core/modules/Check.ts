@@ -1,5 +1,6 @@
 import { ClientSession } from "blitz"
 import { DiscussionType, QuestionType, ThreadType } from "../types"
+import { typeGuard } from "./TypeGuard"
 
 interface changesCheck {
 	name: string
@@ -36,7 +37,7 @@ export const check = {
 	invitePermitions(object: any, session: ClientSession): boolean {
 		if (
 			check.private(object) &&
-			// @ts-ignore
+			typeGuard.isString(session.userId) &&
 			check.author(session.userId, object.authorId) &&
 			check.admin(session)
 		) {
@@ -59,7 +60,10 @@ export const check = {
 		object: DiscussionType | ThreadType | QuestionType,
 		session: ClientSession
 	): boolean {
-		// @ts-ignore
-		return Boolean(object.members?.includes(session.userId))
+		if (typeGuard.isString(session.userId)) {
+			return Boolean(object.members?.includes(session.userId))
+		} else {
+			return false
+		}
 	},
 }

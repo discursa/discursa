@@ -5,6 +5,7 @@ import { Alert, Header, LoadingOverlay, ModalWindow } from "app/core/components"
 import { LoaderBox } from "app/core/components/LoaderBox/LoaderBox"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
+import { typeGuard } from "app/core/modules/TypeGuard"
 import { AlertType, ModalWindowType } from "app/core/types"
 import {
 	DiscussionAsideWidget,
@@ -30,8 +31,11 @@ export const DiscussionPage = () => {
 	const [modals, setModals] = useState<ModalWindowType[]>([])
 	const [alerts, setAlerts] = useState<AlertType[]>([])
 
-	// @ts-ignore
-	return discussion.banned.includes(session.userId) ? (
+	const userBannedCondition =
+		typeGuard.isString(session.userId) &&
+		discussion.banned.includes(session.userId)
+
+	return userBannedCondition ? (
 		<UserBannedWidget nestingLevel={NESTING_LEVEL} />
 	) : (
 		<Layout

@@ -22,7 +22,7 @@ interface QuestionUserListProps extends ItemUserListProps {
 
 interface UserListProps extends ItemUserListProps {
 	type: "thread" | "discussion" | "question"
-	object: DiscussionType | ThreadType
+	object: DiscussionType | ThreadType | QuestionType
 }
 
 export type {
