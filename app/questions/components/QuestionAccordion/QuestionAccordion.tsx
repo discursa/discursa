@@ -1,34 +1,21 @@
 import { getDiscussionQuestions } from "app/api/services/functions"
-import { check } from "app/core/modules/Check"
-import { DiscussionType, ModalWindowType, QuestionType } from "app/core/types"
 import {
-	addObjectToStore,
-	changeValue,
-	getId,
-	getSearchItems,
-} from "app/core/utils/functions"
+	Accordion,
+	Button,
+	Icon,
+	IconButton,
+	LoaderBox,
+} from "app/core/components"
+import { check } from "app/core/modules/Check"
+import { changeValue, getSearchItems } from "app/core/utils/functions"
 import { icons } from "app/core/utils/icons"
+import { QuestionType } from "app/questions"
 import { Link, Routes, useRouter } from "blitz"
 import { FC, Fragment, Suspense, useState } from "react"
-import { Button } from "../../Button/Button"
-import { Icon } from "../../Icon/Icon"
-import { IconButton } from "../../IconButton/IconButton"
-import { LoaderBox } from "../../LoaderBox/LoaderBox"
-import { CreateQuestionModal } from "../../ModalWindow/children/CreateQuestionModal"
-import { Accordion } from "../Accordion"
-
-interface QuestionsAccordionProps {
-	discussion: DiscussionType
-	questions: QuestionType[]
-	nestingLevel: string
-}
-
-interface CompactQuestionsListProps {
-	discussion: DiscussionType
-	questions: QuestionType[]
-	query: string
-	nestingLevel: string
-}
+import {
+	CompactQuestionsListProps,
+	QuestionsAccordionProps,
+} from "./QuestionAccordion.types"
 
 export const QuestionsAccordion: FC<QuestionsAccordionProps> = (props) => {
 	const { discussion, questions, nestingLevel } = props

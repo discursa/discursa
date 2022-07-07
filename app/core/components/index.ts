@@ -1,5 +1,4 @@
 import { Accordion } from "app/core/components/Accordion/Accordion"
-import { QuestionsAccordion } from "./Accordion/children/QuestionAccordion"
 import { ThreadAccordion } from "./Accordion/children/ThreadAccordion"
 import { Alert } from "./Alert/Alert"
 import { Avatar } from "./Avatar/Avatar"
@@ -24,13 +23,16 @@ import { LabeledCheckbox } from "./LabeledCheckbox/LabeledCheckbox"
 import { LabeledInput } from "./LabeledInput/LabeledInput"
 import { LabeledRadioButton } from "./LabeledRadioButton/LabeledRadioButton"
 import { LabeledTextArea } from "./LabeledTextArea/LabeledTextArea"
+import { LoaderBox } from "./LoaderBox/LoaderBox"
 import { LoadingOverlay } from "./LoadingOverlay/LoadingOverlay"
 import { AddUserToPrivateQuestionModal } from "./ModalWindow/children/AddUserToPrivateQuestionModal"
 import { AddUserToUSerThreadModal } from "./ModalWindow/children/AddUserToPrivateThreadModal"
 import { ChangeDiscussionAuthorModal } from "./ModalWindow/children/ChangeDiscussionAuthorModal"
+import { ChangeQuestionAuthorModal } from "../../questions/components/ChangeQuestionAuthorModal/ChangeQuestionAuthorModal"
+import { ChangeThreadAuthorModal } from "./ModalWindow/children/ChangeThreadAuthorModal"
 import { CreateCategoryModal } from "./ModalWindow/children/CreateCategoryModal"
 import { DeleteDiscussionModal } from "./ModalWindow/children/DeleteDiscussionModal"
-import { DeleteQuestionModal } from "./ModalWindow/children/DeleteQuestionModal"
+import { DeleteQuestionModal } from "../../questions/components/DeleteQuestionModal/DeleteQuestionModal"
 import { JoinToPrivateDisussionModal } from "./ModalWindow/children/JoinToDiscussionModal"
 import { JoinToPrivateThreadModal } from "./ModalWindow/children/JoinToPrivateThreadModal"
 import { UpdateCategoryModal } from "./ModalWindow/children/UpdateCategoryModal"
@@ -39,8 +41,7 @@ import { ModalWindow } from "./ModalWindow/ModalWindow"
 import { Navbar } from "./Navbar/Navbar"
 import { Pagination } from "./Pagination/Pagination"
 import { Spinner } from "./Spinner/Spinner"
-import { ChangeQuestionAuthorModal } from "./ModalWindow/children/ChangeQuestionAuthorModal"
-import { ChangeThreadAuthorModal } from "./ModalWindow/children/ChangeThreadAuthorModal"
+import { ChangeAuthorForm } from "./Form/children/ChangeAuthorForm"
 
 export {
 	AddUserForm,
@@ -78,7 +79,6 @@ export {
 	JoinToPrivateThreadModal,
 	ChangeDiscussionAuthorModal,
 	DeleteDiscussionModal,
-	QuestionsAccordion,
 	Accordion,
 	ThreadAccordion,
 	Pagination,
@@ -86,4 +86,6 @@ export {
 	AddUserToPrivateQuestionModal,
 	ChangeQuestionAuthorModal,
 	ChangeThreadAuthorModal,
+	LoaderBox,
+	ChangeAuthorForm,
 }

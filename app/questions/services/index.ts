@@ -1,16 +1,13 @@
-import answerQuestion from "app/api/mutations/Question/answerQuestion"
-import changeQuestionAuthor from "app/api/mutations/Question/changeQuestionAuthor"
-import createQuestion from "app/api/mutations/Question/createQuestion"
-import deleteQuestion from "app/api/mutations/Question/deleteQuestion"
-import joinQuestion from "app/api/mutations/Question/joinQuestion"
-import updateQuestion from "app/api/mutations/Question/updateQuestion"
+import createQuestion from "../mutations/createQuestion"
+import updateQuestion from "../mutations/updateQuestion"
+import changeQuestionAuthor from "../mutations/changeQuestionAuthor"
+import deleteQuestion from "../mutations/deleteQuestion"
+import joinQuestion from "../mutations/joinQuestion"
 import { check } from "app/core/modules/Check"
 import {
 	CommentFormValuesType,
 	CommentType,
 	DiscussionType,
-	QuestionFromValuesType,
-	QuestionType,
 } from "app/core/types"
 import {
 	addObjectToDb,
@@ -22,7 +19,11 @@ import {
 import { BlitzRouter, ClientSession, Routes } from "blitz"
 import { a } from "react-spring"
 import { CommentService } from "../Comment/Comment"
-import { QuestionServiceType } from "./Question.types"
+import {
+	QuestionFromValuesType,
+	QuestionServiceType,
+	QuestionType,
+} from "../types"
 
 export class QuestionService implements QuestionServiceType {
 	async create(

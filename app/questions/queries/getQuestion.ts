@@ -1,13 +1,9 @@
 import { NotFoundError, resolver } from "blitz"
 import db from "db"
-import { z } from "zod"
-
-const GetQuestion = z.object({
-	id_: z.number().optional(),
-})
+import { GetQuestionSchema } from "../validation"
 
 export default resolver.pipe(
-	resolver.zod(GetQuestion),
+	resolver.zod(GetQuestionSchema),
 	resolver.authorize(),
 	async ({ id_ }) => {
 		const question = await db.question.findFirst({ where: { id_ } })

@@ -20,4 +20,15 @@ interface QuestionFromValuesType {
 	visibility: string
 }
 
-export type { QuestionType, QuestionFromValuesType }
+interface QuestionServiceType {
+	create: Function
+	update: Function
+	delete: Function
+	answer: Function
+	comment: Function
+	join: Function
+	leave: Function
+	changeAuthor: Function
+}
+
+export type { QuestionType, QuestionFromValuesType, QuestionServiceType }

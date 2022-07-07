@@ -1,13 +1,9 @@
 import { resolver } from "blitz"
 import db from "db"
-import { z } from "zod"
-
-const DeleteQuestion = z.object({
-	id_: z.number(),
-})
+import { DeleteQuestionSchema } from "../validation"
 
 export default resolver.pipe(
-	resolver.zod(DeleteQuestion),
+	resolver.zod(DeleteQuestionSchema),
 	resolver.authorize(),
 	async ({ id_ }) => {
 		await db.comment.deleteMany({ where: { type: "question", parent: id_ } })

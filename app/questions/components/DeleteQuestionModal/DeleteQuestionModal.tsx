@@ -1,13 +1,9 @@
-import { QuestionService } from "app/api/services"
-import { QuestionType } from "app/core/types"
 import { changeValue } from "app/core/utils/functions"
 import { useRouter } from "blitz"
 import { FC, Fragment, useState } from "react"
-import { Button } from "../../Button/Button"
-
-interface DeleteQuestionModalProps {
-	question: QuestionType
-}
+import { Button } from "app/core/components"
+import { DeleteQuestionModalProps } from "./DeleteQuestionModal.types"
+import { QuestionService } from "app/questions"
 
 export const DeleteQuestionModal: FC<DeleteQuestionModalProps> = (props) => {
 	const { question } = props

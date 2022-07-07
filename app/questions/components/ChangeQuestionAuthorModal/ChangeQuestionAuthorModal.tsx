@@ -1,18 +1,10 @@
-import { User } from "@prisma/client"
-import { QuestionService } from "app/api/services"
-import { QuestionType } from "app/core/types"
+import { ChangeAuthorForm } from "app/core/components"
+import { QuestionService } from "app/questions/services"
 import { FC, Fragment, useState } from "react"
-import { ChangeAuthorForm } from "../../Form/children/ChangeAuthorForm"
-
-interface ChangeQuestionAuthorModalProps {
-	users: User[]
-	question: QuestionType
-	setQueryData: Function
-}
-
-interface ChangeAuthorFormValuesType {
-	username: string
-}
+import {
+	ChangeAuthorFormValuesType,
+	ChangeQuestionAuthorModalProps,
+} from "./ChangeQuestionAuthorModal.types"
 
 export const ChangeQuestionAuthorModal: FC<ChangeQuestionAuthorModalProps> = (
 	props

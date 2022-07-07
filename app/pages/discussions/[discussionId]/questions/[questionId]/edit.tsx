@@ -9,7 +9,7 @@ import {
 	LoadingOverlay,
 	ModalWindow,
 } from "app/core/components"
-import { QuestionForm } from "app/core/components/Form/children/QuestionForm"
+import { QuestionForm } from "app/questions/components/QuestionForm/QuestionForm"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
 import {

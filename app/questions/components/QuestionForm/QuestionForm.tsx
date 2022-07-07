@@ -1,7 +1,10 @@
-import { LabeledInput, LabeledTextArea } from "app/core/components"
+import {
+	LabeledInput,
+	LabeledTextArea,
+	LabeledRadioButton,
+} from "app/core/components"
 import { Form, FormProps } from "app/core/components/Form/Form"
 import { z } from "zod"
-import { LabeledRadioButton } from "../../LabeledRadioButton/LabeledRadioButton"
 export { FORM_ERROR } from "app/core/components/Form/Form"
 
 export function QuestionForm<S extends z.ZodType<any, any>>(
