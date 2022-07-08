@@ -1,16 +1,14 @@
-import getDiscussions from "app/api/queries/Discussion/getDiscussions"
-import { DiscussionService } from "app/api/services"
-import {
-	Breadcrumbs,
-	DiscussionForm,
-	Header,
-	LoadingOverlay,
-	Spinner,
-} from "app/core/components"
+import { Breadcrumbs, Header, LoadingOverlay } from "app/core/components"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
 import { pages } from "app/core/utils/pages"
-import { DiscussionSchema } from "app/core/validation"
+import {
+	DiscussionForm,
+	DiscussionFormValuesType,
+	DiscussionSchema,
+	DiscussionService,
+} from "app/discussions"
+import getDiscussions from "app/discussions/queries/getDiscussions"
 import { BlitzPage, Routes, useQuery, useRouter, useSession } from "blitz"
 import { FC, Fragment, Suspense } from "react"
 
@@ -56,7 +54,7 @@ const CreateDiscussionPage: FC = () => {
 					message: "",
 				}}
 				schema={DiscussionSchema}
-				onSubmit={async (values) =>
+				onSubmit={async (values: DiscussionFormValuesType) =>
 					discussionService.create(values, discussions, session, router)
 				}
 			/>

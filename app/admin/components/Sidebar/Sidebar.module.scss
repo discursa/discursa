@@ -1,0 +1,13 @@
+@import "app/core/styles/scss/1-global/global";
+
+.Sidebar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-direction: column;
+	width: 20%;
+	height: 100vh;
+	background: var(--bg-800);
+	box-sizing: border-box;
+	padding: 2rem 0;
+}

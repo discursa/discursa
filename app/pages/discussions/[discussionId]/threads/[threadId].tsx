@@ -1,21 +1,20 @@
-import getDiscussion from "app/api/queries/Discussion/getDiscussion"
-import getThread from "app/api/queries/Thread/getThread"
-import getThreads from "app/api/queries/Thread/getThreads"
-import getUserById from "app/api/queries/User/getUserById"
+import getDiscussion from "app/discussions/queries/getDiscussion"
 import { Alert, Header, LoadingOverlay, ModalWindow } from "app/core/components"
 import { LoaderBox } from "app/core/components/LoaderBox/LoaderBox"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
 import { typeGuard } from "app/core/modules/TypeGuard"
 import { AlertType, ModalWindowType } from "app/core/types"
+import { BlitzPage, useParam, useQuery, useSession } from "blitz"
+import { Fragment, Suspense, useState } from "react"
+import getThreads from "app/threads/queries/getThreads"
+import getThread from "app/threads/queries/getThread"
+import { UserBannedWidget } from "app/users"
 import {
 	ThreadAsideWidget,
 	ThreadMainWidget,
 	ThreadsSidebarWidget,
-	UserBannedWidget,
-} from "app/core/widgets"
-import { BlitzPage, useParam, useQuery, useSession } from "blitz"
-import { Fragment, Suspense, useState } from "react"
+} from "app/threads"
 
 const NESTING_LEVEL = "../../"
 

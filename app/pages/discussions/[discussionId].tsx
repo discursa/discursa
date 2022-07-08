@@ -1,18 +1,15 @@
-import getDiscussion from "app/api/queries/Discussion/getDiscussion"
-import getThreads from "app/api/queries/Thread/getThreads"
-import getUserById from "app/api/queries/User/getUserById"
 import { Alert, Header, LoadingOverlay, ModalWindow } from "app/core/components"
 import { LoaderBox } from "app/core/components/LoaderBox/LoaderBox"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
 import { typeGuard } from "app/core/modules/TypeGuard"
 import { AlertType, ModalWindowType } from "app/core/types"
-import {
-	DiscussionAsideWidget,
-	DiscussionMainWidget,
-	ThreadsSidebarWidget,
-	UserBannedWidget,
-} from "app/core/widgets"
+import { DiscussionAsideWidget, DiscussionMainWidget } from "app/discussions"
+import getDiscussion from "app/discussions/queries/getDiscussion"
+import { ThreadsSidebarWidget } from "app/threads"
+import getThreads from "app/threads/queries/getThreads"
+import { UserBannedWidget } from "app/users"
+import getUserById from "app/users/queries/getUserById"
 import { BlitzPage, useParam, useQuery, useSession } from "blitz"
 import { Fragment, Suspense, useState } from "react"
 

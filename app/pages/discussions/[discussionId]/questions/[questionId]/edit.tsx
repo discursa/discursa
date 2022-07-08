@@ -1,32 +1,31 @@
-import getDiscussion from "app/api/queries/Discussion/getDiscussion"
-import getQuestion from "app/api/queries/Question/getQuestion"
-import { QuestionService } from "app/api/services"
 import {
 	Alert,
 	Breadcrumbs,
-	DeleteQuestionModal,
 	Header,
 	LoadingOverlay,
 	ModalWindow,
 } from "app/core/components"
-import { QuestionForm } from "app/core/components/Form/children/QuestionForm"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
 import {
 	getNothingChangedAlert,
 	getSuccessfullyUpdatedAlert,
 } from "app/core/templates/alert"
-import {
-	AlertType,
-	ModalWindowType,
-	QuestionFromValuesType,
-} from "app/core/types"
+import { AlertType, ModalWindowType } from "app/core/types"
 import {
 	addObjectToStore,
 	getId,
 	removeObjectFromStore,
 } from "app/core/utils/functions"
-import { QuestionSchema } from "app/core/validation"
+import getDiscussion from "app/discussions/queries/getDiscussion"
+import {
+	DeleteQuestionModal,
+	QuestionForm,
+	QuestionFromValuesType,
+	QuestionSchema,
+	QuestionService,
+} from "app/questions"
+import getQuestion from "app/questions/queries/getQuestion"
 import { BlitzPage, Routes, useParam, useQuery } from "blitz"
 import { FC, Fragment, Suspense, useState } from "react"
 

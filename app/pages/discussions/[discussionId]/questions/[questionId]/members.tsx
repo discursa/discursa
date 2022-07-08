@@ -1,12 +1,10 @@
-import getQuestion from "app/api/queries/Question/getQuestion"
 import { Header, LoadingOverlay } from "app/core/components"
 import { LoaderBox } from "app/core/components/LoaderBox/LoaderBox"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
-import {
-	QuestionMembersMainWidget,
-	UserHasntPermitionsWidget,
-} from "app/core/widgets"
+import { QuestionMembersMainWidget } from "app/questions"
+import getQuestion from "app/questions/queries/getQuestion"
+import { UserHasntPermitionsWidget } from "app/users"
 import { BlitzPage, useParam, useQuery } from "blitz"
 import { FC, Fragment, Suspense } from "react"
 

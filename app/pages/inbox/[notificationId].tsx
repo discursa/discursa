@@ -1,4 +1,4 @@
-import getNotification from "app/api/queries/Notification/getNotification"
+import getNotification from "app/notifications/queries/getNotification"
 import { Header, LoadingOverlay } from "app/core/components"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
