@@ -1,9 +1,8 @@
-import getCategories from "app/api/queries/Category/getCategories"
+import { CategoryList, CreateCategoryModal } from "app/categories"
+import getCategories from "app/categories/queries/getCategories"
 import {
 	Breadcrumbs,
 	Button,
-	CategoryList,
-	CreateCategoryModal,
 	Header,
 	InfoBlock,
 	LoadingOverlay,

@@ -1,4 +1,4 @@
-import { LoadingOverlay, Spinner } from "app/core/components"
+import { LoadingOverlay } from "app/core/components"
 import { Header } from "app/core/components/Header/Header"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"

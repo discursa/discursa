@@ -1,6 +1,6 @@
-import getUserById from "app/api/queries/User/getUserById"
 import { check } from "app/core/modules/Check"
 import { icons } from "app/core/utils/icons"
+import getUserById from "app/users/queries/getUserById"
 import { useQuery, useSession } from "blitz"
 import { FC } from "react"
 import { Button } from "../Button/Button"

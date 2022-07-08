@@ -5,11 +5,6 @@ import deleteQuestion from "../mutations/deleteQuestion"
 import joinQuestion from "../mutations/joinQuestion"
 import { check } from "app/core/modules/Check"
 import {
-	CommentFormValuesType,
-	CommentType,
-	DiscussionType,
-} from "app/core/types"
-import {
 	addObjectToDb,
 	deleteObjectFromDb,
 	getId,
@@ -17,13 +12,18 @@ import {
 	updateDbObject,
 } from "app/core/utils/functions"
 import { BlitzRouter, ClientSession, Routes } from "blitz"
-import { a } from "react-spring"
-import { CommentService } from "../Comment/Comment"
 import {
 	QuestionFromValuesType,
 	QuestionServiceType,
 	QuestionType,
 } from "../types"
+import { DiscussionType } from "app/discussions"
+import {
+	CommentFormValuesType,
+	CommentService,
+	CommentType,
+} from "app/comments"
+import answerQuestion from "../mutations/answerQuestion"
 
 export class QuestionService implements QuestionServiceType {
 	async create(
@@ -42,7 +42,7 @@ export class QuestionService implements QuestionServiceType {
 			members: values.visibility === "Private" ? [session.userId] : [],
 			parent: discussion.id_,
 		}
-		a
+
 		const route = `discussions/${discussion.id_}/questions/${question.id_}`
 
 		try {

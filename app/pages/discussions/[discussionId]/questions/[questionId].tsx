@@ -1,20 +1,17 @@
-import getDiscussion from "app/api/queries/Discussion/getDiscussion"
-import getQuestion from "app/api/queries/Question/getQuestion"
-import getThreads from "app/api/queries/Thread/getThreads"
+import getDiscussion from "app/discussions/queries/getDiscussion"
 import { Header, LoadingOverlay, ModalWindow } from "app/core/components"
 import { LoaderBox } from "app/core/components/LoaderBox/LoaderBox"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
 import { typeGuard } from "app/core/modules/TypeGuard"
 import { ModalWindowType } from "app/core/types"
-import {
-	QuestionAsideWidget,
-	QuestionMainWidget,
-	ThreadsSidebarWidget,
-	UserBannedWidget,
-} from "app/core/widgets"
 import { BlitzPage, useParam, useQuery, useSession } from "blitz"
 import { FC, Fragment, Suspense, useState } from "react"
+import getQuestion from "app/questions/queries/getQuestion"
+import getThreads from "app/threads/queries/getThreads"
+import { UserBannedWidget } from "app/users"
+import { ThreadsSidebarWidget } from "app/threads"
+import { QuestionAsideWidget, QuestionMainWidget } from "app/questions"
 
 const NESTING_LEVEL = "../../../"
 

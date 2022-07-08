@@ -1,15 +1,8 @@
-import getPaginatedDiscussions from "app/api/queries/Discussion/getPaginatedDiscussions"
-import {
-	getPublicDiscussions,
-	getUserPrivateDiscussions,
-} from "app/api/services/functions"
 import {
 	Button,
 	ButtonGroup,
-	DiscussionList,
 	Header,
 	IconButton,
-	JoinToPrivateDisussionModal,
 	LoadingOverlay,
 	ModalWindow,
 } from "app/core/components"
@@ -17,11 +10,19 @@ import { LoaderBox } from "app/core/components/LoaderBox/LoaderBox"
 import { ITEMS_PER_PAGE } from "app/core/constants"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
-import { DiscussionType, ModalWindowType } from "app/core/types"
+import { ModalWindowType } from "app/core/types"
 import { addObjectToStore, changeValue, getId } from "app/core/utils/functions"
 import { icons } from "app/core/utils/icons"
 import { pages } from "app/core/utils/pages"
-import { DiscussionCategoriesSidebarWidget } from "app/core/widgets"
+import {
+	DiscussionCategoriesSidebarWidget,
+	DiscussionList,
+	DiscussionType,
+	getPublicDiscussions,
+	getUserPrivateDiscussions,
+	JoinToPrivateDisussionModal,
+} from "app/discussions"
+import getPaginatedDiscussions from "app/discussions/queries/getPaginatedDiscussions"
 import {
 	BlitzPage,
 	Routes,

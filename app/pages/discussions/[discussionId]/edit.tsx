@@ -1,14 +1,9 @@
-import getDiscussion from "app/api/queries/Discussion/getDiscussion"
-import { DiscussionService } from "app/api/services"
 import {
 	Alert,
 	Breadcrumbs,
-	DeleteDiscussionModal,
-	DiscussionForm,
 	Header,
 	LoadingOverlay,
 	ModalWindow,
-	Spinner,
 } from "app/core/components"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
@@ -22,8 +17,14 @@ import {
 	getId,
 	removeObjectFromStore,
 } from "app/core/utils/functions"
-import { DiscussionSchema } from "app/core/validation"
-import { BlitzPage, Routes, useParam, useQuery, useRouter } from "blitz"
+import {
+	DeleteDiscussionModal,
+	DiscussionForm,
+	DiscussionSchema,
+	DiscussionService,
+} from "app/discussions"
+import getDiscussion from "app/discussions/queries/getDiscussion"
+import { BlitzPage, Routes, useParam, useQuery } from "blitz"
 import { Fragment, Suspense, useState } from "react"
 
 const NESTING_LEVEL = "../../"

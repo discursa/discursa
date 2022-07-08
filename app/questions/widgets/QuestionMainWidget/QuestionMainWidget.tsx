@@ -1,16 +1,8 @@
-import getComments from "app/api/queries/Comment/getComments"
-import getPaginatedComments from "app/api/queries/Comment/getPaginatedComments"
-import getDiscussion from "app/api/queries/Discussion/getDiscussion"
-import getQuestion from "app/api/queries/Question/getQuestion"
-import getQuestions from "app/api/queries/Question/getQuestions"
-import getUserById from "app/api/queries/User/getUserById"
-import { CommentService, QuestionService } from "app/api/services"
-import { Breadcrumbs, CommentForm, CommentList } from "app/core/components"
+import getDiscussion from "app/discussions/queries/getDiscussion"
+import { Breadcrumbs } from "app/core/components"
 import { PreviewableMessage } from "app/core/components/PreviewableMessage/PreviewableMessage"
 import { ITEMS_PER_PAGE } from "app/core/constants"
 import { typeGuard } from "app/core/modules/TypeGuard"
-import { CommentFormValuesType, CommentType } from "app/core/types"
-import { CommentSchema } from "app/core/validation"
 import {
 	Routes,
 	usePaginatedQuery,
@@ -19,11 +11,20 @@ import {
 	useSession,
 } from "blitz"
 import { FC, Fragment, useState } from "react"
-
-interface QuestionMainWidgetProps {
-	questionId: number | undefined
-	nestingLevel: string
-}
+import {
+	CommentForm,
+	CommentFormValuesType,
+	CommentList,
+	CommentSchema,
+	CommentService,
+	CommentType,
+} from "app/comments"
+import { QuestionService } from "app/questions/services"
+import { QuestionMainWidgetProps } from "./QuestionMainWidget.types"
+import getComments from "app/comments/queries/getComments"
+import getQuestion from "app/questions/queries/getQuestion"
+import getPaginatedComments from "app/comments/queries/getPaginatedComments"
+import getUserById from "app/users/queries/getUserById"
 
 export const QuestionMainWidget: FC<QuestionMainWidgetProps> = (props) => {
 	const { questionId, nestingLevel } = props

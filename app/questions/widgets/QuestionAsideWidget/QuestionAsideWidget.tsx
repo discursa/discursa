@@ -1,17 +1,6 @@
-import getUserById from "app/api/queries/User/getUserById"
-import getUsers from "app/api/queries/User/getUsers"
-import { QuestionService } from "app/api/services"
-import {
-	AddUserToPrivateQuestionModal,
-	Avatar,
-	Button,
-	ChangeQuestionAuthorModal,
-	Icon,
-	ModalWindow,
-} from "app/core/components"
+import { Avatar, Button, Icon } from "app/core/components"
 import { check } from "app/core/modules/Check"
 import { typeGuard } from "app/core/modules/TypeGuard"
-import { ModalWindowType, QuestionType } from "app/core/types"
 import {
 	addObjectToStore,
 	getId,
@@ -19,22 +8,15 @@ import {
 } from "app/core/utils/functions"
 import { icons } from "app/core/utils/icons"
 import {
-	ClientSession,
-	Link,
-	Routes,
-	setQueryData,
-	useQuery,
-	useSession,
-} from "blitz"
+	AddUserToPrivateQuestionModal,
+	ChangeQuestionAuthorModal,
+} from "app/questions/components"
+import { QuestionService } from "app/questions/services"
+import getUserById from "app/users/queries/getUserById"
+import getUsers from "app/users/queries/getUsers"
+import { Link, Routes, setQueryData, useQuery } from "blitz"
 import { FC, Fragment } from "react"
-
-interface QuestionAsideWidgetProps {
-	question: QuestionType
-	nestingLevel: string
-	session: ClientSession
-	modals: ModalWindowType[]
-	setModals: Function
-}
+import { QuestionAsideWidgetProps } from "./QuestionAsideWidget.types"
 
 export const QuestionAsideWidget: FC<QuestionAsideWidgetProps> = (props) => {
 	const { question, nestingLevel, session, modals, setModals } = props

@@ -1,7 +1,7 @@
-import getUser from "app/api/queries/User/getUser"
-import { Header, LoadingOverlay, Spinner } from "app/core/components"
+import { Header, LoadingOverlay } from "app/core/components"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
+import getUser from "app/users/queries/getUser"
 import { useParam, useQuery } from "blitz"
 import { Fragment, Suspense } from "react"
 

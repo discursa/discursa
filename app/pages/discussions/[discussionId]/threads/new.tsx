@@ -1,17 +1,15 @@
-import getDiscussion from "app/api/queries/Discussion/getDiscussion"
-import getThreads from "app/api/queries/Thread/getThreads"
-import { ThreadService } from "app/api/services"
-import {
-	Breadcrumbs,
-	Header,
-	LoadingOverlay,
-	ThreadForm,
-} from "app/core/components"
+import { Breadcrumbs, Header, LoadingOverlay } from "app/core/components"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
-import { ThreadFormValuesType } from "app/core/types"
-import { ThreadSchema } from "app/core/validation"
-import { UserHasntPermitionsWidget } from "app/core/widgets"
+import getDiscussion from "app/discussions/queries/getDiscussion"
+import {
+	ThreadForm,
+	ThreadFormValuesType,
+	ThreadSchema,
+	ThreadService,
+} from "app/threads"
+import getThreads from "app/threads/queries/getThreads"
+import { UserHasntPermitionsWidget } from "app/users"
 import {
 	BlitzPage,
 	Routes,

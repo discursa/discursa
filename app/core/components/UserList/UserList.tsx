@@ -1,11 +1,8 @@
-import {
-	DiscussionService,
-	QuestionService,
-	ThreadService,
-} from "app/api/services"
 import { typeGuard } from "app/core/modules/TypeGuard"
-import { getSearchItems } from "app/core/utils/functions"
 import { icons } from "app/core/utils/icons"
+import { DiscussionService } from "app/discussions"
+import { QuestionService } from "app/questions"
+import { ThreadService } from "app/threads"
 import { setQueryData } from "blitz"
 import { FC, Fragment } from "react"
 import { InfoBlock } from "../InfoBlock/InfoBlock"
@@ -13,8 +10,8 @@ import { UserCard } from "../UserCard/UserCard"
 import styles from "./UserList.module.scss"
 import {
 	DiscussionListUserProps,
-	ThreadListUserProps,
 	QuestionUserListProps,
+	ThreadListUserProps,
 	UserListProps,
 } from "./UserList.types"
 

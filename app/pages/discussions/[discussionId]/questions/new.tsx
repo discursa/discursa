@@ -1,13 +1,15 @@
-import getDiscussion from "app/api/queries/Discussion/getDiscussion"
-import getQuestions from "app/api/queries/Question/getQuestions"
-import { QuestionService } from "app/api/services"
 import { Breadcrumbs, Header, LoadingOverlay } from "app/core/components"
-import { QuestionForm } from "app/questions/components/QuestionForm/QuestionForm"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
-import { QuestionFromValuesType } from "app/core/types"
-import { QuestionSchema } from "app/core/validation"
-import { UserBannedWidget } from "app/core/widgets"
+import getDiscussion from "app/discussions/queries/getDiscussion"
+import {
+	QuestionFromValuesType,
+	QuestionSchema,
+	QuestionService,
+} from "app/questions"
+import { QuestionForm } from "app/questions/components/QuestionForm/QuestionForm"
+import getQuestions from "app/questions/queries/getQuestions"
+import { UserBannedWidget } from "app/users"
 import {
 	BlitzPage,
 	Routes,

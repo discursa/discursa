@@ -1,12 +1,10 @@
-import getThread from "app/api/queries/Thread/getThread"
 import { Header, LoadingOverlay } from "app/core/components"
 import { LoaderBox } from "app/core/components/LoaderBox/LoaderBox"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
-import {
-	ThreadMembersMainWidget,
-	UserHasntPermitionsWidget,
-} from "app/core/widgets"
+import { ThreadMembersMainWidget } from "app/threads"
+import getThread from "app/threads/queries/getThread"
+import { UserHasntPermitionsWidget } from "app/users"
 import { BlitzPage, useParam, useQuery } from "blitz"
 import { FC, Fragment, Suspense } from "react"
 

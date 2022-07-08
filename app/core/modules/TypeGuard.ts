@@ -1,5 +1,7 @@
-import { boolean } from "zod"
-import { CommentType, DiscussionType, QuestionType, ThreadType } from "../types"
+import { CommentType } from "app/comments"
+import { DiscussionType } from "app/discussions"
+import { QuestionType } from "app/questions"
+import { ThreadType } from "app/threads"
 
 export const typeGuard = {
 	isString(item: any): item is string {

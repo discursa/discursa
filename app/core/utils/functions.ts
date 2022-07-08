@@ -23,7 +23,7 @@ export const removeObjectFromStore = (
 
 export const deleteObjectFromDb = async (
 	deleteMutation: Function,
-	item: ObjectType,
+	item: any,
 	router: BlitzRouter,
 	route: RouteUrlObject | null
 ) => {

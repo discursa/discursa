@@ -25,6 +25,7 @@ import {
 	QuestionMainWidget,
 	QuestionMembersMainWidget,
 } from "./widgets"
+import { getDiscussionQuestions } from "./utils"
 
 export type { QuestionType, QuestionFromValuesType, QuestionServiceType }
 export {
@@ -44,4 +45,5 @@ export {
 	QuestionsAccordion,
 	QuestionForm,
 	QuestionSchema,
+	getDiscussionQuestions,
 }

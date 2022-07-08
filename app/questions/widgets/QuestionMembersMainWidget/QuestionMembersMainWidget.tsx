@@ -1,14 +1,10 @@
-import getDiscussion from "app/api/queries/Discussion/getDiscussion"
-import getQuestion from "app/api/queries/Question/getQuestion"
+import getDiscussion from "app/discussions/queries/getDiscussion"
 import { Breadcrumbs } from "app/core/components"
 import { UserList } from "app/core/components/UserList/UserList"
 import { Routes, useQuery } from "blitz"
 import { FC } from "react"
-
-interface QuestionMembersMainWidgetProps {
-	questionId: number | undefined
-	nestingLevel: string
-}
+import { QuestionMembersMainWidgetProps } from "./QuestionMembersMainWidget.types"
+import getQuestion from "app/questions/queries/getQuestion"
 
 export const QuestionMembersMainWidget: FC<QuestionMembersMainWidgetProps> = (
 	props

@@ -1,4 +1,4 @@
-import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import { useCurrentUser } from "app/users/hooks/useCurrentUser"
 import { icons } from "app/core/utils/icons"
 import { routes } from "app/core/utils/routes"
 import { Link, Routes, useRouter, useSession } from "blitz"
@@ -66,7 +66,7 @@ export const Navbar: FC<NavbarProps> = (props) => {
 						/>
 					</Link>
 				))}
-				{!session ? (
+				{session === undefined ? (
 					<Fragment>
 						<Button
 							variant="primary"

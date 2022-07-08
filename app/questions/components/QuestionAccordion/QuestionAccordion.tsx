@@ -1,4 +1,3 @@
-import { getDiscussionQuestions } from "app/api/services/functions"
 import {
 	Accordion,
 	Button,
@@ -9,7 +8,7 @@ import {
 import { check } from "app/core/modules/Check"
 import { changeValue, getSearchItems } from "app/core/utils/functions"
 import { icons } from "app/core/utils/icons"
-import { QuestionType } from "app/questions"
+import { getDiscussionQuestions, QuestionType } from "app/questions"
 import { Link, Routes, useRouter } from "blitz"
 import { FC, Fragment, Suspense, useState } from "react"
 import {

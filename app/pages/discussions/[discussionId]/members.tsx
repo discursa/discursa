@@ -1,15 +1,15 @@
-import getDiscussion from "app/api/queries/Discussion/getDiscussion"
+import getDiscussion from "app/discussions/queries/getDiscussion"
 import { Header, LoadingOverlay } from "app/core/components"
 import { LoaderBox } from "app/core/components/LoaderBox/LoaderBox"
 import Layout from "app/core/layouts/Layout"
 import styles from "app/core/layouts/Layout.module.scss"
+import { BlitzPage, useParam, useQuery } from "blitz"
+import { Fragment, Suspense, useState } from "react"
 import {
 	DiscussionMembersAsideWidget,
 	DiscussionMembersMainWidget,
-	UserHasntPermitionsWidget,
-} from "app/core/widgets"
-import { BlitzPage, useParam, useQuery } from "blitz"
-import { Fragment, Suspense, useState } from "react"
+} from "app/discussions"
+import { UserHasntPermitionsWidget } from "app/users"
 
 const NESTING_LEVEL = "../../"
 

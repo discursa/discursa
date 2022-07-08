@@ -1,33 +1,18 @@
+import { DiscussionType } from "app/discussions"
+import { NotificationType } from "app/notifications/types"
+import { QuestionType } from "app/questions"
+import { ThreadType } from "app/threads"
 import { AlertType } from "./Alert/Alert.types"
-import { CategoryType } from "./Category/Category.types"
-import { CommentFormValuesType, CommentType } from "./Comment/Comment.types"
-import {
-	DiscussionFormValuesType,
-	DiscussionType,
-} from "./Discussion/Discussion.types"
+import { CommentType } from "./Comment/Comment.types"
 import { ModalWindowType } from "./ModalWindow/ModalWindow.types"
-import { NotificationType } from "./Notification/Notification.types"
-import { ThreadFormValuesType, ThreadType } from "./Thread/Thread.types"
 
 type ObjectType =
-	| DiscussionType
-	| ThreadType
 	| NotificationType
 	| CategoryType
 	| CommentType
+	| ThreadType
+	| QuestionType
+	| DiscussionType
 type StoreObjectType = AlertType | ModalWindowType
 
-export type {
-	AlertType,
-	CategoryType,
-	CommentType,
-	DiscussionType,
-	ModalWindowType,
-	NotificationType,
-	ThreadType,
-	ObjectType,
-	StoreObjectType,
-	CommentFormValuesType,
-	DiscussionFormValuesType,
-	ThreadFormValuesType,
-}
+export type { AlertType, ModalWindowType, ObjectType, StoreObjectType }

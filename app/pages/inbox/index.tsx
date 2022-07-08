@@ -1,4 +1,3 @@
-import getNotifications from "app/api/queries/Notification/getNotifications"
 import {
 	ButtonNavigation,
 	Header,
@@ -13,7 +12,8 @@ import {
 	InboxWidget,
 	ReadNotificationsWidget,
 	SavedNotificationsWidget,
-} from "app/core/widgets"
+} from "app/notifications"
+import getNotifications from "app/notifications/queries/getNotifications"
 import { BlitzPage, useQuery } from "blitz"
 import { FC, Fragment, Suspense, useState } from "react"
 
@@ -30,7 +30,7 @@ const InboxPage: FC = () => {
 			leadingicon: (
 				<Icon size="md" href={icons.inbox} nestingLevel={NESTING_LEVEL} />
 			),
-			styles: "jcfs w100",
+			styles: "jcfs w10w0",
 			onClick() {
 				setActieWidget(0)
 			},
